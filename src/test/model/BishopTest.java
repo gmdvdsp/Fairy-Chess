@@ -55,7 +55,8 @@ public class BishopTest {
         toPlane = new Plane();
     }
 
-    // Test to move piece to a location on an empty plane.
+    // Test to move piece to a location on an empty plane. Moving a piece more than one square diagonally is the same
+    // as running the test inductively one at a time up until the desired square is reached.
 
     @Test
     public void testMoveToRightUp() {
@@ -101,7 +102,7 @@ public class BishopTest {
         assertEquals(testBishop.getY(), botLeftY);
     }
 
-    // Check legal moves on empty planes.
+    // Check only legal moves on empty planes.
 
     @Test
     public void testCheckValidMoveLegalMoveRightUp() {
@@ -169,9 +170,11 @@ public class BishopTest {
         }
     }
 
-    // Check illegal move due to landing on a square already occupied by a piece of the same colour.
+    // Check illegal move due to landing on a square already occupied by a piece of the same colour. Should inductively
+    // increase.
 
-    // Check illegal move due to there being a piece in the way.
+    // Check illegal move due to there being a piece in the way. Should inductively increase (the piece can be anywhere
+    // in the way).
 
     // Checks captures.
 
