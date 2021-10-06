@@ -2,6 +2,7 @@ package model;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import static java.lang.Math.abs;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -157,23 +158,35 @@ public class BishopTest {
 
     @Test
     public void testCheckValidMoveIllegal() {
-        // Get all 72 squares and check if abs((coordinate - bishopX)) == abs((coordinate - bishopY), then move is legal.
-        // If not, the move is illegal.
+        testBishop.setCoordinate(arbitraryX, arbitraryY);
+
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                if (!(abs(x - testBishop.getX()) == abs(y - testBishop.getY()))) {
+                    assertFalse(testBishop.checkValidMove(originPlane, x, y));
+                }
+            }
+        }
     }
 
+    // Check illegal move due to landing on a square already occupied by a piece of the same colour.
 
-    // CHECKS CAPTURES
+    // Check illegal move due to there being a piece in the way.
+
+    // Checks captures.
 
     @Test
     public void testCapture() {
         // Set starting position.
-        originPlane.setLevel(1);
-        toPlane.setLevel(1);
-
         arbitraryPiece.setColour(arbitraryColour);
         testBishop.setColour(oppositeColour);
 
+        testBishop.setCoordinate(arbitraryX, arbitraryY);
+        arbitraryPiece.setCoordinate(arbitraryX, arbitraryY);
+
         testBishop.capture();
-        assertFalse(arbitraryPiece.wasCaptured());
+        assertTrue(arbitraryPiece.wasCaptured());
+        assertEquals(testBishop.getX(), arbitraryX);
+        assertEquals(testBishop.getY(), arbitraryY);
     }
 }
