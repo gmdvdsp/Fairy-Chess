@@ -7,12 +7,21 @@ public class Pawn implements Piece {
 
     // METHODS:
 
-    public Plane move(int coordinate) {
-        return null;
+    public void move(Plane newPlane, int coordinate) {
     }
 
-    public boolean checkValidMove(int coordinate) {
+    public boolean checkValidMove(Plane newPlane, int coordinate) {
         return false;
+    }
+
+    @Override
+    public Integer getDistanceInX(int x) {
+        return 0;
+    }
+
+    @Override
+    public Integer getDistanceInY(int y) {
+        return 0;
     }
 
     public Plane capture() {
@@ -24,7 +33,47 @@ public class Pawn implements Piece {
     }
 
     @Override
+    public boolean isOnPlane(Plane p) {
+        return false;
+    }
+
+    @Override
+    public boolean wasCaptured() {
+        return false;
+    }
+
     public String getPieceColour() {
+        return "";
+    }
+
+    @Override
+    public Integer getCurrentLevelOfPlane() {
+        return 0;
+    }
+
+    public Integer getX() {
+        return 0;
+    }
+
+    public Integer getY() {
+        return 0;
+    }
+
+    @Override
+    public String getColumn() {
         return null;
+    }
+
+    public void setPieceLevel(int level) {
+    }
+
+    public void setCoordinate(int coordinate) {
+    }
+
+    @Override
+    public void setMaxMovement(int maxMovement) {
+    }
+
+    public void setColour(String colour) {
     }
 }

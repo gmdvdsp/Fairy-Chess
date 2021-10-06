@@ -68,3 +68,18 @@ lances, realistic political maneuvering and court intrigue among the pieces woul
 
 - I should be able to move (add) pieces to a different plane.
 
+======
+
+# Board Setup:
+
+P1    | P2    | P3    |
+-----------------------
+R N B | Q K Q | B N R |
+P P P | P P P | P P P |
+X X X | X X X | X X X |
+X X X | X X X | X X X |
+X X X | X X X | X X X |
+X X X | X X X | X X X |
+P P P | P P P | P P P |
+R N B | Q K J | B N R | 
+
