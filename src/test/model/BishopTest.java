@@ -108,7 +108,7 @@ public class BishopTest {
     public void testCheckValidMoveLegalMoveRightUp() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
             if (testBishop.isOnPlane(testBishop.getX() + i, testBishop.getY() + i)); {
                 assertTrue(testBishop.checkValidMove(originPlane, testBishop.getX() + i, testBishop.getY() + i));
             }
@@ -119,7 +119,7 @@ public class BishopTest {
     public void testCheckValidMoveLegalMoveLeftUp() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
             if (testBishop.isOnPlane(testBishop.getX() - i, testBishop.getY() + i)); {
                 assertTrue(testBishop.checkValidMove(originPlane, testBishop.getX() - i, testBishop.getY() + i));
             }
@@ -130,7 +130,7 @@ public class BishopTest {
     public void testCheckValidMoveLegalMoveRightDown() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
             if (testBishop.isOnPlane(testBishop.getX() + i, testBishop.getY() - i)); {
                 assertTrue(testBishop.checkValidMove(originPlane, testBishop.getX() + i, testBishop.getY() - i));
             }
@@ -141,7 +141,7 @@ public class BishopTest {
     public void testCheckValidMoveLegalMoveLeftDown() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        for (int i = 1; i < 7; i++) {
+        for (int i = 1; i < 8; i++) {
             if (testBishop.isOnPlane(testBishop.getX() - i, testBishop.getY() - i)); {
                 assertTrue(testBishop.checkValidMove(originPlane, testBishop.getX() - i, testBishop.getY() - i));
             }
@@ -154,16 +154,16 @@ public class BishopTest {
     public void testCheckValidMoveIllegalNoMove() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        assertFalse(testBishop.checkValidMove(originPlane, testBishop.getX(), testBishop.getY());
+        assertFalse(testBishop.checkValidMove(originPlane, testBishop.getX(), testBishop.getY()));
     }
 
     @Test
     public void testCheckValidMoveIllegal() {
         testBishop.setCoordinate(arbitraryX, arbitraryY);
 
-        for (int x = 0; x < 7; x++) {
+        for (int x = 0; x < 8; x++) {
             for (int y = 0; y < 7; y++) {
-                if (!(abs(x - testBishop.getX()) == abs(y - testBishop.getY()))) {
+                if (abs(x - testBishop.getX()) != abs(y - testBishop.getY())) {
                     assertFalse(testBishop.checkValidMove(originPlane, x, y));
                 }
             }
