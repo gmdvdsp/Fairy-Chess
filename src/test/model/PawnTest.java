@@ -4,43 +4,42 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static java.lang.Math.abs;
 
-import static model.Board.HEIGHT;
-import static model.Board.WIDTH;
+import static model.Board.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class PawnTest {
 
     // Arbitrary point
-    int arbitraryX = 1;
-    int arbitraryY = 1;
+    private int arbitraryX = 1;
+    private int arbitraryY = 1;
 
     // Arbitrary status of isSelected.
-    boolean arbitraryIsSelected = true;
+    private boolean arbitraryIsSelected = true;
 
     // Arbitrary status of hasMoved.
-    boolean arbitraryHasMoved = false;
+    private boolean arbitraryHasMoved = false;
 
     // Arbitrary colors.
-    String arbitraryColour = "black";
-    String oppositeColour = "white"; //Must be the opposite of arbitraryColour.
+    private String arbitraryColour = "black";
+    private String oppositeColour = "white"; //Must be the opposite of arbitraryColour.
 
     // Arbitrary piece to test captures and move legality.
-    Pawn arbitraryPiece;
+    private Pawn arbitraryPiece;
 
-    Board originBoard;
-
-    Pawn pawn;
+    private Board originBoard;
+    private Pawn pawn;
 
     @BeforeEach
     public void runBefore() {
         originBoard = new Board();
         pawn = new Pawn(arbitraryX, arbitraryY, arbitraryColour, originBoard);
+        pawn.setIsSelected(true);
     }
 
     // Constructor test.
     public void testPawn() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 Pawn constructorPawn = new Pawn(0, 0, arbitraryColour, originBoard);
                 assertEquals(constructorPawn.getX(), x);
                 assertEquals(constructorPawn.getY(), y);
@@ -56,9 +55,10 @@ public class PawnTest {
 
     // Check that a pawn moves to some square if that move is valid and the piece is selected.
     @Test
-    public void testMoveTo() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+    public void testMove() {
+        for (int y = 0; y < MAX_Y_COORDINATE; y++) {
+            for (int x = 0; x < MAX_X_COORDINATE; x++) {
+                pawn.setIsSelected(true);
                 pawn.setCoordinate(arbitraryX, arbitraryY);
 
                 if (pawn.getIsSelected() && pawn.isValidMove(x, y)) {
@@ -85,8 +85,8 @@ public class PawnTest {
     // coordinate is on the board.
     @Test
     public void testIsValidMove() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (originBoard.isMoveOnBoard(x, y) && pawn.isLegalMove(x, y)) {
                     assertTrue(pawn.isValidMove(x, y));
                 } else {
@@ -102,8 +102,8 @@ public class PawnTest {
     // one up.
     @Test
     public void testIsLegalMove() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (originBoard.isEmpty(x, y) && (pawn.findDistanceToX(x) == 0 && pawn.findDistanceToY(y) == 1)) {
                     assertTrue(pawn.isLegalMove(x, y));
                 }
@@ -115,9 +115,9 @@ public class PawnTest {
     // moved, and it is legal for the pawn to move once ahead.
     @Test
     public void testIsLegalMoveTwoSquaresAhead() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
-                if (originBoard.isEmpty(x, y) && !pawn.getHasMoved() && pawn.isLegalMove(x, y - 1)) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
+                if (!pawn.getHasMoved() && originBoard.isEmpty(x, y - 1) && originBoard.isEmpty(x, y)) {
                     assertTrue(pawn.isLegalMove(x, y));
                 }
             }
@@ -128,8 +128,8 @@ public class PawnTest {
     // that square.
     @Test
     public void testIsLegalMoveCapture() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (pawn.isLegalCapture(x, y)) {
                     assertTrue(pawn.isLegalMove(x, y));
                 }
@@ -144,8 +144,8 @@ public class PawnTest {
     // cannot capture that square.
     @Test
     public void testIsLegalMoveDoesNotComplyWithMovement() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (pawn.findDistanceToX(x) != 0 || !(pawn.findDistanceToY(y) == 1 || pawn.findDistanceToY(y) == 2) && !pawn.isLegalCapture(x, y)) {
                     assertFalse(pawn.isLegalMove(x, y));
                 }
@@ -157,8 +157,8 @@ public class PawnTest {
     // square is not empty, and the pawn cannot legally capture to that square.
     @Test
     public void testIsLegalMoveIsOccupied() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (!originBoard.isEmpty(x, y) && !pawn.isLegalCapture(x, y)) {
                     assertFalse(pawn.isLegalMove(x, y));
                 }
@@ -170,8 +170,8 @@ public class PawnTest {
     // the pawn's current position and the candidate move's y-value is +2.
     @Test
     public void testIsLegalMoveTwoSquaresAheadAlreadyMoved() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (pawn.getHasMoved() == true && (pawn.findDistanceToY(y) == 2)) {
                     assertFalse(pawn.isLegalMove(x, y));
                 }
@@ -183,8 +183,8 @@ public class PawnTest {
     // y-values are the same as the square the pawn is already on.
     @Test
     public void testIsLegalMoveNoMove() {
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 if (pawn.findDistanceToX(x) == 0 && pawn.findDistanceToY(y) == 0) {
                     assertFalse(pawn.isLegalMove(x, y));
                 }
@@ -206,8 +206,8 @@ public class PawnTest {
         boolean correctXDistance;
         boolean correctYDistance;
 
-        for (int x = 0; x < WIDTH; x++) {
-            for (int y = 0; y < HEIGHT; y++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
+            for (int y = 0; y < MAX_Y_COORDINATE; y++) {
                 arbitraryPiece.setCoordinate(x, y);
                 originBoard.addToBoard(arbitraryPiece);
 
@@ -230,14 +230,14 @@ public class PawnTest {
     // ====================================
     @Test
     public void testFindDistanceToX() {
-        for (int x = 0; x < WIDTH; x++) {
+        for (int x = 0; x < MAX_X_COORDINATE; x++) {
                 assertEquals(pawn.findDistanceToX(x), x - pawn.getX());
             }
     }
 
     @Test
     public void testFindDistanceToY() {
-        for (int y = 0; y < HEIGHT; y++) {
+        for (int y = 0; y < MAX_Y_COORDINATE; y++) {
             assertEquals(pawn.findDistanceToY(y), y - pawn.getY());
         }
     }
@@ -248,8 +248,8 @@ public class PawnTest {
     public void testDie() {
         pawn.die();
         assertTrue(pawn.getIsCaptured());
-        assertEquals(pawn.getX(), WIDTH + 1);
-        assertEquals(pawn.getX(), HEIGHT + 1);
+        assertEquals(pawn.getX(), MAX_X_COORDINATE + 1);
+        assertEquals(pawn.getY(), MAX_Y_COORDINATE + 1);
     }
 
     // Check getters
@@ -304,6 +304,12 @@ public class PawnTest {
     }
 
     @Test
+    public void testSetColour() {
+        pawn.setColour(oppositeColour);
+        assertEquals(pawn.getColour(), oppositeColour);
+    }
+
+    @Test
     public void testSetHasMoved() {
         pawn.setHasMoved(!arbitraryHasMoved);
         if (!arbitraryHasMoved) {
@@ -315,8 +321,8 @@ public class PawnTest {
 
     @Test
     public void testSetIsSelected() {
-        pawn.setIsSelected(!arbitraryIsSelected);
-        if (!arbitraryIsSelected) {
+        pawn.setIsSelected(arbitraryIsSelected);
+        if (arbitraryIsSelected) {
             assertTrue(pawn.getIsSelected());
         } else {
             assertFalse(pawn.getIsSelected());
