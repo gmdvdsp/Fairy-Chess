@@ -4,15 +4,15 @@ import static java.lang.Math.abs;
 import static model.Board.WIDTH;
 import static model.Board.HEIGHT;
 
-public class Pawn implements Piece {
+public class Pawn extends BasePiece implements Piece {
 
-    int posX;
-    int posY;
-    String colour;
-    boolean isSelected;
-    boolean isCaptured;
-    boolean hasMoved;
-    Board board;
+    private int posX;
+    private int posY;
+    private String colour;
+    private boolean isSelected;
+    private boolean isCaptured;
+    private boolean hasMoved;
+    private Board board;
 
     public Pawn(int x, int y, String colour, Board board) {
         this.posX = x;

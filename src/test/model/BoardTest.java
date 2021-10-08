@@ -34,7 +34,7 @@ public class BoardTest {
     }
 
     @Test
-    public void testAddToPlane() {
+    public void testRemoveFromBoard() {
         for (int x = 0; x < WIDTH; x++) {
             for (int y = 0; y < HEIGHT; y++) {
                 pawn = new Pawn(x, y, "white", board);
