@@ -3,35 +3,68 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-// Represents the board that has (0,0) -> (0,WIDTH) in the x-axis, and (0,0) -> (0, HEIGHT) in the y-axis.
+import static model.Game.*;
+
 public class Board {
-    public static final int MAX_X_COORDINATE = 8;
-    public static final int MAX_Y_COORDINATE = 7;
-
-    public static final int SQUARES_ON_ROW = MAX_X_COORDINATE + 1;
-    public static final int SQUARES_ON_COLUMN = MAX_Y_COORDINATE + 1;
-
-    private List<BasePiece> boardState;
+    private List<Square> squareList;
 
     public Board() {
-        boardState = new ArrayList<BasePiece>();
+        Square square;
+        squareList = new ArrayList<>();
+        for (int y = 0; y < SQUARES_ON_COLUMN; y++) {
+            for (int x = 0; x < SQUARES_ON_ROW; x++) {
+                square = new Square(x, y);
+                squareList.add(square);
+            }
+        }
     }
 
     // METHODS:
 
-    // MODIFIES: this
-    // EFFECTS: Updates a board after a piece has moved by exchanging the old plane with the new one
-    //          that inserts a piece at some coordinate. Note the square is always empty.
-    public void addToBoard(BasePiece p) {
-        boardState.add(p);
+    //===================================================================================================
+
+    public void move(Square fromSquare, Square toSquare) {
+        // updateBoard(fromSquare, toSquare);
     }
 
-    // REQUIRES: BasePiece is on the board
-    // MODIFIES: this
-    // EFFECTS: Tells a piece to die, and then remove that piece from the board.
-    public void removeFromBoard(BasePiece p) {
-        boardState.remove(p);
-        p.die();
+    public void updateBoard(Square fromSquare, Square toSquare) {
+        //  setSquare(fromSquare);
+        //  setSquare(toSquare);
+    }
+
+    public void updateBoardAt(int x, int y, Square square) {
+        squareList.set(convertPiecePositionToIndex(x, y), square);
+    }
+
+    public int getDistanceToX(Square fromSquare, Square toSquare) {
+        return (toSquare.getX() - fromSquare.getX());
+    }
+
+    public int getDistanceToY(Square fromSquare, Square toSquare) {
+        return (toSquare.getY() - fromSquare.getY());
+    }
+
+    public int getPieceAtCoordinate() {
+        return 0;
+    }
+
+    //===================================================================================================
+
+    // EFFECTS: Returns the amount of pieces on a board.
+    public Integer countBoard() {
+        // for (Square square : squareList)
+        // if (square hasPiece)
+        // i++
+        return 0;
+    }
+
+    public boolean isEmptyAt() {
+        for (Square square : squareList) {
+            if (square.getIsEmpty()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // EFFECTS: Converts a piece's x and y values to it's corresponding index position, starting from (0,0) as 0,
@@ -47,64 +80,12 @@ public class Board {
 
     // EFFECTS:
     private int convertIndexToPieceY(int i) {
-        return (i / MAX_X_COORDINATE + 1);
+        return (i / MAX_Y_COORDINATE + 1);
     }
 
-    // EFFECTS: Returns the piece at chess-notation coordinate (number, number), else if no piece is there,
-    //          return null;
-    public BasePiece getPieceAtCoordinate(int x, int y) {
-        BasePiece foundPiece = null;
-        for (BasePiece piece : boardState) {
-            if (piece.getX() == x && piece.getY() == y) {
-                foundPiece = piece;
-            }
-        }
-        return foundPiece;
-    }
-
-    // EFFECTS: Returns a board as a list of pieces on that board, in order from the bottom left square
-    //          going right, up to the second row and left, and so on until the top right.
-    public List<BasePiece> getBoard() {
-        return boardState;
-    }
-
-    // EFFECTS: Returns the amount of pieces on a board.
-    public Integer countBoard() {
-        int count = 0;
-        for (BasePiece piece : boardState) {
-            count++;
-        }
-        return count;
-    }
-
-    // EFFECTS: Returns true if a coordinate has no piece on it.
-    public boolean isEmpty(int x, int y) {
-        boolean isEmpty = true;
-        for (BasePiece piece : boardState) {
-            if (((piece.getX() == x) && (piece.getY() == y)) || isEmpty == false) {
-                isEmpty = false;
-            }
-        }
-        return isEmpty;
-    }
-
-    // EFFECTS: Returns true if a coordinate (x, y) is within the board.
-    public boolean isMoveOnBoard(int x, int y) {
-        return ((0 <= x) && (x <= MAX_X_COORDINATE) && (0 <= y) && (y <= MAX_X_COORDINATE));
-    }
-
-    // REQUIRES: Some BasePiece has coordinates (x, y).
-    // EFFECTS: Get the colour of the piece at
-    public String getColourOfPieceAt(int x, int y) {
-        String colour = "";
-        boolean stopSearching = false;
-        for (BasePiece piece : boardState) {
-            if (((piece.getX() == x) && (piece.getY() == y)) && !stopSearching) {
-                colour = piece.getColour();
-                stopSearching = true;
-            }
-        }
-        return colour;
+    // SETTERS:
+    public List<Square> getSquareList() {
+        return squareList;
     }
 }
 

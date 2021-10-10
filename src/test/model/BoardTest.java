@@ -3,13 +3,10 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
 import java.util.List;
 
 import static java.lang.Math.abs;
 
-import static model.Board.SQUARES_ON_COLUMN;
-import static model.Board.SQUARES_ON_ROW;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -26,17 +23,25 @@ public class BoardTest {
     private String arbitraryColour = "black";
     private String oppositeColour = "white"; //Must be the opposite of arbitraryColour.
 
-    private int currentSquare = -1;
-    private List<BasePiece> comparisonBoard;
+    private Game game;
     private Board board;
-    private BasePiece arbitraryPiece;
+    private Square fromSquare;
+    private Square toSquare;
+
+    private Pawn pawn;
+    private Pawn otherPawn;
 
     @BeforeEach
     public void runBefore() {
-        arbitraryPiece = new Pawn(0, 0, "white", board);
         board = new Board();
+        game = new Game();
+        pawn = new Pawn(arbitraryColour, false);
+        pawn = new Pawn(oppositeColour, false);
+        fromSquare.setPiece(pawn);
+        toSquare.setPiece(otherPawn);
     }
 
+    /*
     // Check adding a piece to a board (should make pawn a Piece instead).
     @Test
     public void testAddToBoardAndGetPieceAtCoordinate() {
@@ -46,7 +51,7 @@ public class BoardTest {
                 if (currentSquare % alternatingInterval == 0) {
                     arbitraryPiece.setCoordinate(x, y);
                     board.addToBoard(arbitraryPiece);
-                    assertEquals(board.getPieceAtCoordinate(x, y), arbitraryPiece);
+                    assertEquals(board.getPieceOnSquare(x, y), arbitraryPiece);
                 }
             }
         }
@@ -64,7 +69,7 @@ public class BoardTest {
 
         for (int y = 0; y < SQUARES_ON_COLUMN; y++) {
             for (int x = 0; x < SQUARES_ON_ROW; x++) {
-                board.removeFromBoard(board.getPieceAtCoordinate(x, y));
+                board.removeFromBoard(board.getPieceOnSquare(x, y));
                 assertTrue(board.isEmpty(x, y));
             }
         }
@@ -92,6 +97,11 @@ public class BoardTest {
                 }
             }
         }
+    }
+
+    @Test
+    public void testCreateEmptyBoard() {
+
     }
 
     @Test
@@ -171,4 +181,5 @@ public class BoardTest {
             }
         }
     }
+    */
 }
