@@ -24,8 +24,8 @@ public class PlayerTest {
         player = new Player();
         pawn = new Pawn(arbitraryColour, false);
         otherPawn = new Pawn(oppositeColour, false);
-        arbitraryFromSquare = new Square(0, 0);
-        arbitraryToSquare = new Square(0, 0);
+        arbitraryFromSquare = new Square(0, 0, null);
+        arbitraryToSquare = new Square(0, 0, null);
     }
 
     @Test

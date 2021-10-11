@@ -3,6 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+import static java.lang.Math.abs;
 import static model.Game.*;
 
 public class Board {
@@ -13,7 +14,7 @@ public class Board {
         squareList = new ArrayList<>();
         for (int y = 0; y < SQUARES_ON_COLUMN; y++) {
             for (int x = 0; x < SQUARES_ON_ROW; x++) {
-                square = new Square(x, y);
+                square = new Square(x, y, null);
                 squareList.add(square);
             }
         }
@@ -48,39 +49,45 @@ public class Board {
         return 0;
     }
 
+    public boolean isSquareAboveEmpty(Square from) {
+        boolean atUpperBound = (from.getY() == MAX_Y_COORDINATE);
+        return (!atUpperBound && squareList.get(convertPiecePositionToIndex(from.getX(), from.getY() + 1)).getIsEmpty());
+    }
+
+    public boolean isSquareBelowEmpty(Square from) {
+        boolean atLowerBound = (from.getY() == 0);
+        return (!atLowerBound && squareList.get(convertPiecePositionToIndex(from.getX(), from.getY() - 1)).getIsEmpty());
+    }
+    public boolean isSquareRightEmpty(Square from) {
+        boolean atRightBound = (from.getY() == MAX_X_COORDINATE);
+        return (!atRightBound && squareList.get(convertPiecePositionToIndex(from.getX() + 1, from.getY())).getIsEmpty());
+    }
+
+    public boolean isSquareLeftEmpty(Square from) {
+        boolean atLeftBound = (from.getY() == 0);
+        return (!atLeftBound && squareList.get(convertPiecePositionToIndex(from.getX() - 1, from.getY())).getIsEmpty());
+    }
+
+
+    public boolean isOnSameRank(Square from, Square to) {
+        return (from.getY() == to.getY());
+    }
+
+    public boolean isOnSameFile(Square from, Square to) {
+        return (from.getX() == to.getX());
+    }
+
+    public boolean isOnSameDiagonal(Square from, Square to) {
+        return (abs(getDistanceToY(from, to)) == abs(getDistanceToX(from, to)));
+    }
+
     //===================================================================================================
 
-    // EFFECTS: Returns the amount of pieces on a board.
-    public Integer countBoard() {
-        // for (Square square : squareList)
-        // if (square hasPiece)
-        // i++
-        return 0;
-    }
-
-    public boolean isEmptyAt() {
-        for (Square square : squareList) {
-            if (square.getIsEmpty()) {
-                return true;
-            }
-        }
-        return false;
-    }
-
+    // REQUIRES: 0 <= x <= WIDTH and 0 <= y <= HEIGHT
     // EFFECTS: Converts a piece's x and y values to it's corresponding index position, starting from (0,0) as 0,
     //          then (0,1) as WIDTH + 1, (0,2) as WIDTH + 1, and so on.
     private int convertPiecePositionToIndex(int x, int y) {
-        return (x * (MAX_X_COORDINATE + 1)) + y;
-    }
-
-    // EFFECTS:
-    private int convertIndexToPieceX(int i) {
-        return (i - (i / MAX_X_COORDINATE + 1));
-    }
-
-    // EFFECTS:
-    private int convertIndexToPieceY(int i) {
-        return (i / MAX_Y_COORDINATE + 1);
+        return ((y * SQUARES_ON_ROW) + x);
     }
 
     // SETTERS:

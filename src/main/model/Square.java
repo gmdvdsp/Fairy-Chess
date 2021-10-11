@@ -8,9 +8,10 @@ public class Square {
     int posY;
     BasePiece piece;
 
-    public Square(int x, int y) {
+    public Square(int x, int y, BasePiece p) {
         this.posX = x;
         this.posY = y;
+        this.piece = p;
     }
 
     public boolean isSquareOnBoard() {
@@ -48,7 +49,11 @@ public class Square {
         return (this.piece == null);
     }
 
-    public BasePiece getPiece() {
+    public String getColourOfPieceOnSquare() {
+        return (piece.getColour());
+    }
+
+    public BasePiece getPieceOnSquare() {
         return piece;
     }
 }

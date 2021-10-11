@@ -19,7 +19,7 @@ public class SquareTest {
 
     @BeforeEach
     public void runBefore() {
-        square = new Square(0, 0);
+        square = new Square(0, 0, null);
     }
 
     // Tests for setters and getters.
