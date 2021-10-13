@@ -1,10 +1,10 @@
 package model;
 
-public class Player {
+public class Players {
     Game game;
     String playerColour;
 
-    public Player() {
+    public Players() {
         game = new Game();
         playerColour = "white";
     }
@@ -19,9 +19,14 @@ public class Player {
         }
     }
 
-    public boolean proposeMove(Square fromSquare, Square toSquare) {
-        if (toSquare.isSquareOnBoard() && game.isLegalMove(fromSquare, toSquare)) {
-            game.makeMove(fromSquare, toSquare);
+    public boolean proposeSquare(Square proposed) {
+        return proposed.isSquareOnBoard();
+    }
+
+    public boolean proposeMove(Square from, Square to) {
+        if (game.controlsSquare(from, playerColour) && game.isLegalMove(from, to)) {
+            game.makeMove(from, to);
+            changePlayerColour();
             return true;
         } else {
             return false;

@@ -2,29 +2,42 @@ package model;
 
 import static java.lang.Math.abs;
 
+// Represents a chess game that has a board and knows how pieces move.
 public class Game {
-    public static final int MAX_X_COORDINATE = 8;
-    public static final int MAX_Y_COORDINATE = 7;
-
-    public static final int SQUARES_ON_ROW = MAX_X_COORDINATE + 1;
-    public static final int SQUARES_ON_COLUMN = MAX_Y_COORDINATE + 1;
-
-    public static final int SECOND_RANK = 1;
-    public static final int SEVENTH_RANK = 6;
 
     Board board;
+    boolean endGame;
 
     public Game() {
         board = new Board();
+        endGame = false;
     }
 
     // METHODS:
+
+    public boolean controlsSquare(Square from, String colour) {
+        if (from.getIsEmpty()) {
+            return false;
+        } else if (from.getColourOfPieceOnSquare().equals(colour)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // IS LEGAL?
-    // ========================================================
+    // ================================================================================================================
     // REQUIRES: fromSquare.getPiece() != null;
     // Checks checks if move is legal traversal or legal capture.
     public boolean isLegalMove(Square from, Square to) {
-        return (isLegalTraversal(from, to) || isLegalCapture(from, to));
+        return (isLegalCapture(from, to) || isLegalTraversal(from, to));
+    }
+
+    public void makeMove(Square from, Square to) {
+        to.setPiece(from.getPieceOnSquare());
+        from.setPiece(null);
+        board.replaceSquare(from);
+        board.replaceSquare(to);
     }
 
     // CONFORMS WITH DIRECTIONS?
@@ -32,12 +45,23 @@ public class Game {
     // Traversal is moving to an empty square.
     private boolean isLegalTraversal(Square from, Square to) {
         if (to.getIsEmpty()) {
+            // BasePiece.isLegalTraversal(from, to)
             if (from.getPieceOnSquare() instanceof Pawn) {
                 return (isLegalPawnMove(from, to));
             } else if (from.getPieceOnSquare() instanceof King) {
                 return (isLegalKingMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Rook) {
                 return (isLegalRookMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Bishop) {
+                return (isLegalBishopMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Knight) {
+                return (isLegalKnightMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Queen) {
+                return (isLegalRookMove(from, to) || isLegalBishopMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Princess) {
+                return (isLegalRookMove(from, to) || isLegalKnightMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Dragon) {
+                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
             } else {
                 return false;
             }
@@ -58,7 +82,7 @@ public class Game {
 
     private boolean isLegalSingleWhitePawnMove(Square from, Square to) {
         if (from.getY() == SECOND_RANK && to.getY() == 3) {
-            return (board.isSquareAboveEmpty(from));
+            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
         } else {
             return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == 1);
         }
@@ -66,7 +90,7 @@ public class Game {
 
     private boolean isLegalSingleBlackPawnMove(Square from, Square to) {
         if (from.getY() == SEVENTH_RANK && to.getY() == 4) {
-            return (board.isSquareBelowEmpty(from));
+            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
         } else {
             return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == -1);
         }
@@ -74,64 +98,62 @@ public class Game {
 
     // KINGS:
     // ========================================================
-    private boolean isLegalKingMove(Square from, Square to) {
-        return (isLegalSingleKingMove(from, to));
-    }
-
-    private boolean isLegalSingleKingMove(Square from, Square to) {
-        return (abs(board.getDistanceToX(from, to)) == 1 && abs(board.getDistanceToY(from, to)) == 1
-                || abs(board.getDistanceToX(from, to)) == 1 && board.getDistanceToY(from, to) == 0
-                || (board.getDistanceToX(from, to) == 0 && abs(board.getDistanceToY(from, to)) == 1));
+    public boolean isLegalKingMove(Square from, Square to) {
+        Square distance = board.getDistanceBetween(from, to);
+        return (abs(distance.getX()) == 1 && abs(distance.getY()) == 1
+                || abs(distance.getX()) == 0 && abs(distance.getY()) == 1
+                || abs(distance.getX()) == 1 && abs(distance.getY()) == 0);
     }
 
     // ROOK:
     // ========================================================
-    // Start at from, to
-    // Check if from, from + 1 is valid move
-    // Check if from + 1, (from + 1) + 1 is valid move
-    // ...
-    // Stop at to
-
     private boolean isLegalRookMove(Square from, Square to) {
-        if (board.isOnSameFile(from, to) ^ board.isOnSameRank(from, to)) {
-            // do something
-            return true;
+        if (board.isOnSameFile(from, to) || board.isOnSameRank(from, to)) {
+            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
         } else {
             return false;
         }
     }
 
-    // a move is legal if you can chain a sequence of legal moves to get to that square
-    // first, check if move conforms
-    // Now we need 2 things: the direction, and the amount of squares to move == A.
-    // From direction, call the appropriate SingleMove function A times, incrementing the corresponding position by 1
-    // each time.
-
-    private boolean isLegalSingleRookMoveUp(Square from, Square to) {
-        return (board.isSquareAboveEmpty(from) && (board.getDistanceToY(from, to) == 1));
+    // BISHOP:
+    // ========================================================
+    private boolean isLegalBishopMove(Square from, Square to) {
+        if (board.isOnSameDiagonal(from, to)) {
+            return (board.isDiagonalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
+        } else {
+            return false;
+        }
     }
 
-    private boolean isLegalSingleRookMoveDown(Square from, Square to) {
-        return (board.isSquareBelowEmpty(from) && (board.getDistanceToY(from, to) == -1));
-    }
-
-    private boolean isLegalSingleRookMoveRight(Square from, Square to) {
-        return (board.isSquareRightEmpty(from) && (board.getDistanceToX(from, to) == 1));
-    }
-
-    private boolean isLegalSingleRookMoveLeft(Square from, Square to) {
-        return (board.isSquareLeftEmpty(from) && (board.getDistanceToX(from, to) == -1));
+    // KNIGHTS:
+    // ========================================================
+    private boolean isLegalKnightMove(Square from, Square to) {
+        Square distance = board.getDistanceBetween(from, to);
+        return (abs(distance.getX()) == 2 && abs(distance.getY()) == 1)
+                || (abs(distance.getX()) == 1 && abs(distance.getY()) == 2);
     }
 
     // CONFORMS WITH CAPTURES?
     // ================================================================================================================
-    // Checks checks if move is a legal capture.
+    // Checks if move is a legal capture.
     private boolean isLegalCapture(Square from, Square to) {
         if (!to.getIsEmpty() && !from.getColourOfPieceOnSquare().equals(to.getColourOfPieceOnSquare())) {
             if (from.getPieceOnSquare() instanceof Pawn) {
                 return (isLegalPawnCapture(from, to));
             } else if (from.getPieceOnSquare() instanceof King) {
-                return (isLegalKingCapture(from, to));
+                return (isLegalKingMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Rook) {
+                return (isLegalRookMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Bishop) {
+                return (isLegalBishopMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Knight) {
+                return (isLegalKnightMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Queen) {
+                return (isLegalRookMove(from, to) || isLegalBishopMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Princess) {
+                return (isLegalRookMove(from, to) || isLegalKnightMove(from, to));
+            } else if (from.getPieceOnSquare() instanceof Dragon) {
+                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
             } else {
                 return false;
             }
@@ -158,19 +180,11 @@ public class Game {
         return (abs(board.getDistanceToX(from, to)) == 1 && board.getDistanceToY(from, to) == -1);
     }
 
-    // KINGS:
-    // ========================================================
-    private boolean isLegalKingCapture(Square from, Square to) {
-        return (isLegalKingMove(from, to));
-    }
-
-    // ========================================================
-
-    public void makeMove(Square fromSquare, Square toSquare) {
-        // board.move()
-    }
-
     public Board getBoard() {
         return board;
+    }
+
+    public boolean getEndGame() {
+        return endGame;
     }
 }

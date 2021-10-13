@@ -1,7 +1,7 @@
 package model;
 
-import static model.Game.MAX_X_COORDINATE;
-import static model.Game.MAX_Y_COORDINATE;
+import static model.Board.MAX_X_COORDINATE;
+import static model.Board.MAX_Y_COORDINATE;
 
 public class Square {
     int posX;
@@ -16,6 +16,16 @@ public class Square {
 
     public boolean isSquareOnBoard() {
         return (0 <= posX && this.posX <= MAX_X_COORDINATE && 0 <= posY && this.posY <= MAX_Y_COORDINATE);
+    }
+
+    public String printSquare() {
+        String square;
+        if (piece != null) {
+            square = ("[ " + piece.printColourOneCharacter() + piece.printPiece() + " ]");
+        } else {
+            square = ("[    ]");
+        }
+        return square;
     }
 
     // SETTERS:

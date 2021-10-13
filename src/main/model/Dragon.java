@@ -1,12 +1,12 @@
 package model;
 
-public class King extends BasePiece {
-    public King(String colour) {
+public class Dragon extends BasePiece {
+    public Dragon(String colour) {
         super(colour);
     }
 
     @Override
     protected String printPiece() {
-        return ("K");
+        return ("D");
     }
 }

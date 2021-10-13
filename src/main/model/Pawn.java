@@ -2,24 +2,12 @@ package model;
 
 public class Pawn extends BasePiece {
 
-    private boolean hasMoved;
-
-    public Pawn(String colour, boolean hasMoved) {
+    public Pawn(String colour) {
         super(colour);
-        hasMoved = false;
     }
 
-    // METHODS:
-
-    // GETTERS:
-
-    public boolean getHasMoved() {
-        return hasMoved;
-    }
-
-    // SETTER:
-
-    public void setHasMoved(boolean hasMoved) {
-        this.hasMoved = hasMoved;
+    @Override
+    protected String printPiece() {
+        return ("P");
     }
 }

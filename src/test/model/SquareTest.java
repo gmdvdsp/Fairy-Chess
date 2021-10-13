@@ -1,13 +1,10 @@
 package model;
 
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
-import static java.lang.Math.abs;
 
-import static model.Board.*;
-import static model.Game.SQUARES_ON_COLUMN;
-import static model.Game.SQUARES_ON_ROW;
+import static model.Board.SQUARES_ON_COLUMN;
+import static model.Board.SQUARES_ON_ROW;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SquareTest {
@@ -15,11 +12,10 @@ public class SquareTest {
     // Arbitrary value of isEmpty
     boolean arbitraryIsEmpty = true;
 
-    Square square;
+    Square square = new Square(0, 0, null);
 
     @BeforeEach
     public void runBefore() {
-        square = new Square(0, 0, null);
     }
 
     // Tests for setters and getters.
@@ -29,6 +25,12 @@ public class SquareTest {
             square.setX(x);
             assertEquals(square.getX(), x);
         }
+    }
+
+    @Test
+    public void testPrintSquare() {
+        square.setPiece(new Pawn("white"));
+        assertTrue(square.printSquare().equals("[ wP ]"));
     }
 
     @Test
