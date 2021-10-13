@@ -21,16 +21,6 @@ public class PlayersTest {
 
     @BeforeEach
     public void runBefore() {
-        players = new Players();
-        pawn = new Pawn(arbitraryColour);
-        otherPawn = new Pawn(oppositeColour);
-        arbitraryFromSquare = new Square(0, 0, null);
-        arbitraryToSquare = new Square(0, 0, null);
-    }
-
-    @Test
-    public void Player() {
-        players = new Players();
     }
 
 }

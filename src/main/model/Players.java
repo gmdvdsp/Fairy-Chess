@@ -1,50 +1,26 @@
 package model;
 
 public class Players {
-    Game game;
     String playerColour;
+    Game game;
 
-    public Players() {
-        game = new Game();
-        playerColour = "white";
+    public Players(String playerColour) {
+        this.playerColour = playerColour;
+        this.game = new Game();
     }
 
-    // METHODS:
-
-    public void changePlayerColour() {
-        if (playerColour.equals("white")) {
-            playerColour = "black";
-        } else {
-            playerColour = "white";
-        }
+    // Methods:
+    // ===================================================
+    public boolean proposeFromSquare(Square proposed) {
+        return proposed.isSquareOnBoard() && game.controlsSquare(proposed);
     }
 
-    public boolean proposeSquare(Square proposed) {
+    public boolean proposeToSquare(Square proposed) {
         return proposed.isSquareOnBoard();
     }
 
-    public boolean proposeMove(Square from, Square to) {
-        if (game.controlsSquare(from, playerColour) && game.isLegalMove(from, to)) {
-            game.makeMove(from, to);
-            changePlayerColour();
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // SETTERS AND GETTERS:
-
-    public void setGame(Game game) {
-        this.game = game;
-    }
-
-    public void setPlayerColour(String colour) {
-        playerColour = colour;
-    }
-
-    public String getPlayerColour() {
-        return playerColour;
+    public void proposeMove(Square from, Square to) {
+        game.processMove(from, to);
     }
 
     public Game getGame() {

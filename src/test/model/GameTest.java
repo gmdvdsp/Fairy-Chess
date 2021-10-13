@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class GameTest {
     // Colours:
     String arbitraryColour = "white";
-    String oppositeColour = "black";
 
     // Squares:
     Square to = new Square(0, 0, null);
@@ -658,11 +657,11 @@ public class GameTest {
         Square from = new Square(3,2, knight);
         Square lowerRight = new Square(4, 0, whitePawn);
         Square lowerLeft = new Square(2, 0, whitePawn);
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -762,9 +761,9 @@ public class GameTest {
         Square top = new Square(8,7, whitePawn);
         Square from = new Square(3,2, queen);
         Square down = new Square(1, 0, whitePawn);
-        game.getBoard().updateBoardAt(8, 7, top);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(1, 0, down);
+        game.getBoard().replaceSquare(top);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(down);
         assertFalse(game.isLegalMove(from, top));
         assertFalse(game.isLegalMove(from, down));
     }
@@ -889,30 +888,24 @@ public class GameTest {
     // ================================================================================================================
     @Test
     public void testIsLegalMovePrincessUpDown() {
+        Square to = new Square(5,7,null);
+        Square from = new Square(5,5, princess);
         Square oppositeTo = new Square(5, 0, null);
-        from.setCoordinate(5,5);
-        from.setPiece(princess);
-        to.setCoordinate(5,7);
-
-        game.getBoard().updateBoardAt(5, 7, to);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(5, 0, oppositeTo);
-
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(oppositeTo);
         assertTrue(game.isLegalMove(from, to));
         assertTrue(game.isLegalMove(from, oppositeTo));
     }
 
     @Test
     public void testIsLegalMovePrincessLeftRight() {
+        Square to = new Square(7,5,null);
+        Square from = new Square(5,5, princess);
         Square oppositeTo = new Square(7, 5, null);
-        from.setCoordinate(5,5);
-        from.setPiece(princess);
-        to.setCoordinate(7,5);
-
-        game.getBoard().updateBoardAt(0, 5, to);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(7, 5, oppositeTo);
-
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(oppositeTo);
         assertTrue(game.isLegalMove(from, to));
         assertTrue(game.isLegalMove(from, oppositeTo));
     }
@@ -922,16 +915,11 @@ public class GameTest {
         Square oppositeTo = new Square(5, 0, blackPawn);
         Square blockedOppositeTo = new Square(5, 3, blackPawn);
         Square blockedTo = new Square(5, 6, blackPawn);
-        from.setCoordinate(5,5);
-        from.setPiece(queen);
-        to.setCoordinate(5,7);
-
-        game.getBoard().updateBoardAt(5, 7, to);
-        game.getBoard().updateBoardAt(5, 6, blockedTo);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(5, 3, blockedOppositeTo);
-        game.getBoard().updateBoardAt(5, 0, oppositeTo);
-
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(blockedTo);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(blockedOppositeTo);
+        game.getBoard().replaceSquare(oppositeTo);
         assertFalse(game.isLegalMove(from, to));
         assertFalse(game.isLegalMove(from, oppositeTo));
     }
@@ -941,16 +929,11 @@ public class GameTest {
         Square oppositeTo = new Square(0, 5, blackPawn);
         Square blockedOppositeTo = new Square(3, 5, blackPawn);
         Square blockedTo = new Square(7, 5, blackPawn);
-        from.setCoordinate(5,5);
-        from.setPiece(princess);
-        to.setCoordinate(8,5);
-
-        game.getBoard().updateBoardAt(8, 5, to);
-        game.getBoard().updateBoardAt(7, 5, blockedTo);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(3, 5, blockedOppositeTo);
-        game.getBoard().updateBoardAt(0, 5, oppositeTo);
-
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(blockedTo);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(blockedOppositeTo);
+        game.getBoard().replaceSquare(oppositeTo);
         assertFalse(game.isLegalMove(from, to));
         assertFalse(game.isLegalMove(from, oppositeTo));
     }
@@ -960,11 +943,9 @@ public class GameTest {
         Square top = new Square(5,7, blackPawn);
         Square from = new Square(5,5, princess);
         Square down = new Square(5, 0, blackPawn);
-
-        game.getBoard().updateBoardAt(5, 7, top);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(5, 0, down);
-
+        game.getBoard().replaceSquare(top);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(down);
         assertTrue(game.isLegalMove(from, top));
         assertTrue(game.isLegalMove(from, down));
     }
@@ -974,11 +955,9 @@ public class GameTest {
         Square right = new Square(8,5, blackPawn);
         Square from = new Square(5,5, princess);
         Square left = new Square(0, 5, blackPawn);
-
-        game.getBoard().updateBoardAt(8, 5, right);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(0, 5, left);
-
+        game.getBoard().replaceSquare(right);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(left);
         assertTrue(game.isLegalMove(from, right));
         assertTrue(game.isLegalMove(from, left));
     }
@@ -988,11 +967,9 @@ public class GameTest {
         Square top = new Square(5,7, whitePawn);
         Square from = new Square(5,5, princess);
         Square down = new Square(5, 0, whitePawn);
-
-        game.getBoard().updateBoardAt(5, 7, top);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(5, 0, down);
-
+        game.getBoard().replaceSquare(top);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(down);
         assertFalse(game.isLegalMove(from, top));
         assertFalse(game.isLegalMove(from, down));
     }
@@ -1002,11 +979,9 @@ public class GameTest {
         Square right = new Square(8,5, whitePawn);
         Square from = new Square(5,5, princess);
         Square left = new Square(0, 5, whitePawn);
-
-        game.getBoard().updateBoardAt(8, 5, right);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(0, 5, left);
-
+        game.getBoard().replaceSquare(right);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(left);
         assertFalse(game.isLegalMove(from, right));
         assertFalse(game.isLegalMove(from, left));
     }
@@ -1018,13 +993,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(4, 0, null);
         Square lowerLeft = new Square(2, 0, null);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1038,13 +1011,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(5, 1, null);
         Square lowerLeft = new Square(1, 1, null);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1058,13 +1029,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(4, 0, blackPawn);
         Square lowerLeft = new Square(2, 0, blackPawn);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1078,13 +1047,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(5, 1, blackPawn);
         Square lowerLeft = new Square(1, 1, blackPawn);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1098,13 +1065,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(4, 0, whitePawn);
         Square lowerLeft = new Square(2, 0, whitePawn);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -1118,13 +1083,11 @@ public class GameTest {
         Square from = new Square(3,2, princess);
         Square lowerRight = new Square(5, 1, whitePawn);
         Square lowerLeft = new Square(1, 1, whitePawn);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -1140,12 +1103,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(4, 0, null);
         Square lowerLeft = new Square(2, 0, null);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
 
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
@@ -1160,13 +1122,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(5, 1, null);
         Square lowerLeft = new Square(1, 1, null);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1180,13 +1140,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(6, 0, null);
         Square lowerLeft = new Square(0, 0, null);
-
-        game.getBoard().updateBoardAt(9, 7, upperRight);
-        game.getBoard().updateBoardAt(2, 7, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(6, 0, lowerRight);
-        game.getBoard().updateBoardAt(0,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -1200,13 +1158,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(4, 0, blackPawn);
         Square lowerLeft = new Square(2, 0, blackPawn);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1220,13 +1176,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(5, 1, blackPawn);
         Square lowerLeft = new Square(1, 1, blackPawn);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
@@ -1240,13 +1194,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(4, 0, whitePawn);
         Square lowerLeft = new Square(2, 0, whitePawn);
-
-        game.getBoard().updateBoardAt(4, 4, upperRight);
-        game.getBoard().updateBoardAt(2, 4, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(4, 0, lowerRight);
-        game.getBoard().updateBoardAt(2,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -1260,13 +1212,11 @@ public class GameTest {
         Square from = new Square(3,2, dragon);
         Square lowerRight = new Square(5, 1, whitePawn);
         Square lowerLeft = new Square(1, 1, whitePawn);
-
-        game.getBoard().updateBoardAt(5, 3, upperRight);
-        game.getBoard().updateBoardAt(1, 3, upperLeft);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(5, 1, lowerRight);
-        game.getBoard().updateBoardAt(1,1,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerLeft);
         assertFalse(game.isLegalMove(from, upperRight));
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
@@ -1278,11 +1228,9 @@ public class GameTest {
         Square upperRight = new Square(8, 7, null);
         Square from = new Square(3,2, dragon);
         Square lowerLeft = new Square(1, 0, null);
-
-        game.getBoard().updateBoardAt(8, 7, upperRight);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(1,0,lowerLeft);
-
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, upperRight));
         assertTrue(game.isLegalMove(from, lowerLeft));
     }
@@ -1292,11 +1240,9 @@ public class GameTest {
         Square upperLeft = new Square(3, 7, null);
         Square from = new Square(5,5, dragon);
         Square lowerRight = new Square(8, 2, null);
-
-        game.getBoard().updateBoardAt(3, 7, upperLeft);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(8,2,lowerRight);
-
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
         assertTrue(game.isLegalMove(from, upperLeft));
         assertTrue(game.isLegalMove(from, lowerRight));
     }
@@ -1308,13 +1254,11 @@ public class GameTest {
         Square from = new Square(5, 5, dragon);
         Square upperRightBlock = new Square(6, 6, blackPawn);
         Square upperRight = new Square(7, 7, blackPawn);
-
-        game.getBoard().updateBoardAt(0, 0, lowerLeft);
-        game.getBoard().updateBoardAt(1, 1, lowerLeftBlock);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(6, 6, upperRightBlock);
-        game.getBoard().updateBoardAt(7, 7, upperRight);
-
+        game.getBoard().replaceSquare(lowerLeft);
+        game.getBoard().replaceSquare(lowerLeftBlock);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperRightBlock);
+        game.getBoard().replaceSquare(upperRight);
         assertFalse(game.isLegalMove(from, lowerLeft));
         assertFalse(game.isLegalMove(from, upperRight));
     }
@@ -1326,13 +1270,11 @@ public class GameTest {
         Square from = new Square(5, 5, dragon);
         Square upperLeftBlock = new Square(4, 6, blackPawn);
         Square upperLeft = new Square(3, 7, blackPawn);
-
-        game.getBoard().updateBoardAt(8, 2, lowerRight);
-        game.getBoard().updateBoardAt(7, 3, lowerRightBlock);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(4, 6, upperLeftBlock);
-        game.getBoard().updateBoardAt(3, 7, upperLeft);
-
+        game.getBoard().replaceSquare(lowerRight);
+        game.getBoard().replaceSquare(lowerRightBlock);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeftBlock);
+        game.getBoard().replaceSquare(upperLeft);
         assertFalse(game.isLegalMove(from, lowerRight));
         assertFalse(game.isLegalMove(from, upperLeft));
     }
@@ -1342,11 +1284,9 @@ public class GameTest {
         Square top = new Square(8,7, whitePawn);
         Square from = new Square(3,2, dragon);
         Square down = new Square(1, 0, whitePawn);
-
-        game.getBoard().updateBoardAt(8, 7, top);
-        game.getBoard().updateBoardAt(3, 2, from);
-        game.getBoard().updateBoardAt(1, 0, down);
-
+        game.getBoard().replaceSquare(top);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(down);
         assertFalse(game.isLegalMove(from, top));
         assertFalse(game.isLegalMove(from, down));
     }
@@ -1356,11 +1296,9 @@ public class GameTest {
         Square upperLeft = new Square(3, 7, whitePawn);
         Square from = new Square(5,5, dragon);
         Square lowerRight = new Square(8, 2, whitePawn);
-
-        game.getBoard().updateBoardAt(3, 7, upperLeft);
-        game.getBoard().updateBoardAt(5, 5, from);
-        game.getBoard().updateBoardAt(8,2,lowerRight);
-
+        game.getBoard().replaceSquare(upperLeft);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(lowerRight);
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
     }

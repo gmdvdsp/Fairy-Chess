@@ -1,24 +1,49 @@
 package model;
 
 import static java.lang.Math.abs;
+import static model.Board.MAX_Y_COORDINATE;
 
 // Represents a chess game that has a board and knows how pieces move.
 public class Game {
 
     Board board;
+    String currentTurn;
     boolean endGame;
 
     public Game() {
         board = new Board();
+        currentTurn = "white";
         endGame = false;
     }
 
-    // METHODS:
+    public void flipCurrentTurn() {
+        if (currentTurn.equals("white")) {
+            currentTurn = "black";
+        } else {
+            currentTurn = "white";
+        }
+    }
 
-    public boolean controlsSquare(Square from, String colour) {
+    public void processMove(Square from, Square to) {
+        if (isLegalMove(from, to)) {
+            makeMove(from, to);
+        }
+    }
+
+    public void makeMove(Square from, Square to) {
+        Square newFrom = new Square(from.getX(), from.getY(), null);
+        Square newTo = new Square(to.getX(), to.getY(), from.getPieceOnSquare());
+        board.replaceSquare(newFrom);
+        board.replaceSquare(newTo);
+        flipCurrentTurn();
+    }
+
+    // Methods:
+    // ===================================================
+    public boolean controlsSquare(Square from) {
         if (from.getIsEmpty()) {
             return false;
-        } else if (from.getColourOfPieceOnSquare().equals(colour)) {
+        } else if (from.getColourOfPieceOnSquare().equals(currentTurn)) {
             return true;
         } else {
             return false;
@@ -31,13 +56,6 @@ public class Game {
     // Checks checks if move is legal traversal or legal capture.
     public boolean isLegalMove(Square from, Square to) {
         return (isLegalCapture(from, to) || isLegalTraversal(from, to));
-    }
-
-    public void makeMove(Square from, Square to) {
-        to.setPiece(from.getPieceOnSquare());
-        from.setPiece(null);
-        board.replaceSquare(from);
-        board.replaceSquare(to);
     }
 
     // CONFORMS WITH DIRECTIONS?
@@ -81,16 +99,16 @@ public class Game {
     }
 
     private boolean isLegalSingleWhitePawnMove(Square from, Square to) {
-        if (from.getY() == SECOND_RANK && to.getY() == 3) {
-            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
+        if (from.getY() == 1 && to.getY() == 3) {
+            return (board.isCardinalDirectionEmpty(from, to));
         } else {
             return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == 1);
         }
     }
 
     private boolean isLegalSingleBlackPawnMove(Square from, Square to) {
-        if (from.getY() == SEVENTH_RANK && to.getY() == 4) {
-            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
+        if (from.getY() == MAX_Y_COORDINATE - 1 && to.getY() == MAX_Y_COORDINATE - 3) {
+            return (board.isCardinalDirectionEmpty(from, to));
         } else {
             return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == -1);
         }
@@ -109,7 +127,7 @@ public class Game {
     // ========================================================
     private boolean isLegalRookMove(Square from, Square to) {
         if (board.isOnSameFile(from, to) || board.isOnSameRank(from, to)) {
-            return (board.isCardinalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
+            return (board.isCardinalDirectionEmpty(from, to));
         } else {
             return false;
         }
@@ -119,7 +137,7 @@ public class Game {
     // ========================================================
     private boolean isLegalBishopMove(Square from, Square to) {
         if (board.isOnSameDiagonal(from, to)) {
-            return (board.isDiagonalDirectionEmpty(from, to, board.getDistanceBetween(from, to)));
+            return (board.isDiagonalDirectionEmpty(from, to));
         } else {
             return false;
         }
@@ -182,6 +200,10 @@ public class Game {
 
     public Board getBoard() {
         return board;
+    }
+
+    public String getCurrentTurn() {
+        return currentTurn;
     }
 
     public boolean getEndGame() {

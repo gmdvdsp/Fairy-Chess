@@ -1,5 +1,6 @@
 package ui;
 
+import model.Game;
 import model.Players;
 import model.Square;
 
@@ -22,7 +23,7 @@ public class ChessApp {
     String command;
 
     public ChessApp() {
-        players = new Players();
+        players = new Players("white");
         input = new Scanner(System.in);
         runChessApp();
     }
@@ -50,49 +51,60 @@ public class ChessApp {
     private void processProposedFrom() {
         System.out.println(players.getGame().getBoard().printBoard());
         do {
-            System.out.println(players.getPlayerColour() + "'s turn. Select a piece on a square you want to move: eg: 3,3");
+            System.out.println(players.getGame().getCurrentTurn() + "'s turn. Select a piece on a square you want to move: eg: 3,3");
             command = input.next();
             command = command.toLowerCase();
             proposedX = getNumericValue(command.charAt(0));
             proposedY = getNumericValue(command.charAt(2));
-        } while (!isValidInput() && !processValidSquare());
+        } while (!isValidInput());
         proposedX = getNumericValue(command.charAt(0));
         proposedY = getNumericValue(command.charAt(2));
-        proposedFrom = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
-        processProposedTo();
+        processFromSquare();
     }
 
     private void processProposedTo() {
         do {
-            System.out.println(players.getPlayerColour() + "'s turn. Select a square you want to move to: eg: 3,3");
+            System.out.println(players.getGame().getCurrentTurn() + "'s turn. Select a square you want to move to: eg: 3,3");
             command = input.next();
             command = command.toLowerCase();
-            proposedX = getNumericValue(command.charAt(0));
+            proposedX = getNumericValue((command.charAt(0)));
             proposedY = getNumericValue(command.charAt(2));
-        } while (!isValidInput() && !processValidSquare());
+        } while (!isValidInput());
         proposedX = getNumericValue(command.charAt(0));
         proposedY = getNumericValue(command.charAt(2));
-        proposedTo = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
-        processLegality();
+        processToSquare();
     }
 
-    private boolean processValidSquare() {
-        return (players.proposeSquare(new Square(proposedX, proposedY, null)));
+    private void processFromSquare() {
+        proposedFrom = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
+        if (players.proposeFromSquare(proposedFrom)) {
+            processProposedTo();
+        } else {
+            processProposedFrom();
+        }
+    }
+
+    private void processToSquare() {
+        proposedTo = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
+        if (players.proposeToSquare(proposedTo)) {
+            processLegality();
+        } else {
+            processProposedTo();
+        }
     }
 
     private void processLegality() {
-        if (players.proposeMove(proposedFrom, proposedTo)) {
-            System.out.println("Move made." + players.getPlayerColour() + "'s turn.");
-        } else {
-            System.out.println("Invalid move. Try again.");
-        }
+        players.proposeMove(proposedFrom, proposedTo);
         processProposedFrom();
     }
 
+    // check at once
     private boolean isValidInput() {
         String substring = ",";
-        boolean charAt1 = command.substring(1,2).equals(substring);
-        return ((command.length() == 3) && isDigit(proposedX) && charAt1 && isDigit(proposedY));
+        boolean s = command.substring(1,2).equals(substring);
+        boolean isDigit1 = proposedX >= 0 && proposedX <= 9;
+        boolean isDigit2 = proposedY >= 0 && proposedY <= 9;
+        return ((command.length() == 3) && isDigit1 && s && isDigit2);
     }
 
 }
