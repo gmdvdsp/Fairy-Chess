@@ -27,7 +27,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void testProposedMoveFalseOffBoard() {
+    public void testProposedMoveFalseFromOffBoard() {
         Square proposedFrom = new Square(0, -7, new Pawn("white"));
         Square proposedTo = new Square(1, 1, null);
         players.getGame().getBoard().defaultBoard();
@@ -35,7 +35,23 @@ public class PlayersTest {
     }
 
     @Test
-    public void testProposedMoveFalseOffNotControlledSquare() {
+    public void testProposedMoveFalseToOffBoard() {
+        Square proposedFrom = new Square(0, 1, new Pawn("white"));
+        Square proposedTo = new Square(-9, -9, null);
+        players.getGame().getBoard().defaultBoard();
+        assertFalse(players.proposeMove(proposedFrom, proposedTo));
+    }
+
+    @Test
+    public void testProposedMoveFalseFromAndToOffBoard() {
+        Square proposedFrom = new Square(-9, -9, new Pawn("white"));
+        Square proposedTo = new Square(-9, -9, null);
+        players.getGame().getBoard().defaultBoard();
+        assertFalse(players.proposeMove(proposedFrom, proposedTo));
+    }
+
+    @Test
+    public void testProposedMoveFalseFromOffNotControlledSquare() {
         players.getGame().getBoard().defaultBoard();
         Square proposedFrom = players.getGame().getBoard().getSquareAt(0, 6);
         Square proposedTo = players.getGame().getBoard().getSquareAt(0, 4);
@@ -43,7 +59,7 @@ public class PlayersTest {
     }
 
     @Test
-    public void testProposedMoveFalseOffOffBoardAndNotControlled() {
+    public void testProposedMoveFalseFromOffOffBoardAndNotControlled() {
         Square proposedFrom = new Square(-7, -7, null);
         Square proposedTo = new Square(5, 5, null);
         players.getGame().getBoard().defaultBoard();
