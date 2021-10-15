@@ -244,6 +244,8 @@ public class Game {
 
     // Non-simple getters:
     // =========================
+    // EFFECTS: Returns all captured pieces in capturedPieces as " cP, ", where c is the first letter of the colour
+    // and P is the first letter of the piece. Returns an empty string if no pieces have been captured.
     public String parseCapturedPieces() {
         StringBuilder capturedList = new StringBuilder();
         for (BasePiece piece : capturedPieces) {
