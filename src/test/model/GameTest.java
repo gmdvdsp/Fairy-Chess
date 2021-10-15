@@ -1,20 +1,18 @@
 package model;
 
-import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static model.Board.MAX_X_COORDINATE;
-import static model.Board.MAX_Y_COORDINATE;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 
 public class GameTest {
     // Colours:
     String arbitraryColour = "white";
-
-    // Squares:
-    Square to = new Square(0, 0, null);
-    Square from = new Square(0, 0, null);
 
     // Pieces:
     Pawn whitePawn = new Pawn("white");
@@ -28,6 +26,7 @@ public class GameTest {
     Dragon dragon = new Dragon(arbitraryColour);
 
     Game game = new Game();
+    Board board = new Board(9, 7);
 
     @BeforeEach
     public void runBefore() {
@@ -35,13 +34,67 @@ public class GameTest {
 
     @Test
     public void testGame() {
-        game = new Game();
+        assertEquals(game.getBoard(), game.board);
+        assertEquals("white", game.getCurrentTurn());
+        assertEquals(game.getCapturedPieces(), Collections.emptyList());
+    }
+
+    // Tests:
+    // ==================================================
+    @Test
+    public void testProcessMoveEmpty() {
+        Square from = new Square(0,0, king);
+        Square to = new Square(1,0, null);
+        game.processMove(from, to);
+        assertEquals(game.getCapturedPieces(), Collections.emptyList());
+        assertTrue(game.getBoard().getSquareAt(0,0).getIsEmpty());
+        assertEquals(game.getBoard().getSquareAt(1,0).getPieceOnSquare(), king);
+        assertEquals(game.getCurrentTurn(), "black");
+        assertFalse(game.getEndGame());
     }
 
     @Test
-    public void testGetSquareList() {
-        game = new Game();
-        game.getBoard();
+    public void testProcessMoveCapture() {
+        List<BasePiece> comparisonList = new ArrayList<>();
+        comparisonList.add(blackPawn);
+        Square from = new Square(0,0, king);
+        Square to = new Square(1,0, blackPawn);
+        game.processMove(from, to);
+        assertEquals(game.getCapturedPieces(), comparisonList);
+        assertTrue(game.getBoard().getSquareAt(0,0).getIsEmpty());
+        assertEquals(game.getBoard().getSquareAt(1,0).getPieceOnSquare(), king);
+        assertEquals(game.getCurrentTurn(), "black");
+        assertFalse(game.getEndGame());
+    }
+
+    @Test
+    public void testProcessMoveCaptureEndGame() {
+        Square from = new Square(5,5, blackPawn);
+        Square to = new Square(4,4, king);
+        game.processMove(from, to);
+        assertEquals(game.getCapturedPieces(), Collections.emptyList());
+        assertTrue(game.getBoard().getSquareAt(5,5).getIsEmpty());
+        assertEquals(game.getBoard().getSquareAt(4,4).getPieceOnSquare(), blackPawn);
+        assertEquals(game.getCurrentTurn(), "black");
+        assertTrue(game.getEndGame());
+    }
+
+    @Test
+    public void testControlsSquareTrue() {
+        Square from = new Square(0, 0, whitePawn);
+        assertTrue(game.controlsSquare(from));
+    }
+
+    @Test
+    public void testControlsSquareFalseWrongColour() {
+        Square from = new Square(0, 0, blackPawn);
+        assertFalse(game.controlsSquare(from));
+    }
+
+    @Test
+    public void testControlsSquareFalseEmpty() {
+        Square from = new Square(0, 0, null);
+        assertFalse(game.controlsSquare(from));
     }
 
     // PAWN (white):
@@ -57,8 +110,8 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveWhitePawnWrongWay() {
-        Square from = new Square(0, MAX_Y_COORDINATE, whitePawn);
-        Square to = new Square(0, MAX_Y_COORDINATE - 1,null);
+        Square from = new Square(0, game.getBoard().getYmax(), whitePawn);
+        Square to = new Square(0, game.getBoard().getYmax() - 1,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(to);
         assertFalse(game.isLegalMove(from, to));
@@ -136,8 +189,8 @@ public class GameTest {
     // ================================================================================================================
     @Test
     public void testIsLegalMoveBlackPawnOneMove() {
-        Square from = new Square(0, MAX_Y_COORDINATE - 1, blackPawn);
-        Square to = new Square(0,MAX_Y_COORDINATE - 2,null);
+        Square from = new Square(0, game.getBoard().getYmax() - 1, blackPawn);
+        Square to = new Square(0,game.getBoard().getYmax() - 2,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(to);
         assertTrue(game.isLegalMove(from, to));
@@ -178,9 +231,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveBlackPawnFirstMoveTwoMove() {
-        Square from = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE - 1, blackPawn);
-        Square between = new Square(MAX_X_COORDINATE,MAX_Y_COORDINATE - 2,null);
-        Square to = new Square(MAX_X_COORDINATE,MAX_Y_COORDINATE - 3,null);
+        Square from = new Square(game.getBoard().getXmax(), game.getBoard().getYmax() - 1, blackPawn);
+        Square between = new Square(game.getBoard().getXmax(),game.getBoard().getYmax() - 2,null);
+        Square to = new Square(game.getBoard().getXmax(),game.getBoard().getYmax() - 3,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(between);
         game.getBoard().replaceSquare(to);
@@ -189,9 +242,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveBlackPawnFirstMoveTwoMoveBlocked() {
-        Square from = new Square(7, MAX_Y_COORDINATE - 1, blackPawn);
-        Square between = new Square(7,MAX_Y_COORDINATE - 2,whitePawn);
-        Square to = new Square(7,MAX_Y_COORDINATE - 3,null);
+        Square from = new Square(7, game.getBoard().getYmax() - 1, blackPawn);
+        Square between = new Square(7,game.getBoard().getYmax() - 2,whitePawn);
+        Square to = new Square(7,game.getBoard().getYmax() - 3,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(between);
         game.getBoard().replaceSquare(to);
@@ -200,9 +253,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveBlackPawnNotFirstMoveTwoMove() {
-        Square from = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE - 3, blackPawn);
-        Square between = new Square(MAX_X_COORDINATE,MAX_Y_COORDINATE - 4,null);
-        Square to = new Square(MAX_X_COORDINATE,MAX_Y_COORDINATE - 5,null);
+        Square from = new Square(game.getBoard().getXmax(), game.getBoard().getYmax() - 3, blackPawn);
+        Square between = new Square(game.getBoard().getXmax(),game.getBoard().getYmax() - 4,null);
+        Square to = new Square(game.getBoard().getXmax(),game.getBoard().getYmax() - 5,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(between);
         game.getBoard().replaceSquare(to);
@@ -211,8 +264,8 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveBlackPawnMoveIntoAlliedPiece() {
-        Square from = new Square(0, MAX_Y_COORDINATE - 3, blackPawn);
-        Square to = new Square(0,MAX_Y_COORDINATE - 4, blackPawn);
+        Square from = new Square(0, game.getBoard().getYmax() - 3, blackPawn);
+        Square to = new Square(0,game.getBoard().getYmax() - 4, blackPawn);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(to);
         assertFalse(game.isLegalMove(from, to));
@@ -234,9 +287,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveKingLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE,0, null);
-        Square from = new Square(MAX_X_COORDINATE - 1, 0, king);
-        Square oppositeTo = new Square(MAX_X_COORDINATE - 2, 0, null);
+        Square to = new Square(game.getBoard().getXmax(),0, null);
+        Square from = new Square(game.getBoard().getXmax() - 1, 0, king);
+        Square oppositeTo = new Square(game.getBoard().getXmax() - 2, 0, null);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -276,9 +329,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveKingCaptureLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE - 3,0, blackPawn);
-        Square from = new Square(MAX_X_COORDINATE - 4, 0, king);
-        Square oppositeTo = new Square(MAX_X_COORDINATE - 5, 0, blackPawn);
+        Square to = new Square(game.getBoard().getXmax() - 3,0, blackPawn);
+        Square from = new Square(game.getBoard().getXmax() - 4, 0, king);
+        Square oppositeTo = new Square(game.getBoard().getXmax() - 5, 0, blackPawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -318,9 +371,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveKingLeftRightMoveIntoAlliedPiece() {
-        Square to = new Square(MAX_X_COORDINATE - 6,0, whitePawn);
-        Square from = new Square(MAX_X_COORDINATE - 5, 0, king);
-        Square oppositeTo = new Square(MAX_X_COORDINATE - 4, 0, whitePawn);
+        Square to = new Square(game.getBoard().getXmax() - 6,0, whitePawn);
+        Square from = new Square(game.getBoard().getXmax() - 5, 0, king);
+        Square oppositeTo = new Square(game.getBoard().getXmax() - 4, 0, whitePawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -350,7 +403,7 @@ public class GameTest {
     // ================================================================================================================
     @Test
     public void testIsLegalMoveRookUpDown() {
-        Square to = new Square(0,MAX_Y_COORDINATE, null);
+        Square to = new Square(0,game.getBoard().getYmax(), null);
         Square from = new Square(0,5, rook);
         Square oppositeTo = new Square(0, 0, null);
         game.getBoard().replaceSquare(to);
@@ -362,9 +415,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE, null);
-        Square from = new Square(MAX_X_COORDINATE / 2, MAX_Y_COORDINATE, rook);
-        Square oppositeTo = new Square(0, MAX_Y_COORDINATE, null);
+        Square to = new Square(game.getBoard().getXmax(), game.getBoard().getYmax(), null);
+        Square from = new Square(game.getBoard().getXmax() / 2, game.getBoard().getYmax(), rook);
+        Square oppositeTo = new Square(0, game.getBoard().getYmax(), null);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -374,7 +427,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookIllegal() {
-        Square to = new Square(5,MAX_Y_COORDINATE - 1, null);
+        Square to = new Square(5,game.getBoard().getYmax() - 1, null);
         Square from = new Square(0,5, rook);
         Square oppositeTo = new Square(7, 7, null);
         game.getBoard().replaceSquare(to);
@@ -402,10 +455,10 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookIllegalLeftRightBlocked() {
-        Square to = new Square(MAX_X_COORDINATE ,4, whitePawn);
-        Square blockedTo = new Square(MAX_X_COORDINATE - 1, 4, whitePawn);
-        Square from = new Square(MAX_X_COORDINATE - 3,4, rook);
-        Square blockedOppositeTo = new Square(MAX_X_COORDINATE - 5, 4, whitePawn);
+        Square to = new Square(game.getBoard().getXmax() ,4, whitePawn);
+        Square blockedTo = new Square(game.getBoard().getXmax() - 1, 4, whitePawn);
+        Square from = new Square(game.getBoard().getXmax() - 3,4, rook);
+        Square blockedOppositeTo = new Square(game.getBoard().getXmax() - 5, 4, whitePawn);
         Square oppositeTo = new Square(0, 4, whitePawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(blockedTo);
@@ -418,7 +471,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookCaptureUpDown() {
-        Square to = new Square(3,MAX_Y_COORDINATE, blackPawn);
+        Square to = new Square(3,game.getBoard().getYmax(), blackPawn);
         Square from = new Square(3,5, rook);
         Square oppositeTo = new Square(3, 0, blackPawn);
         game.getBoard().replaceSquare(to);
@@ -430,9 +483,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookCaptureLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE, blackPawn);
-        Square from = new Square(MAX_X_COORDINATE / 2, MAX_Y_COORDINATE, rook);
-        Square oppositeTo = new Square(0, MAX_Y_COORDINATE, blackPawn);
+        Square to = new Square(game.getBoard().getXmax(), game.getBoard().getYmax(), blackPawn);
+        Square from = new Square(game.getBoard().getXmax() / 2, game.getBoard().getYmax(), rook);
+        Square oppositeTo = new Square(0, game.getBoard().getYmax(), blackPawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -442,7 +495,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookUpDownMoveIntoAlliedPiece() {
-        Square to = new Square(7,MAX_Y_COORDINATE, rook);
+        Square to = new Square(7,game.getBoard().getYmax(), rook);
         Square from = new Square(7,5, rook);
         Square oppositeTo = new Square(7, 0, rook);
         game.getBoard().replaceSquare(to);
@@ -454,9 +507,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveRookLeftRightMoveIntoAlliedPiece() {
-        Square to = new Square(MAX_X_COORDINATE / 2 + 1, MAX_Y_COORDINATE, rook);
-        Square from = new Square(MAX_X_COORDINATE / 2, MAX_Y_COORDINATE, rook);
-        Square oppositeTo = new Square(0, MAX_Y_COORDINATE / 2 - 1, rook);
+        Square to = new Square(game.getBoard().getXmax() / 2 + 1, game.getBoard().getYmax(), rook);
+        Square from = new Square(game.getBoard().getXmax() / 2, game.getBoard().getYmax(), rook);
+        Square oppositeTo = new Square(0, game.getBoard().getYmax() / 2 - 1, rook);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -492,7 +545,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveBishopIllegal() {
-        Square to = new Square(0, MAX_Y_COORDINATE, null);
+        Square to = new Square(0, game.getBoard().getYmax(), null);
         Square from = new Square(5,5, bishop);
         Square oppositeTo = new Square(0, 5, null);
         game.getBoard().replaceSquare(to);
@@ -702,9 +755,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenBishopUpperLeftLowerRight() {
-        Square upperLeft = new Square(MAX_X_COORDINATE - 2, 2, null);
-        Square from = new Square(MAX_X_COORDINATE - 1,1, bishop);
-        Square lowerRight = new Square(MAX_X_COORDINATE, 0, null);
+        Square upperLeft = new Square(game.getBoard().getXmax() - 2, 2, null);
+        Square from = new Square(game.getBoard().getXmax() - 1,1, bishop);
+        Square lowerRight = new Square(game.getBoard().getXmax(), 0, null);
         game.getBoard().replaceSquare(upperLeft);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(lowerRight);
@@ -715,8 +768,8 @@ public class GameTest {
     @Test
     public void testIsLegalMoveQueenIllegal() {
         Square upperLeft = new Square(0, 2, null);
-        Square from = new Square(MAX_X_COORDINATE - 1,1, bishop);
-        Square upperRight = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE, null);
+        Square from = new Square(game.getBoard().getXmax() - 1,1, bishop);
+        Square upperRight = new Square(game.getBoard().getXmax(), game.getBoard().getYmax(), null);
         game.getBoard().replaceSquare(upperLeft);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(upperRight);
@@ -782,7 +835,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookUpDown() {
-        Square to = new Square(8,MAX_Y_COORDINATE - 3, null);
+        Square to = new Square(8,game.getBoard().getYmax() - 3, null);
         Square from = new Square(8,5, queen);
         Square oppositeTo = new Square(8, 1, null);
         game.getBoard().replaceSquare(to);
@@ -794,9 +847,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE, MAX_Y_COORDINATE, null);
-        Square from = new Square(MAX_X_COORDINATE / 2 + 1, MAX_Y_COORDINATE, queen);
-        Square oppositeTo = new Square(0, MAX_Y_COORDINATE, null);
+        Square to = new Square(game.getBoard().getXmax(), game.getBoard().getYmax(), null);
+        Square from = new Square(game.getBoard().getXmax() / 2 + 1, game.getBoard().getYmax(), queen);
+        Square oppositeTo = new Square(0, game.getBoard().getYmax(), null);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -822,10 +875,10 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookLeftRightBlocked() {
-        Square to = new Square(MAX_X_COORDINATE ,4, whitePawn);
-        Square blockedTo = new Square(MAX_X_COORDINATE - 2, 4, whitePawn);
-        Square from = new Square(MAX_X_COORDINATE - 4,4, queen);
-        Square blockedOppositeTo = new Square(MAX_X_COORDINATE - 5, 4, whitePawn);
+        Square to = new Square(game.getBoard().getXmax() ,4, whitePawn);
+        Square blockedTo = new Square(game.getBoard().getXmax() - 2, 4, whitePawn);
+        Square from = new Square(game.getBoard().getXmax() - 4,4, queen);
+        Square blockedOppositeTo = new Square(game.getBoard().getXmax() - 5, 4, whitePawn);
         Square oppositeTo = new Square(0, 4, whitePawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(blockedTo);
@@ -838,9 +891,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookCaptureUpDown() {
-        Square to = new Square(MAX_X_COORDINATE,7, blackPawn);
-        Square from = new Square(MAX_X_COORDINATE,5, queen);
-        Square oppositeTo = new Square(MAX_X_COORDINATE, 4, blackPawn);
+        Square to = new Square(game.getBoard().getXmax(),7, blackPawn);
+        Square from = new Square(game.getBoard().getXmax(),5, queen);
+        Square oppositeTo = new Square(game.getBoard().getXmax(), 4, blackPawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -850,9 +903,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookCaptureLeftRight() {
-        Square to = new Square(MAX_X_COORDINATE - 1, MAX_Y_COORDINATE, blackPawn);
-        Square from = new Square(MAX_X_COORDINATE / 2 + 2, MAX_Y_COORDINATE, rook);
-        Square oppositeTo = new Square(1, MAX_Y_COORDINATE, blackPawn);
+        Square to = new Square(game.getBoard().getXmax() - 1, game.getBoard().getYmax(), blackPawn);
+        Square from = new Square(game.getBoard().getXmax() / 2 + 2, game.getBoard().getYmax(), rook);
+        Square oppositeTo = new Square(1, game.getBoard().getYmax(), blackPawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -862,7 +915,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookUpDownMoveIntoAlliedPiece() {
-        Square to = new Square(6,MAX_Y_COORDINATE, rook);
+        Square to = new Square(6,game.getBoard().getYmax(), rook);
         Square from = new Square(6,5, queen);
         Square oppositeTo = new Square(6, 0, rook);
         game.getBoard().replaceSquare(to);
@@ -874,9 +927,9 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveQueenRookLeftRightMoveIntoAlliedPiece() {
-        Square to = new Square(MAX_X_COORDINATE / 2, MAX_Y_COORDINATE, rook);
-        Square from = new Square(MAX_X_COORDINATE / 2 - 3, MAX_Y_COORDINATE, queen);
-        Square oppositeTo = new Square(2, MAX_Y_COORDINATE / 2 - 1, rook);
+        Square to = new Square(game.getBoard().getXmax() / 2, game.getBoard().getYmax(), rook);
+        Square from = new Square(game.getBoard().getXmax() / 2 - 3, game.getBoard().getYmax(), queen);
+        Square oppositeTo = new Square(2, game.getBoard().getYmax() / 2 - 1, rook);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(oppositeTo);
@@ -912,28 +965,28 @@ public class GameTest {
 
     @Test
     public void testIsLegalMovePrincessIllegalUpDownBlocked() {
-        Square oppositeTo = new Square(5, 0, blackPawn);
-        Square blockedOppositeTo = new Square(5, 3, blackPawn);
-        Square blockedTo = new Square(5, 6, blackPawn);
+        Square to = new Square(game.getBoard().getXmax() - 1, game.getBoard().getYmax(), blackPawn);
+        Square from = new Square(game.getBoard().getXmax() / 2 + 2, game.getBoard().getYmax(), princess);
+        Square oppositeTo = new Square(1, game.getBoard().getYmax(), blackPawn);
         game.getBoard().replaceSquare(to);
-        game.getBoard().replaceSquare(blockedTo);
         game.getBoard().replaceSquare(from);
-        game.getBoard().replaceSquare(blockedOppositeTo);
         game.getBoard().replaceSquare(oppositeTo);
-        assertFalse(game.isLegalMove(from, to));
-        assertFalse(game.isLegalMove(from, oppositeTo));
+        assertTrue(game.isLegalMove(from, to));
+        assertTrue(game.isLegalMove(from, oppositeTo));
     }
 
     @Test
     public void testIsLegalMovePrincessIllegalLeftRightBlocked() {
-        Square oppositeTo = new Square(0, 5, blackPawn);
-        Square blockedOppositeTo = new Square(3, 5, blackPawn);
-        Square blockedTo = new Square(7, 5, blackPawn);
+        Square to = new Square(game.getBoard().getXmax() ,4, whitePawn);
+        Square blockedTo = new Square(game.getBoard().getXmax() - 2, 4, whitePawn);
+        Square from = new Square(game.getBoard().getXmax() - 4,4, princess);
+        Square blockedOppositeTo = new Square(game.getBoard().getXmax() - 5, 4, whitePawn);
+        Square oppositeTo = new Square(0, 4, whitePawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(blockedTo);
         game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(blockedOppositeTo);
-        game.getBoard().replaceSquare(oppositeTo);
         assertFalse(game.isLegalMove(from, to));
         assertFalse(game.isLegalMove(from, oppositeTo));
     }
@@ -1301,6 +1354,36 @@ public class GameTest {
         game.getBoard().replaceSquare(lowerRight);
         assertFalse(game.isLegalMove(from, upperLeft));
         assertFalse(game.isLegalMove(from, lowerRight));
+    }
+
+    @Test
+    public void testParseCapturedListEmpty() {
+        assertEquals(game.parseCapturedPieces(), "");
+    }
+
+    @Test
+    public void testParseCapturedList() {
+        game.capturedPieces.add(whitePawn);
+        assertEquals(game.parseCapturedPieces(), "wP, ");
+    }
+
+    @Test
+    public void testGetBoard() {
+        assertEquals(game.getBoard(), game.board);
+    }
+
+    @Test
+    public void testGetCurrentTurn() {
+        assertEquals(game.getCurrentTurn(), "white");
+        game.flipTurn();
+        assertEquals("black", game.getCurrentTurn());
+    }
+
+    @Test
+    public void testGetEndGame() {
+        assertFalse(game.getEndGame());
+        game.setEndGame(true);
+        assertTrue(game.getEndGame());
     }
 }
 

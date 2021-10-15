@@ -1,22 +1,68 @@
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static java.lang.Math.abs;
-import static model.Board.MAX_Y_COORDINATE;
 
-// Represents a chess game that has a board and knows how pieces move.
+// Represents a chess game that has a board, the current turn, a list of captured pieces, and whether the game is over.
 public class Game {
-
     Board board;
     String currentTurn;
+    List<BasePiece> capturedPieces;
     boolean endGame;
 
+    // Makes a new game that has a board with the default size (9, 7), white to play, an empty list of captured pieces.
     public Game() {
-        board = new Board();
+        board = new Board(9, 7);
         currentTurn = "white";
+        capturedPieces = new ArrayList<>();
         endGame = false;
     }
 
-    public void flipCurrentTurn() {
+    // Methods:
+    // ===================================================
+    // Game flow processing:
+    // =========================
+    // REQUIRES: Exactly one square on the board has from.getX() and from.getY(), and exactly one square on the board
+    // has to.getX() and to.getY()
+    // MODIFIES: this
+    // EFFECTS: Processes a capture, clears from of pieces, and moves the piece on from to to.
+    public void processMove(Square from, Square to) {
+        processCaptures(to);
+        Square newFrom = new Square(from.getX(), from.getY(), null);
+        Square newTo = new Square(to.getX(), to.getY(), from.getPieceOnSquare());
+        getBoard().replaceSquare(newFrom);
+        getBoard().replaceSquare(newTo);
+        flipTurn();
+    }
+
+    // (NOTE: Maybe should go inside board.)
+    // EFFECTS: Returns true if a square has a piece who's colour matches currentTurn. Returns false if no such piece
+    // exists, or that piece has the other colour.
+    public boolean controlsSquare(Square from) {
+        if (from.getIsEmpty()) {
+            return false;
+        } else {
+            return (from.getPieceOnSquare().getColour().equals(currentTurn));
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: If a move would go to some square that has some piece, add that piece to a list of captured pieces,
+    // and if that piece was a king, end the game. Else, do nothing.
+    private void processCaptures(Square to) {
+        BasePiece capturedPiece = to.getPieceOnSquare();
+        if (capturedPiece instanceof King) {
+            setEndGame(true);
+        } else if (capturedPiece != null) {
+            capturedPieces.add(capturedPiece);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: After a white move, change the current turn to black, and vice versa.
+    public void flipTurn() {
         if (currentTurn.equals("white")) {
             currentTurn = "black";
         } else {
@@ -24,46 +70,19 @@ public class Game {
         }
     }
 
-    public void processMove(Square from, Square to) {
-        if (isLegalMove(from, to)) {
-            makeMove(from, to);
-        }
-    }
-
-    public void makeMove(Square from, Square to) {
-        Square newFrom = new Square(from.getX(), from.getY(), null);
-        Square newTo = new Square(to.getX(), to.getY(), from.getPieceOnSquare());
-        board.replaceSquare(newFrom);
-        board.replaceSquare(newTo);
-        flipCurrentTurn();
-    }
-
-    // Methods:
-    // ===================================================
-    public boolean controlsSquare(Square from) {
-        if (from.getIsEmpty()) {
-            return false;
-        } else if (from.getColourOfPieceOnSquare().equals(currentTurn)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
-
-    // IS LEGAL?
-    // ================================================================================================================
-    // REQUIRES: fromSquare.getPiece() != null;
+    // Move legality checking:
+    // =========================
     // Checks checks if move is legal traversal or legal capture.
     public boolean isLegalMove(Square from, Square to) {
-        return (isLegalCapture(from, to) || isLegalTraversal(from, to));
+        return (isLegalTraversal(from, to) || isLegalCapture(from, to));
     }
 
-    // CONFORMS WITH DIRECTIONS?
-    // ================================================================================================================
-    // Traversal is moving to an empty square.
+    // Traversal to empty squares checking:
+    // =========================
+    // EFFECTS: Returns true if a piece on from can move to another square, and to is empty. Returns false if no piece
+    // exists on from, or the move does not comply with that piece's movement in chess.
     private boolean isLegalTraversal(Square from, Square to) {
         if (to.getIsEmpty()) {
-            // BasePiece.isLegalTraversal(from, to)
             if (from.getPieceOnSquare() instanceof Pawn) {
                 return (isLegalPawnMove(from, to));
             } else if (from.getPieceOnSquare() instanceof King) {
@@ -88,74 +107,91 @@ public class Game {
         }
     }
 
-    // PAWNS:
-    // ========================================================
+    // Pawns:
+    // ===========
+    // REQUIRES: There is some piece on from.
+    // EFFECTS: Returns true if a piece on from can traverse to some square to legally like a pawn.
     private boolean isLegalPawnMove(Square from, Square to) {
-        if (from.getColourOfPieceOnSquare().equals("white")) {
+        if (from.getPieceOnSquare().getColour().equals("white")) {
             return (isLegalSingleWhitePawnMove(from, to));
         } else {
             return (isLegalSingleBlackPawnMove(from, to));
         }
     }
 
+    // (NOTE: Should refactor to use abs(distance) instead of having two functions for different colours.)
+    // EFFECTS: Returns true if a piece tries to move two empty squares forward on its first turn, or tries
+    // to move one empty square forward. Returns false otherwise.
     private boolean isLegalSingleWhitePawnMove(Square from, Square to) {
+        Square distance = from.getDistanceBetween(to);
         if (from.getY() == 1 && to.getY() == 3) {
             return (board.isCardinalDirectionEmpty(from, to));
         } else {
-            return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == 1);
+            return (distance.getX() == 0 && distance.getY() == 1);
         }
     }
 
+    // EFFECTS: Returns true if a piece tries to move two empty squares down on its first turn, or tries
+    // to move one empty square down. Returns false otherwise.
     private boolean isLegalSingleBlackPawnMove(Square from, Square to) {
-        if (from.getY() == MAX_Y_COORDINATE - 1 && to.getY() == MAX_Y_COORDINATE - 3) {
+        Square distance = from.getDistanceBetween(to);
+        if (from.getY() == board.getYmax() - 1 && to.getY() == board.getYmax() - 3) {
             return (board.isCardinalDirectionEmpty(from, to));
         } else {
-            return (board.getDistanceToX(from, to) == 0 && board.getDistanceToY(from, to) == -1);
+            return (distance.getX() == 0 && distance.getY() == -1);
         }
     }
 
-    // KINGS:
-    // ========================================================
+    // Kings:
+    // ===========
+    // EFFECTS: Returns true if a piece tries to move to empty squares exactly one square away. Returns false otherwise.
     public boolean isLegalKingMove(Square from, Square to) {
-        Square distance = board.getDistanceBetween(from, to);
+        Square distance = from.getDistanceBetween(to);
         return (abs(distance.getX()) == 1 && abs(distance.getY()) == 1
                 || abs(distance.getX()) == 0 && abs(distance.getY()) == 1
                 || abs(distance.getX()) == 1 && abs(distance.getY()) == 0);
     }
 
-    // ROOK:
-    // ========================================================
+    // Rooks:
+    // ===========
+    // EFFECTS: Returns true if a piece tries to move to an unblocked, empty square on either the same file or rank.
+    // Returns false otherwise.
     private boolean isLegalRookMove(Square from, Square to) {
-        if (board.isOnSameFile(from, to) || board.isOnSameRank(from, to)) {
+        if (from.isOnSameFile(to) || from.isOnSameRank(to)) {
             return (board.isCardinalDirectionEmpty(from, to));
         } else {
             return false;
         }
     }
 
-    // BISHOP:
-    // ========================================================
+    // Bishops:
+    // ===========
+    // EFFECTS: Returns true if a piece tries to move to an unblocked, empty square on the same diagonal. Returns false
+    // otherwise.
     private boolean isLegalBishopMove(Square from, Square to) {
-        if (board.isOnSameDiagonal(from, to)) {
+        if (from.isOnSameDiagonal(to)) {
             return (board.isDiagonalDirectionEmpty(from, to));
         } else {
             return false;
         }
     }
 
-    // KNIGHTS:
-    // ========================================================
+    // Knights:
+    // ===========
+    // EFFECTS: Returns true if a piece tries to move exactly two squares in any cardinal direction, and then exactly
+    // one square orthogonally to that movement. Returns false otherwise.
     private boolean isLegalKnightMove(Square from, Square to) {
-        Square distance = board.getDistanceBetween(from, to);
+        Square distance = from.getDistanceBetween(to);
         return (abs(distance.getX()) == 2 && abs(distance.getY()) == 1)
                 || (abs(distance.getX()) == 1 && abs(distance.getY()) == 2);
     }
 
-    // CONFORMS WITH CAPTURES?
-    // ================================================================================================================
-    // Checks if move is a legal capture.
+    // Capture to non-empty squares checking:
+    // =========================
+    // REQUIRES: There is a piece on both from and to.
+    // EFFECTS: Returns true if a piece on from would be able to capture some piece on to.
     private boolean isLegalCapture(Square from, Square to) {
-        if (!to.getIsEmpty() && !from.getColourOfPieceOnSquare().equals(to.getColourOfPieceOnSquare())) {
+        if (!to.getIsEmpty() && !from.getPieceOnSquare().getColour().equals(to.getPieceOnSquare().getColour())) {
             if (from.getPieceOnSquare() instanceof Pawn) {
                 return (isLegalPawnCapture(from, to));
             } else if (from.getPieceOnSquare() instanceof King) {
@@ -180,24 +216,44 @@ public class Game {
         }
     }
 
-    // PAWNS:
-    // ========================================================
+    // Pawns:
+    // ===========
+    // REQUIRES: There is a piece on from.
+    // EFFECTS: Returns true if a piece on from can capture legally as a pawn. Returns false otherwise.
     private boolean isLegalPawnCapture(Square from, Square to) {
-        if (from.getColourOfPieceOnSquare().equals("white")) {
+        if (from.getPieceOnSquare().getColour().equals("white")) {
             return isLegalWhitePawnCapture(from, to);
         } else {
             return isLegalBlackPawnCapture(from, to);
         }
     }
 
+    // EFFECTS: Returns true if to is exactly one square away left or right, and exactly one square up. Returns false
+    // otherwise.
     private boolean isLegalWhitePawnCapture(Square from, Square to) {
-        return (abs(board.getDistanceToX(from, to)) == 1 && board.getDistanceToY(from, to) == 1);
+        Square distance = from.getDistanceBetween(to);
+        return (abs(distance.getX()) == 1 && distance.getY() == 1);
     }
 
+    // EFFECTS: Returns true if to is exactly one square away left or right, and exactly one square down. Returns false
+    // otherwise.
     private boolean isLegalBlackPawnCapture(Square from, Square to) {
-        return (abs(board.getDistanceToX(from, to)) == 1 && board.getDistanceToY(from, to) == -1);
+        Square distance = from.getDistanceBetween(to);
+        return (abs(distance.getX()) == 1 && distance.getY() == -1);
     }
 
+    // Non-simple getters:
+    // =========================
+    public String parseCapturedPieces() {
+        StringBuilder capturedList = new StringBuilder("");
+        for (BasePiece piece : capturedPieces) {
+            capturedList.append(piece.printColourOneCharacter()).append(piece.printPiece()).append(", ");
+        }
+        return capturedList.toString();
+    }
+
+    // Simple getters:
+    // =========================
     public Board getBoard() {
         return board;
     }
@@ -208,5 +264,15 @@ public class Game {
 
     public boolean getEndGame() {
         return endGame;
+    }
+
+    public List<BasePiece> getCapturedPieces() {
+        return capturedPieces;
+    }
+
+    // Simple setters:
+    // =========================
+    public void setEndGame(boolean endGame) {
+        this.endGame = endGame;
     }
 }

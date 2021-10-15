@@ -10,7 +10,7 @@ public abstract class BasePiece {
 
     // Methods:
     // ===================================================
-    // EFFECTS: prints the first letter of the piece's name as a capital letter.
+    // EFFECTS: Prints the first letter of the piece's name as a capital letter.
     protected abstract String printPiece();
 
     // EFFECTS: prints the first letter of the piece's colour as a lowercase letter.
@@ -22,13 +22,13 @@ public abstract class BasePiece {
         }
     }
 
-    // Getters:
+    // Simple Getters:
     // ===================================================
     public String getColour() {
         return colour;
     }
 
-    // Setters:
+    // Simple Setters:
     // ===================================================
     public void setColour(String colour) {
         this.colour = colour;

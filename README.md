@@ -1,55 +1,52 @@
-# Vector Chess on Three Planes
+# Chess With Dragon(s)
 ### It's like chess but better.
 
 ***What will the application do?***  
 
-It's chess, but instead of taking place on a single plane in two-space, it takes place on three three-by
-eight planes in three-space. Pieces move accordant to both their original movement style
-and their original restrictions on moves. For example, bishops can move in any direction diagonally,
-but in Vector Chess on Three Planes, they are able to move diagonally on the planes as well; that is, 
-they can move to the diagonal squares on the planes above and below it.
-
-Importantly, moving to another plane counts as moving one square. Pieces cannot go from the top plane
-directly to the bottom plane; they must go through the middle plane.
-
-That probably doesn't make much sense. 
+It's fairy-chess that takes place on an 10 x 8 board rather than a 8 x 8 board, sans castling, checks, or checkmates,
+or promotions. These are features that will come later (I ran out of time). To win, you just have to capture the king. 
+Two new pieces have been added to either side of the rooks in normal chess. Hence the titular dragons.
 
 **A detailed list of moves**:
-- Pawns can, on their first move, move two spaces forward on the same plane, or move one space forward
-  on the same plane, or move up to two squares directly upwards or downwards. After their first move, they
-  can only move one space forward on the same plane, or move up to two squares directly upwards or downwards. 
-  They can capture one square diagonally on the same plane, or capture one square forward in a plane directly above or below it. 
+- Pawns can, on their first move, move two spaces forward on the same plane, or else move one space forward
+  as long as both squares are empty. They capture exactly one square diagonally.
 
 
-- Bishops can move any amount of squares only diagonally. They can move diagonally upwards or downwards as many planes
-  as they wish.
+- Bishops can move any amount of squares only diagonally, as long as that diagonal is not blocked by other pieces. They
+  capture the square they land on.
 
 
-- Knights can move either move exactly once upwards or downwards and then exactly two spaces in a cardinal
-  direction in a plane, or move exactly two spaces upwards and downwards and then exactly one space in a 
-  cardinal direction on a plane. They can jump over pieces like in normal chess.
+- Knights can move exactly two squares in any cardinal direction, and then one square orthogonally of that move. They
+  can jump over pieces. They capture the square they land on.
 
 
-- Rooks can move any amount of squares in a cardinal direction. They can move directly upwards or downwards
-  as many planes as they wish.
+- Rooks can move any amount of squares in a cardinal direction, as long as that file or rank is not blocked by other
+  pieces. They capture the square they land on.
 
 
 - Queens can move either as a bishop, or as a rook, but only as one of them per move.
 
 
-- Kings can move either one square cardinally or diagonally on a plane, or move directly upwards or downwards one plane,
-  or move directly upwards or downwards one plane, and then once in any cardinal direction.
+- Kings can move either exactly one square cardinally or diagonally. They capture the square they land on.
 
-There is no castling, check or checkmate. You must take the opposing king to win.
+- Dragons start on the left of the kingside Rook. They can move either as a knight or a bishop, but only as one of them
+  per move. They capture the square they land on.
+
+
+- Princesses start on the right of the queenside Rook. They can move either as a knight or a rook, but only as one of
+  them per move. They capture the square they land on.
+
+
+Again, there is no castling, check or checkmate. You must take the opposing king to win.
 
 ***Who will use it?***
 
-Gamers.
+Gamers. And people who like chess. And maybe even people who like dragons.
 
 ***Why is this project of interest to you?***
 
-Chess is a fun game, but it would really benefit from some modern changes to make it more exciting. Because adding swords,
-lances, realistic political maneuvering and court intrigue among the pieces would take too much time, I moved it to three boards instead.
+Chess is a fun game, but it is actually very lame and nerdy because it lacks any dragons. I therefore added dragons and
+have thus improved the game by a factor of 35%.
 
 ======
 
@@ -66,20 +63,8 @@ lances, realistic political maneuvering and court intrigue among the pieces woul
   the opponent piece that was just on it.
 
 
-- I should be able to move (add) pieces to a different plane.
+- I should be able to view a list of pieces removed from the board.
 
-======
 
-# Board Setup:
-
-P1    | P2    | P3    |
------------------------
-R N B | Q K Q | B N R |
-P P P | P P P | P P P |
-X X X | X X X | X X X |
-X X X | X X X | X X X |
-X X X | X X X | X X X |
-X X X | X X X | X X X |
-P P P | P P P | P P P |
-R N B | Q K J | B N R | 
+- I should be able to capture an opponent's king to end the game.
 

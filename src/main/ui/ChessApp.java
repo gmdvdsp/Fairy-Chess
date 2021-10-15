@@ -1,44 +1,36 @@
 package ui;
 
-import model.Game;
 import model.Players;
 import model.Square;
 
 import java.util.Scanner;
 
 import static java.lang.Character.getNumericValue;
-import static java.lang.Character.isDigit;
-import static model.Board.SQUARES_ON_COLUMN;
-import static model.Board.SQUARES_ON_ROW;
 
 public class ChessApp {
     Players players;
-
     Integer proposedX;
     Integer proposedY;
     Square proposedFrom;
     Square proposedTo;
-
     Scanner input;
     String command;
 
+    private String separator = ",";
+
     public ChessApp() {
-        players = new Players("white");
+        players = new Players();
         input = new Scanner(System.in);
         runChessApp();
     }
 
     private void runChessApp() {
-        System.out.println("Start a new game with default board or customize board? (df/cb)");
-
+        System.out.println("Start a new game with default board? y/n");
         command = input.next();
         command = command.toLowerCase();
-
-        if (command.equals("df")) {
+        if (command.equals("y")) {
             initDefault();
             processProposedFrom();
-        } else if (command.equals("cb")) {
-            //initCustom();
         } else {
             runChessApp();
         }
@@ -50,61 +42,59 @@ public class ChessApp {
 
     private void processProposedFrom() {
         System.out.println(players.getGame().getBoard().printBoard());
+        System.out.println("Captured pieces: " + players.getGame().parseCapturedPieces());
         do {
-            System.out.println(players.getGame().getCurrentTurn() + "'s turn. Select a piece on a square you want to move: eg: 3,3");
+            System.out.println(players.getGame().getCurrentTurn()
+                    + "'s turn. Select a piece on a square you want to move: eg: 3,3");
             command = input.next();
             command = command.toLowerCase();
-            proposedX = getNumericValue(command.charAt(0));
-            proposedY = getNumericValue(command.charAt(2));
         } while (!isValidInput());
-        proposedX = getNumericValue(command.charAt(0));
-        proposedY = getNumericValue(command.charAt(2));
-        processFromSquare();
+        proposedFrom = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
+        processProposedTo();
     }
 
     private void processProposedTo() {
         do {
-            System.out.println(players.getGame().getCurrentTurn() + "'s turn. Select a square you want to move to: eg: 3,3");
+            System.out.println(players.getGame().getCurrentTurn()
+                    + "'s turn. Select a square you want to move to: eg: 3,3");
             command = input.next();
             command = command.toLowerCase();
-            proposedX = getNumericValue((command.charAt(0)));
-            proposedY = getNumericValue(command.charAt(2));
         } while (!isValidInput());
-        proposedX = getNumericValue(command.charAt(0));
-        proposedY = getNumericValue(command.charAt(2));
-        processToSquare();
-    }
-
-    private void processFromSquare() {
-        proposedFrom = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
-        if (players.proposeFromSquare(proposedFrom)) {
-            processProposedTo();
-        } else {
-            processProposedFrom();
-        }
-    }
-
-    private void processToSquare() {
         proposedTo = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
-        if (players.proposeToSquare(proposedTo)) {
-            processLegality();
-        } else {
-            processProposedTo();
-        }
+        processLegality();
     }
 
     private void processLegality() {
-        players.proposeMove(proposedFrom, proposedTo);
+        if (players.proposeMove(proposedFrom, proposedTo)) {
+            players.makeMove(proposedFrom, proposedTo);
+            System.out.println("Move made.");
+            endGame();
+        } else {
+            System.out.println("Invalid move. Please try again.");
+        }
         processProposedFrom();
     }
 
-    // check at once
     private boolean isValidInput() {
-        String substring = ",";
-        boolean s = command.substring(1,2).equals(substring);
-        boolean isDigit1 = proposedX >= 0 && proposedX <= 9;
-        boolean isDigit2 = proposedY >= 0 && proposedY <= 9;
-        return ((command.length() == 3) && isDigit1 && s && isDigit2);
+        if (isCorrectLength()) {
+            proposedX = getNumericValue((command.charAt(0)));
+            proposedY = getNumericValue(command.charAt(2));
+            boolean isCorrectSeparator = command.substring(1, 2).equals(separator);
+            boolean isValidCoordinateX = proposedX >= 0 && proposedX <= 9;
+            boolean isValidCoordinateY = proposedY >= 0 && proposedY <= 9;
+            return (isCorrectLength() && isValidCoordinateX && isCorrectSeparator && isValidCoordinateY);
+        } else {
+            return false;
+        }
     }
 
+    private boolean isCorrectLength() {
+        return (command.length() == 3);
+    }
+
+    private void endGame() {
+        if (players.getGame().getEndGame()) {
+            System.exit(0);
+        }
+    }
 }
