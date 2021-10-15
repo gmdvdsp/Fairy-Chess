@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import static java.lang.Character.getNumericValue;
 
+// Represents a chess console facing UI.
 public class ChessApp {
     Players players;
     Integer proposedX;
@@ -18,12 +19,15 @@ public class ChessApp {
 
     private String separator = ",";
 
+    // Makes a new ChessApp game with players and prepares to read inputs.
     public ChessApp() {
         players = new Players();
         input = new Scanner(System.in);
         runChessApp();
     }
 
+    //  EFFECTS: Asks the user until they type "y" to start a new game, and when they do, initialize the default board
+    //  and process white's first move.
     private void runChessApp() {
         System.out.println("Start a new game with default board? y/n");
         command = input.next();
@@ -36,10 +40,12 @@ public class ChessApp {
         }
     }
 
+    // EFFECTS: Initializes a default board with pieces at their default locations.
     private void initDefault() {
         players.getGame().getBoard().defaultBoard();
     }
 
+    // EFFECTS: Asks the current player for a square they wish to move, until their input is valid.
     private void processProposedFrom() {
         System.out.println(players.getGame().getBoard().printBoard());
         System.out.println("Captured pieces: " + players.getGame().parseCapturedPieces());
@@ -53,6 +59,7 @@ public class ChessApp {
         processProposedTo();
     }
 
+    // EFFECTS: Asks the current player for a square they wish to move to, until their input is valid.
     private void processProposedTo() {
         do {
             System.out.println(players.getGame().getCurrentTurn()
@@ -64,6 +71,8 @@ public class ChessApp {
         processLegality();
     }
 
+    // EFFECTS: If a player could move a piece from a from square to a to square, make that move, and print "Move made,"
+    // and check if the game is ended, and if not that, print invalid move and asks for a new from move in either case.
     private void processLegality() {
         if (players.proposeMove(proposedFrom, proposedTo)) {
             players.makeMove(proposedFrom, proposedTo);
@@ -75,6 +84,8 @@ public class ChessApp {
         processProposedFrom();
     }
 
+    // EFFECTS: Returns true if command is the correct length, the command is separated by "," and the two integers in
+    // the command are both integers in the range of 0 to 9.
     private boolean isValidInput() {
         if (isCorrectLength()) {
             proposedX = getNumericValue((command.charAt(0)));
@@ -88,10 +99,12 @@ public class ChessApp {
         }
     }
 
+    // EFFECTS: Returns true if command is exactly 3 characters.
     private boolean isCorrectLength() {
         return (command.length() == 3);
     }
 
+    // EFFECTS: Ends game if the game status has ended.
     private void endGame() {
         if (players.getGame().getEndGame()) {
             System.exit(0);
