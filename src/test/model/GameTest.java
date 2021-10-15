@@ -215,6 +215,15 @@ public class GameTest {
     }
 
     @Test
+    public void testIsLegalMoveWhitePawnMoveIntoSecondMoveSquare() {
+        Square to = new Square(5,3,null);
+        Square from = new Square(5, 2, whitePawn);
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        assertTrue(game.isLegalMove(from, to));
+    }
+
+    @Test
     public void testIsLegalMoveWhitePawnNotFirstMoveTwoMove() {
         Square to = new Square(5,4,null);
         Square between = new Square(5,3,null);
@@ -251,6 +260,15 @@ public class GameTest {
     public void testIsLegalMoveBlackPawnWrongWay() {
         Square from = new Square(6, 5, blackPawn);
         Square to = new Square(6,6,null);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(to);
+        assertFalse(game.isLegalMove(from, to));
+    }
+
+    @Test
+    public void testIsLegalMoveBlackPawnIllegal() {
+        Square from = new Square(6, 5, blackPawn);
+        Square to = new Square(5,4,null);
         game.getBoard().replaceSquare(from);
         game.getBoard().replaceSquare(to);
         assertFalse(game.isLegalMove(from, to));
@@ -403,7 +421,7 @@ public class GameTest {
     }
 
     @Test
-    public void testIsLegalMoveKingIllegal() {
+    public void testIsLegalMoveKingIllegalUpDown() {
         Square to = new Square(5, 7, null);
         Square from = new Square(5,5, king);
         Square oppositeTo = new Square(7, 5, null);
@@ -424,6 +442,18 @@ public class GameTest {
         game.getBoard().replaceSquare(oppositeTo);
         assertTrue(game.isLegalMove(from, to));
         assertTrue(game.isLegalMove(from, oppositeTo));
+    }
+
+    @Test
+    public void testIsLegalMoveKingIllegalLeftRight() {
+        Square to = new Square(3, 5, null);
+        Square from = new Square(5,5, king);
+        Square oppositeTo = new Square(7, 5, null);
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(oppositeTo);
+        assertFalse(game.isLegalMove(from, to));
+        assertFalse(game.isLegalMove(from, oppositeTo));
     }
 
     @Test
