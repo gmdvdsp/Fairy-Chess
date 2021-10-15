@@ -206,10 +206,8 @@ public class Game {
                 return (isLegalRookMove(from, to) || isLegalBishopMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Princess) {
                 return (isLegalRookMove(from, to) || isLegalKnightMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Dragon) {
-                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
             } else {
-                return false;
+                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
             }
         } else {
             return false;

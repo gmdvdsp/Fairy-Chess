@@ -13,6 +13,12 @@ public class PlayersTest {
     }
 
     @Test
+    public void testPlayers() {
+        Players testPlayers = new Players();
+        assertEquals(testPlayers.game, testPlayers.getGame());
+    }
+
+    @Test
     public void testProposedMoveTrue() {
         Square proposedFrom = new Square(0, 1, new Pawn("white"));
         Square proposedTo = new Square(0, 3, null);
