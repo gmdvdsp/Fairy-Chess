@@ -1,4 +1,5 @@
 package model;
+
 import static java.lang.Math.abs;
 
 // Represents a square that has some coordinate (x,y) and either has a piece on it, or has null.

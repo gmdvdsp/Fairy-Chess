@@ -1,5 +1,6 @@
 package model;
 
+// Represents a rook that has some colour.
 public class Rook extends BasePiece {
     public Rook(String colour) {
         super(colour);

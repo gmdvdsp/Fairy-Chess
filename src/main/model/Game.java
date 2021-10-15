@@ -245,7 +245,7 @@ public class Game {
     // Non-simple getters:
     // =========================
     public String parseCapturedPieces() {
-        StringBuilder capturedList = new StringBuilder("");
+        StringBuilder capturedList = new StringBuilder();
         for (BasePiece piece : capturedPieces) {
             capturedList.append(piece.printColourOneCharacter()).append(piece.printPiece()).append(", ");
         }

@@ -1,5 +1,6 @@
 package model;
 
+// Represents a pawn that has some colour.
 public class Pawn extends BasePiece {
 
     public Pawn(String colour) {
