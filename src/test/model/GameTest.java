@@ -157,6 +157,42 @@ public class GameTest {
     }
 
     @Test
+    public void testIsLegalMoveWhitePawnIllegalCaptureWrongX() {
+        Square upperRight = new Square(4, 4, blackPawn);
+        Square from = new Square(2, 2, whitePawn);
+        Square upperLeft = new Square(0, 4, blackPawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
+    }
+
+    @Test
+    public void testIsLegalMoveWhitePawnIllegalCaptureWrongY() {
+        Square upperRight = new Square(3, 4, blackPawn);
+        Square from = new Square(2, 2, whitePawn);
+        Square upperLeft = new Square(2, 4, blackPawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
+    }
+
+    @Test
+    public void testIsLegalMoveWhitePawnIllegalCaptureBothWrong() {
+        Square upperRight = new Square(6, 6, blackPawn);
+        Square from = new Square(2, 2, whitePawn);
+        Square upperLeft = new Square(5, 5, blackPawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
+    }
+
+    @Test
     public void testIsLegalMoveWhitePawnFirstMoveTwoMove() {
         Square to = new Square(0,3,null);
         Square between = new Square(0,2,null);
@@ -230,6 +266,42 @@ public class GameTest {
         game.getBoard().replaceSquare(lowerLeft);
         assertTrue(game.isLegalMove(from, lowerRight));
         assertTrue(game.isLegalMove(from, lowerLeft));
+    }
+
+    @Test
+    public void testIsLegalMoveBlackPawnIllegalCaptureWrongX() {
+        Square upperRight = new Square(4, 1, whitePawn);
+        Square from = new Square(2, 2, blackPawn);
+        Square upperLeft = new Square(0, 1, whitePawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
+    }
+
+    @Test
+    public void testIsLegalMoveBlackPawnIllegalCaptureWrongY() {
+        Square upperRight = new Square(3, 0, whitePawn);
+        Square from = new Square(2, 2, blackPawn);
+        Square upperLeft = new Square(1, 0, whitePawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
+    }
+
+    @Test
+    public void testIsLegalMoveBlackPawnIllegalCaptureBothWrong() {
+        Square upperRight = new Square(6, 6, whitePawn);
+        Square from = new Square(2, 2, blackPawn);
+        Square upperLeft = new Square(5, 5, whitePawn);
+        game.getBoard().replaceSquare(upperRight);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(upperLeft);
+        assertFalse(game.isLegalMove(from, upperRight));
+        assertFalse(game.isLegalMove(from, upperLeft));
     }
 
     @Test
@@ -331,6 +403,18 @@ public class GameTest {
     }
 
     @Test
+    public void testIsLegalMoveKingIllegal() {
+        Square to = new Square(5, 7, null);
+        Square from = new Square(5,5, king);
+        Square oppositeTo = new Square(7, 5, null);
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(oppositeTo);
+        assertFalse(game.isLegalMove(from, to));
+        assertFalse(game.isLegalMove(from, oppositeTo));
+    }
+
+    @Test
     public void testIsLegalMoveKingCaptureUpDown() {
         Square to = new Square(2,5, blackPawn);
         Square from = new Square(2,4, king);
@@ -397,7 +481,7 @@ public class GameTest {
     }
 
     @Test
-    public void testIsLegalMoveKingDiagonalMoveIntoALliedPiece() {
+    public void testIsLegalMoveKingDiagonalMoveIntoAlliedPiece() {
         Square upperRight = new Square(7, 7, whitePawn);
         Square upperLeft = new Square(5, 7, whitePawn);
         Square from = new Square(6,6, king);

@@ -66,13 +66,25 @@ public class BoardTest {
     }
 
     @Test
-    public void isSquareOnBoardXCoordinateFalse() {
+    public void isSquareOnBoardXCoordinateTooSmall() {
         square = new Square(-1, board.getYmax(), null);
         assertFalse(board.isSquareOnBoard(square));
     }
 
     @Test
-    public void isSquareOnBoardYCoordinateFalse() {
+    public void isSquareOnBoardXCoordinateTooBig() {
+        square = new Square(board.getXmax() + 1, board.getYmax(), null);
+        assertFalse(board.isSquareOnBoard(square));
+    }
+
+    @Test
+    public void isSquareOnBoardYCoordinateTooSmall() {
+        square = new Square(board.getXmax(), -1, null);
+        assertFalse(board.isSquareOnBoard(square));
+    }
+
+    @Test
+    public void isSquareOnBoardYCoordinateTooBig() {
         square = new Square(board.getXmax(), board.getYmax() + 1, null);
         assertFalse(board.isSquareOnBoard(square));
     }

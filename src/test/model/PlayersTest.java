@@ -36,9 +36,9 @@ public class PlayersTest {
 
     @Test
     public void testProposedMoveFalseOffNotControlledSquare() {
-        Square proposedFrom = new Square(0, -7, new Pawn("black"));
-        Square proposedTo = new Square(-34, 1, null);
         players.getGame().getBoard().defaultBoard();
+        Square proposedFrom = players.getGame().getBoard().getSquareAt(0, 6);
+        Square proposedTo = players.getGame().getBoard().getSquareAt(0, 4);
         assertFalse(players.proposeMove(proposedFrom, proposedTo));
     }
 

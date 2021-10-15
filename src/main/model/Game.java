@@ -94,11 +94,11 @@ public class Game {
             } else if (from.getPieceOnSquare() instanceof Knight) {
                 return (isLegalKnightMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Queen) {
-                return (isLegalRookMove(from, to) || isLegalBishopMove(from, to));
+                return (isLegalRookMove(from, to) ^ isLegalBishopMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Princess) {
-                return (isLegalRookMove(from, to) || isLegalKnightMove(from, to));
+                return (isLegalRookMove(from, to) ^ isLegalKnightMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Dragon) {
-                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
+                return (isLegalBishopMove(from, to) ^ isLegalKnightMove(from, to));
             } else {
                 return false;
             }
@@ -203,11 +203,11 @@ public class Game {
             } else if (from.getPieceOnSquare() instanceof Knight) {
                 return (isLegalKnightMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Queen) {
-                return (isLegalRookMove(from, to) || isLegalBishopMove(from, to));
+                return (isLegalRookMove(from, to) ^ isLegalBishopMove(from, to));
             } else if (from.getPieceOnSquare() instanceof Princess) {
-                return (isLegalRookMove(from, to) || isLegalKnightMove(from, to));
+                return (isLegalRookMove(from, to) ^ isLegalKnightMove(from, to));
             } else {
-                return (isLegalBishopMove(from, to) || isLegalKnightMove(from, to));
+                return (isLegalBishopMove(from, to) ^ isLegalKnightMove(from, to));
             }
         } else {
             return false;
