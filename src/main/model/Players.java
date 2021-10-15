@@ -4,13 +4,15 @@ package model;
 public class Players {
     Game game;
 
+    // MODIFIES: this
+    // EFFECTS: Makes a new players which are playing a game.
     public Players() {
         this.game = new Game();
     }
 
     // Methods:
     // ===================================================
-    // EFFECTS: Returns true if it legal for a player to move a piece to another square. Returns false otherwise.
+    // EFFECTS: Returns true if it's legal for a player to move a piece to another square. Returns false otherwise.
     public boolean proposeMove(Square from, Square to) {
         if (proposeDestinationSquare(to) && isSelectedSquareValid(from)) {
             return game.isLegalMove(from, to);

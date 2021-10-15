@@ -12,7 +12,9 @@ public class Game {
     List<BasePiece> capturedPieces;
     boolean endGame;
 
-    // Makes a new game that has a board with the default size (9, 7), white to play, an empty list of captured pieces.
+    // MODIFIES: this
+    // EFFECTS: Makes a new game that has a board with the default size (9, 7), white to play, an empty list of
+    // captured pieces.
     public Game() {
         board = new Board(9, 7);
         currentTurn = "white";

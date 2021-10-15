@@ -4,6 +4,8 @@ package model;
 public abstract class BasePiece {
     protected String colour;
 
+    // MODIFIES: this
+    // EFFECTS: Makes some piece with some colour.
     public BasePiece(String colour) {
         this.colour = colour;
     }

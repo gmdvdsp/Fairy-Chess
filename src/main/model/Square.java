@@ -8,6 +8,8 @@ public class Square {
     int posY;
     BasePiece piece;
 
+    // MODIFIES: this
+    // EFFECTS: Makes a square that has some coordinate, (x,y) and some piece on it.
     public Square(int x, int y, BasePiece p) {
         this.posX = x;
         this.posY = y;

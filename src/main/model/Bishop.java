@@ -2,6 +2,9 @@ package model;
 
 // Represents a bishop that has some colour.
 public class Bishop extends BasePiece {
+
+    // MODIFIES: this
+    // EFFECTS: Makes a bishop with a colour.
     public Bishop(String colour) {
         super(colour);
     }
