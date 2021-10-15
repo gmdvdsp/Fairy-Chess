@@ -29,7 +29,7 @@ public class PlayersTest {
     @Test
     public void testProposedMoveFalseOffBoard() {
         Square proposedFrom = new Square(0, -7, new Pawn("white"));
-        Square proposedTo = new Square(-34, 1, null);
+        Square proposedTo = new Square(1, 1, null);
         players.getGame().getBoard().defaultBoard();
         assertFalse(players.proposeMove(proposedFrom, proposedTo));
     }
@@ -45,7 +45,7 @@ public class PlayersTest {
     @Test
     public void testProposedMoveFalseOffOffBoardAndNotControlled() {
         Square proposedFrom = new Square(-7, -7, null);
-        Square proposedTo = new Square(-34, -19, null);
+        Square proposedTo = new Square(5, 5, null);
         players.getGame().getBoard().defaultBoard();
         assertFalse(players.proposeMove(proposedFrom, proposedTo));
     }
