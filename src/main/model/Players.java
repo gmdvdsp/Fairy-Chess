@@ -12,7 +12,7 @@ public class Players {
     // ===================================================
     // EFFECTS: Returns true if it legal for a player to move a piece to another square. Returns false otherwise.
     public boolean proposeMove(Square from, Square to) {
-        if (proposeDestinationSquare(to) && isSelectedSquareValid(from) && game.isLegalMove(from, to)) {
+        if (proposeDestinationSquare(to) && isSelectedSquareValid(from)) {
             return game.isLegalMove(from, to);
         } else {
             return false;

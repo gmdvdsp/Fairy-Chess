@@ -96,6 +96,12 @@ public class BoardTest {
     }
 
     @Test
+    public void testIsCardinalDirectionEmptyHorizontalFalse() {
+        board.defaultBoard();
+        assertFalse(board.isCardinalDirectionEmpty(board.getSquareAt(0, 0), board.getSquareAt(8, 0)));
+    }
+
+    @Test
     public void testIsDiagonalDirectionEmptyUpperRightLowerLeftTrue() {
         board.defaultBoard();
         assertTrue(board.isDiagonalDirectionEmpty(board.getSquareAt(3, 3), board.getSquareAt(5, 5)));

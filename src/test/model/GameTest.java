@@ -97,6 +97,21 @@ public class GameTest {
         assertFalse(game.controlsSquare(from));
     }
 
+    @Test
+    public void testFlipTurn() {
+        game.flipTurn();
+        assertEquals(game.getCurrentTurn(), "black");
+        game.flipTurn();
+        assertEquals(game.getCurrentTurn(), "white");
+    }
+
+    @Test
+    public void testIsLegalMoveNoPiece() {
+        Square from = new Square(0, 0, null);
+        Square to = new Square(0, 0, null);
+        assertFalse(game.isLegalMove(from, to));
+    }
+
     // PAWN (white):
     // ================================================================================================================
     @Test
