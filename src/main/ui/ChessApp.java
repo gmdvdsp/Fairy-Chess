@@ -13,7 +13,7 @@ import static java.lang.Character.getNumericValue;
 
 // Represents a chess console facing UI.
 public class ChessApp {
-    private static final String JSON_STORE = "./data/workroom.json";
+    private static final String JSON_STORE = "./data/game.json";
     private JSonWriter jsonWriter;
     private JSonReader jsonReader;
     Players players;
@@ -46,6 +46,7 @@ public class ChessApp {
             processProposedFrom();
         } else if (command.equals("l")) {
             loadGame();
+            processProposedFrom();
         } else {
             runChessApp();
         }

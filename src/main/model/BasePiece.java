@@ -18,7 +18,7 @@ public abstract class BasePiece implements Writable {
     @Override
     public JSONObject toJSon() {
         JSONObject json = new JSONObject();
-        json.put("pieceName", this.toString());
+        json.put("pieceName", this.getClass().getSimpleName());
         json.put("colour", colour);
         return json;
     }

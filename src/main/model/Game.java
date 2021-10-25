@@ -1,5 +1,6 @@
 package model;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
@@ -25,15 +26,6 @@ public class Game implements Writable {
         endGame = false;
     }
 
-    // MODIFIES: this
-    // EFFECTS: Makes a game that board, current turn, and captured pieces equal to the passed in parameters.
-    public Game(Board board, String currentTurn, List<BasePiece> capturedPieces) {
-        this.board = board;
-        this.currentTurn = currentTurn;
-        this.capturedPieces = capturedPieces;
-        endGame = false;
-    }
-
     // Methods:
     // ===================================================
     // Saving:
@@ -43,8 +35,16 @@ public class Game implements Writable {
         JSONObject json = new JSONObject();
         json.put("board", board.toJSon());
         json.put("currentTurn", currentTurn);
-        json.put("capturedPieces", capturedPieces);
+        json.put("capturedPieces", capturedPiecesToJSon());
         return json;
+    }
+
+    private JSONArray capturedPiecesToJSon() {
+        JSONArray jsonArray = new JSONArray();
+        for (BasePiece p : capturedPieces) {
+            jsonArray.put(p.toJSon());
+        }
+        return jsonArray;
     }
 
     // Game flow processing:

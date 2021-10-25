@@ -30,14 +30,6 @@ public class Board implements Writable {
         }
     }
 
-    // MODIFIES: this
-    // EFFECTS: Makes a new board with squares equal to the list given.
-    public Board(int xmax, int ymax, List<Square> squareList) {
-        this.xmax = xmax;
-        this.ymax = ymax;
-        this.squareList = squareList;
-    }
-
     // Methods:
     // ===================================================
     @Override

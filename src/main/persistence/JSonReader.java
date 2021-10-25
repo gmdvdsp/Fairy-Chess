@@ -41,9 +41,22 @@ public class JSonReader {
 
     // EFFECTS: parses Game from JSON object and returns it
     private Game parseGame(JSONObject jsonObject) {
+        String currentTurn = jsonObject.getString("currentTurn");
         Game g = new Game();
         loadBoard(g, jsonObject);
+        loadCapturedPieces(g, jsonObject);
+        if (currentTurn.equals("black")) {
+            g.flipTurn();
+        }
         return g;
+    }
+
+    private void loadCapturedPieces(Game g, JSONObject jsonObject) {
+        JSONArray jsonArray = jsonObject.getJSONArray("capturedPieces");
+        for (Object json : jsonArray) {
+            JSONObject piece = (JSONObject) json;
+            g.getCapturedPieces().add(loadPiece(piece));
+        }
     }
 
     // MODIFIES: g
@@ -55,7 +68,7 @@ public class JSonReader {
     // MODIFIES: g
     // EFFECTS: parses squares from JSON object and adds them to Board's squareList
     private void loadSquares(Game g, JSONObject jsonObject) {
-        JSONArray jsonArray = jsonObject.getJSONArray("squareList");
+        JSONArray jsonArray = jsonObject.getJSONObject("board").getJSONArray("squareList");
         for (Object json : jsonArray) {
             JSONObject square = (JSONObject) json;
             loadSingleSquare(g, square);
@@ -67,36 +80,42 @@ public class JSonReader {
         int posY = jsonObject.getInt("y");
         Square square = new Square(posX, posY, null);
         if (jsonObject.has("piece")) {
-            square = loadPiece(square, jsonObject);
+            square.setPiece(loadPiece(jsonObject.getJSONObject("piece")));
         }
         g.getBoard().replaceSquare(square);
     }
 
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
-    private Square loadPiece(Square square, JSONObject jsonObject) {
-        String colour;
-        if (jsonObject.has("black")) {
-            colour = "black";
-        } else {
-            colour = "white";
+    private BasePiece loadPiece(JSONObject jsonObject) {
+        String pieceName = jsonObject.getString("pieceName");
+        String colour = jsonObject.getString("colour");
+        BasePiece piece = null;
+        switch (pieceName) {
+            case "Bishop":
+                piece = new Bishop(colour);
+                break;
+            case "King":
+                piece = new King(colour);
+                break;
+            case "Dragon":
+                piece = new Dragon(colour);
+                break;
+            case "Knight":
+                piece = new Knight(colour);
+                break;
+            case "Queen":
+                piece = new Queen(colour);
+                break;
+            case "Rook":
+                piece = new Rook(colour);
+                break;
+            case "Pawn":
+                piece = new Pawn(colour);
+                break;
+            case "Princess":
+                piece = new Princess(colour);
+                break;
         }
-        if (jsonObject.has("Bishop")) {
-            square.setPiece(new Bishop(colour));
-        } else if (jsonObject.has("King")) {
-            square.setPiece(new King(colour));
-        }  else if (jsonObject.has("Dragon")) {
-            square.setPiece(new Dragon(colour));
-        } else if (jsonObject.has("Knight")) {
-            square.setPiece(new Knight(colour));
-        } else if (jsonObject.has("Queen")) {
-            square.setPiece(new Queen(colour));
-        } else if (jsonObject.has("Rook")) {
-            square.setPiece(new Rook(colour));
-        } else if (jsonObject.has("Pawn")) {
-            square.setPiece(new Pawn(colour));
-        } else if (jsonObject.has("Princess")) {
-            square.setPiece(new Princess(colour));
-        }
-        return square;
+        return piece;
     }
 }
