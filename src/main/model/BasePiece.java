@@ -1,7 +1,10 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 // Represents a chess piece that has a colour.
-public abstract class BasePiece {
+public abstract class BasePiece implements Writable {
     protected String colour;
 
     // MODIFIES: this
@@ -12,6 +15,14 @@ public abstract class BasePiece {
 
     // Methods:
     // ===================================================
+    @Override
+    public JSONObject toJSon() {
+        JSONObject json = new JSONObject();
+        json.put("pieceName", this.toString());
+        json.put("colour", colour);
+        return json;
+    }
+
     // EFFECTS: Prints the first letter of the piece's name as a capital letter.
     protected abstract String printPiece();
 

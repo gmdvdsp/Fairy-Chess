@@ -1,9 +1,13 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import static java.lang.Math.abs;
 
 // Represents a square that has some coordinate (x,y) and either has a piece on it, or has null.
-public class Square {
+public class Square implements Writable {
     int posX;
     int posY;
     BasePiece piece;
@@ -18,10 +22,21 @@ public class Square {
 
     // Methods:
     // ==================================================
+    @Override
+    public JSONObject toJSon() {
+        JSONObject json = new JSONObject();
+        json.put("x", posX);
+        json.put("y", posY);
+        if (!getIsEmpty()) {
+            json.put("piece", piece.toJSon());
+        }
+        return json;
+    }
     // Visual representation:
     //=========================
     // EFFECTS: Returns a visual representation of a square as represented by [ cP ] where c is the first letter of the
     // piece colour and P is the first letter of the piece name, and [    ] if empty.
+
     public String printSquare() {
         String square;
         if (piece != null) {

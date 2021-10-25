@@ -2,13 +2,20 @@ package ui;
 
 import model.Players;
 import model.Square;
+import persistence.JSonReader;
+import persistence.JSonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Scanner;
 
 import static java.lang.Character.getNumericValue;
 
 // Represents a chess console facing UI.
 public class ChessApp {
+    private static final String JSON_STORE = "./data/workroom.json";
+    private JSonWriter jsonWriter;
+    private JSonReader jsonReader;
     Players players;
     Integer proposedX;
     Integer proposedY;
@@ -23,20 +30,44 @@ public class ChessApp {
     public ChessApp() {
         players = new Players();
         input = new Scanner(System.in);
+        jsonWriter = new JSonWriter(JSON_STORE);
+        jsonReader = new JSonReader(JSON_STORE);
         runChessApp();
     }
 
     //  EFFECTS: Asks the user until they type "y" to start a new game, and when they do, initialize the default board
     //  and process white's first move.
     private void runChessApp() {
-        System.out.println("Start a new game with default board? y/n");
+        System.out.println("Start a new game with default board, or load board? (y/l)");
         command = input.next();
         command = command.toLowerCase();
         if (command.equals("y")) {
             initDefault();
             processProposedFrom();
+        } else if (command.equals("l")) {
+            loadGame();
         } else {
             runChessApp();
+        }
+    }
+
+    private void saveGame() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(players.getGame());
+            jsonWriter.close();
+            System.out.println("Saved.");
+        } catch (FileNotFoundException e) {
+            System.out.println("Unable to write to file: " + JSON_STORE);
+        }
+    }
+
+    private void loadGame() {
+        try {
+            players.setGame(jsonReader.read());
+            System.out.println("Game loaded.");
+        } catch (IOException e) {
+            System.out.println("Unable to read from file: " + JSON_STORE);
         }
     }
 
@@ -51,9 +82,12 @@ public class ChessApp {
         System.out.println("Captured pieces: " + players.getGame().parseCapturedPieces());
         do {
             System.out.println(players.getGame().getCurrentTurn()
-                    + "'s turn. Select a piece on a square you want to move: eg: 3,3");
+                    + "'s turn. Select a piece on a square you want to move: eg: 3,3. Or type s to save board.");
             command = input.next();
             command = command.toLowerCase();
+            if (command.equals("s")) {
+                saveGame();
+            }
         } while (!isValidInput());
         proposedFrom = players.getGame().getBoard().getSquareAt(proposedX, proposedY);
         processProposedTo();

@@ -1,12 +1,16 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 import static java.lang.Math.signum;
 
 // Represents a board that has a maximum x-coordinate, a maximum y-coordinate, and a list of Squares that span (0,0) to
 // (xmax, ymax).
-public class Board {
+public class Board implements Writable {
     int xmax;
     int ymax;
     List<Square> squareList;
@@ -26,8 +30,31 @@ public class Board {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: Makes a new board with squares equal to the list given.
+    public Board(int xmax, int ymax, List<Square> squareList) {
+        this.xmax = xmax;
+        this.ymax = ymax;
+        this.squareList = squareList;
+    }
+
     // Methods:
     // ===================================================
+    @Override
+    public JSONObject toJSon() {
+        JSONObject json = new JSONObject();
+        json.put("squareList", squaresToJSon());
+        return json;
+    }
+
+    private JSONArray squaresToJSon() {
+        JSONArray jsonArray = new JSONArray();
+        for (Square s : squareList) {
+            jsonArray.put(s.toJSon());
+        }
+        return jsonArray;
+    }
+
     // Visual representations:
     //=========================
     // EFFECTS: Returns a visual representation of a board.

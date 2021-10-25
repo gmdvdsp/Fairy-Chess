@@ -1,12 +1,15 @@
 package model;
 
+import org.json.JSONObject;
+import persistence.Writable;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.Math.abs;
 
 // Represents a chess game that has a board, the current turn, a list of captured pieces, and whether the game is over.
-public class Game {
+public class Game implements Writable {
     Board board;
     String currentTurn;
     List<BasePiece> capturedPieces;
@@ -22,8 +25,28 @@ public class Game {
         endGame = false;
     }
 
+    // MODIFIES: this
+    // EFFECTS: Makes a game that board, current turn, and captured pieces equal to the passed in parameters.
+    public Game(Board board, String currentTurn, List<BasePiece> capturedPieces) {
+        this.board = board;
+        this.currentTurn = currentTurn;
+        this.capturedPieces = capturedPieces;
+        endGame = false;
+    }
+
     // Methods:
     // ===================================================
+    // Saving:
+    // =========================
+    @Override
+    public JSONObject toJSon() {
+        JSONObject json = new JSONObject();
+        json.put("board", board.toJSon());
+        json.put("currentTurn", currentTurn);
+        json.put("capturedPieces", capturedPieces);
+        return json;
+    }
+
     // Game flow processing:
     // =========================
     // REQUIRES: Exactly one square on the board has from.getX() and from.getY(), and exactly one square on the board
