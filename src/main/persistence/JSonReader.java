@@ -51,6 +51,8 @@ public class JSonReader {
         return g;
     }
 
+    // MODIFIES: g
+    // EFFECTS: loads the captured pieces into Game.
     private void loadCapturedPieces(Game g, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("capturedPieces");
         for (Object json : jsonArray) {
@@ -75,6 +77,8 @@ public class JSonReader {
         }
     }
 
+    // MODIFIES: g
+    // EFFECTS: Converts a piece to a JSONObject with name and colour.
     private void loadSingleSquare(Game g, JSONObject jsonObject) {
         int posX = jsonObject.getInt("x");
         int posY = jsonObject.getInt("y");
@@ -86,10 +90,11 @@ public class JSonReader {
     }
 
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
+    // EFFECTS: Returns a piece from a JSONEntry.
     private BasePiece loadPiece(JSONObject jsonObject) {
         String pieceName = jsonObject.getString("pieceName");
         String colour = jsonObject.getString("colour");
-        BasePiece piece = null;
+        BasePiece piece;
         if (pieceName.equals("Bishop")) {
             piece = new Bishop(colour);
         } else if (pieceName.equals("King")) {

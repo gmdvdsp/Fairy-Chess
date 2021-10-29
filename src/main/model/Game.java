@@ -30,6 +30,7 @@ public class Game implements Writable {
     // ===================================================
     // Saving:
     // =========================
+    // EFFECTS: Converts a game to a JSONObject with board, turn, and list of capturedPieces.
     @Override
     public JSONObject toJSon() {
         JSONObject json = new JSONObject();

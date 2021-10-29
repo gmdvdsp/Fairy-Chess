@@ -32,6 +32,7 @@ public class Board implements Writable {
 
     // Methods:
     // ===================================================
+    // EFFECTS: Converts a board to a JSONObject with list of squares on it.
     @Override
     public JSONObject toJSon() {
         JSONObject json = new JSONObject();

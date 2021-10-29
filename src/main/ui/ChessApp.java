@@ -53,6 +53,7 @@ public class ChessApp {
         }
     }
 
+    // EFFECTS: Writes the game to the JSON entry, throws a FileNotFoundException if writing was impossible.
     private void saveGame() {
         try {
             jsonWriter.open();
@@ -64,6 +65,7 @@ public class ChessApp {
         }
     }
 
+    // EFFECTS: Loads the game from the JSON entry, throws a IOException if reading was impossible.
     private void loadGame() {
         try {
             players.setGame(jsonReader.read());

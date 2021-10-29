@@ -15,6 +15,7 @@ public abstract class BasePiece implements Writable {
 
     // Methods:
     // ===================================================
+    // EFFECTS: Converts a piece to a JSONObject with name and colour.
     @Override
     public JSONObject toJSon() {
         JSONObject json = new JSONObject();

@@ -21,6 +21,7 @@ public class Square implements Writable {
 
     // Methods:
     // ==================================================
+    // EFFECTS: Converts a square to a JSONObject with x, y and piece on it. If no piece is on it, do not add this.
     @Override
     public JSONObject toJSon() {
         JSONObject json = new JSONObject();
