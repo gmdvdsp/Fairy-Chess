@@ -90,33 +90,24 @@ public class JSonReader {
         String pieceName = jsonObject.getString("pieceName");
         String colour = jsonObject.getString("colour");
         BasePiece piece = null;
-        if (!(pieceName == null)) {
-            switch (pieceName) {
-                case "Bishop":
-                    piece = new Bishop(colour);
-                    break;
-                case "King":
-                    piece = new King(colour);
-                    break;
-                case "Dragon":
-                    piece = new Dragon(colour);
-                    break;
-                case "Knight":
-                    piece = new Knight(colour);
-                    break;
-                case "Queen":
-                    piece = new Queen(colour);
-                    break;
-                case "Rook":
-                    piece = new Rook(colour);
-                    break;
-                case "Pawn":
-                    piece = new Pawn(colour);
-                    break;
-                case "Princess":
-                    piece = new Princess(colour);
-                    break;
-            }
+        if (pieceName.equals("Bishop")) {
+            piece = new Bishop(colour);
+        } else if (pieceName.equals("King")) {
+            piece = new King(colour);
+        } else if (pieceName.equals("Dragon")) {
+            piece = new Dragon(colour);
+        } else if (pieceName.equals("Princess")) {
+            piece = new Princess(colour);
+        } else if (pieceName.equals("Rook")) {
+            piece = new Rook(colour);
+        } else if (pieceName.equals("Bishop")) {
+            piece = new Bishop(colour);
+        } else if (pieceName.equals("Pawn")) {
+            piece = new Pawn(colour);
+        } else if (pieceName.equals("Knight")) {
+            piece = new Knight(colour);
+        } else if (pieceName.equals("Queen")) {
+            piece = new Queen(colour);
         }
         return piece;
     }
