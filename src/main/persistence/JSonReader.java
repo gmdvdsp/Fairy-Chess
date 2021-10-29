@@ -100,8 +100,6 @@ public class JSonReader {
             piece = new Princess(colour);
         } else if (pieceName.equals("Rook")) {
             piece = new Rook(colour);
-        } else if (pieceName.equals("Bishop")) {
-            piece = new Bishop(colour);
         } else if (pieceName.equals("Pawn")) {
             piece = new Pawn(colour);
         } else if (pieceName.equals("Knight")) {

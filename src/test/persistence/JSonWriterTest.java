@@ -1,8 +1,6 @@
 package persistence;
 
-import model.Game;
-import model.Pawn;
-import model.Square;
+import model.*;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -91,6 +89,8 @@ class JsonWriterTest {
             assertTrue(g.getBoard().getSquareAt(x, 7).getPieceOnSquare().getClass().getSimpleName().
                     equals("Bishop"));
         }
+        assertTrue(g.getBoard().getSquareAt(4,0).getPieceOnSquare().getClass().getSimpleName().equals("King"));
+        assertTrue(g.getBoard().getSquareAt(4,0).getPieceOnSquare().getClass().getSimpleName().equals("Queen"));
     }
 
     void whitePiecesCorrect(Game g) {
@@ -119,5 +119,7 @@ class JsonWriterTest {
             assertTrue(g.getBoard().getSquareAt(x, 0).getPieceOnSquare().getClass().getSimpleName().
                     equals("Bishop"));
         }
+        assertTrue(g.getBoard().getSquareAt(4,7).getPieceOnSquare().getClass().getSimpleName().equals("King"));
+        assertTrue(g.getBoard().getSquareAt(5,7).getPieceOnSquare().getClass().getSimpleName().equals("Queen"));
     }
 }
