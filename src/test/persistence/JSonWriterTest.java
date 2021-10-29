@@ -90,7 +90,7 @@ class JsonWriterTest {
                     equals("Bishop"));
         }
         assertTrue(g.getBoard().getSquareAt(4,0).getPieceOnSquare().getClass().getSimpleName().equals("King"));
-        assertTrue(g.getBoard().getSquareAt(4,0).getPieceOnSquare().getClass().getSimpleName().equals("Queen"));
+        assertTrue(g.getBoard().getSquareAt(5,0).getPieceOnSquare().getClass().getSimpleName().equals("Queen"));
     }
 
     void whitePiecesCorrect(Game g) {

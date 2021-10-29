@@ -104,7 +104,7 @@ public class JSonReader {
             piece = new Pawn(colour);
         } else if (pieceName.equals("Knight")) {
             piece = new Knight(colour);
-        } else if (pieceName.equals("Queen")) {
+        } else {
             piece = new Queen(colour);
         }
         return piece;
