@@ -42,8 +42,10 @@ public class Game implements Writable {
     // EFFECTS: returns pieces in capturedPieces as a JSON array
     private JSONArray capturedPiecesToJSon() {
         JSONArray jsonArray = new JSONArray();
-        for (BasePiece p : capturedPieces) {
-            jsonArray.put(p.toJSon());
+        if (!capturedPieces.isEmpty()) {
+            for (BasePiece p : capturedPieces) {
+                jsonArray.put(p.toJSon());
+            }
         }
         return jsonArray;
     }

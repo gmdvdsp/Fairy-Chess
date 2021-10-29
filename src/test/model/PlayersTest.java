@@ -77,4 +77,11 @@ public class PlayersTest {
         assertEquals(players.getGame().getBoard().getSquareAt(0, 3).getPieceOnSquare(), pawn);
     }
 
+    @Test
+    public void testSetGame() {
+        Game newGame = new Game();
+        players.setGame(newGame);
+        assertEquals(players.getGame(), newGame);
+    }
+
 }

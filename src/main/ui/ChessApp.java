@@ -1,5 +1,6 @@
 package ui;
 
+import model.Game;
 import model.Players;
 import model.Square;
 import persistence.JSonReader;
