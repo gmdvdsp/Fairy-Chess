@@ -1,6 +1,9 @@
 {
     "currentTurn": "white",
-    "capturedPieces": [],
+    "capturedPieces": [{
+        "colour": "white",
+        "pieceName": "Pawn"
+    }],
     "board": {"squareList": [
         {
             "piece": {

@@ -1,6 +1,7 @@
 package persistence;
 
 import model.Game;
+import model.Pawn;
 import model.Square;
 import org.junit.jupiter.api.Test;
 
@@ -47,6 +48,7 @@ class JsonWriterTest {
         try {
             Game g = new Game();
             g.getBoard().defaultBoard();
+            g.getCapturedPieces().add(new Pawn("white"));
             JSonWriter writer = new JSonWriter("./data/testWriterGameWhiteToPlay.json");
             writer.open();
             writer.write(g);
@@ -56,6 +58,8 @@ class JsonWriterTest {
             g = reader.read();
             blackPiecesCorrect(g);
             whitePiecesCorrect(g);
+            assertTrue(g.getCapturedPieces().get(0).getColour().equals("white"));
+            assertTrue(g.getCapturedPieces().get(0).getClass().getSimpleName().equals("Pawn"));
         } catch (IOException e) {
             fail("Exception should not have been thrown");
         }
