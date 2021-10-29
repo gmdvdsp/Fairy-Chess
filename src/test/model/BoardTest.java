@@ -3,6 +3,7 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class BoardTest {
@@ -26,7 +27,6 @@ public class BoardTest {
         }
     }
 
-    // Ugly
     @Test
     public void testPrintBoardDefault() {
         board.defaultBoard();
@@ -169,6 +169,18 @@ public class BoardTest {
             square = new Square(x, board.getYmax() / 2, piece);
             board.replaceSquare(square);
             assertEquals(board.getSquareAt(x, board.getYmax() / 2), square);
+        }
+    }
+
+    @Test
+    public void testGetSquareList() {
+        for (int y = 0; y <= board.getYmax(); y++) {
+            for (int x = 0; x <= board.getXmax(); x++) {
+                square = new Square(x, y, null);
+                assertEquals(square.getX(), board.getSquareAt(x, y).getX());
+                assertEquals(square.getY(), board.getSquareAt(x, y).getY());
+                assertEquals(square.getPieceOnSquare(), board.getSquareAt(x, y).getPieceOnSquare());
+            }
         }
     }
 

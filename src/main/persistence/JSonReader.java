@@ -6,11 +6,11 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 import java.util.stream.Stream;
 
 import org.json.*;
 
+// From CPSC-210 given persistence example code:
 // Represents a reader that reads workroom from JSON data stored in file
 public class JSonReader {
     private String source;

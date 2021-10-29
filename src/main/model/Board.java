@@ -13,7 +13,7 @@ import static java.lang.Math.signum;
 public class Board implements Writable {
     int xmax;
     int ymax;
-    List<Square> squareList;
+    private List<Square> squareList;
 
     // MODIFIES: this
     // EFFECTS: Makes a new board with a list of empty Squares that span (0,0) to (xmax, ymax).
@@ -39,6 +39,7 @@ public class Board implements Writable {
         return json;
     }
 
+    // EFFECTS: returns squares in this board as a JSON array
     private JSONArray squaresToJSon() {
         JSONArray jsonArray = new JSONArray();
         for (Square s : squareList) {
@@ -230,6 +231,10 @@ public class Board implements Writable {
     //=========================
     public int getXmax() {
         return xmax;
+    }
+
+    public List<Square> getSquareList() {
+        return squareList;
     }
 
     // Simple Getters:

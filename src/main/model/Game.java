@@ -39,6 +39,7 @@ public class Game implements Writable {
         return json;
     }
 
+    // EFFECTS: returns pieces in capturedPieces as a JSON array
     private JSONArray capturedPiecesToJSon() {
         JSONArray jsonArray = new JSONArray();
         for (BasePiece p : capturedPieces) {
