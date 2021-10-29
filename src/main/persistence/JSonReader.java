@@ -115,6 +115,8 @@ public class JSonReader {
             case "Princess":
                 piece = new Princess(colour);
                 break;
+            default:
+                break;
         }
         return piece;
     }
