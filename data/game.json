@@ -22,6 +22,10 @@
             "y": 0
         },
         {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Knight"
+            },
             "x": 2,
             "y": 0
         },
@@ -86,10 +90,6 @@
             "y": 1
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 1,
             "y": 1
         },
@@ -198,14 +198,14 @@
             "y": 2
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 0,
             "y": 3
         },
         {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
             "x": 1,
             "y": 3
         },
@@ -243,26 +243,14 @@
         },
         {
             "x": 0,
-            "y": 4
-        },
-        {
-            "x": 1,
-            "y": 4
-        },
-        {
-            "x": 2,
-            "y": 4
-        },
-        {
-            "x": 3,
             "y": 4
         },
         {
             "piece": {
                 "colour": "white",
-                "pieceName": "Knight"
+                "pieceName": "Pawn"
             },
-            "x": 4,
+            "x": 1,
             "y": 4
         },
         {
@@ -270,6 +258,18 @@
                 "colour": "black",
                 "pieceName": "Pawn"
             },
+            "x": 2,
+            "y": 4
+        },
+        {
+            "x": 3,
+            "y": 4
+        },
+        {
+            "x": 4,
+            "y": 4
+        },
+        {
             "x": 5,
             "y": 4
         },
@@ -338,18 +338,10 @@
             "y": 6
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Pawn"
-            },
             "x": 1,
             "y": 6
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Pawn"
-            },
             "x": 2,
             "y": 6
         },
@@ -362,10 +354,18 @@
             "y": 6
         },
         {
+            "piece": {
+                "colour": "black",
+                "pieceName": "Pawn"
+            },
             "x": 4,
             "y": 6
         },
         {
+            "piece": {
+                "colour": "black",
+                "pieceName": "Pawn"
+            },
             "x": 5,
             "y": 6
         },

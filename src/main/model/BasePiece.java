@@ -3,9 +3,12 @@ package model;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import javax.swing.*;
+
 // Represents a chess piece that has a colour.
 public abstract class BasePiece implements Writable {
     protected String colour;
+    protected Icon icon;
 
     // MODIFIES: this
     // EFFECTS: Makes some piece with some colour.
@@ -40,6 +43,10 @@ public abstract class BasePiece implements Writable {
     // ===================================================
     public String getColour() {
         return colour;
+    }
+
+    public Icon getIcon() {
+        return (Icon) icon;
     }
 
     // Simple Setters:

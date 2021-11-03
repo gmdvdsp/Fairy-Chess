@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import static java.lang.Math.signum;
@@ -83,8 +84,8 @@ public class Board implements Writable {
     //=========================
     // EFFECTS: Returns true if a square is within the bounds of the game.
     public boolean isSquareOnBoard(Square square) {
-        boolean xinGame = (0 <= square.getX() && square.getX() <= xmax);
-        boolean yinGame = (0 <= square.getY() && square.getY() <= ymax);
+        boolean xinGame = (0 <= square.getPosX() && square.getPosX() <= xmax);
+        boolean yinGame = (0 <= square.getPosY() && square.getPosY() <= ymax);
         return (xinGame && yinGame);
     }
 
@@ -92,7 +93,7 @@ public class Board implements Writable {
     // EFFECTS: Returns true if every square between two squares is empty.
     public boolean isCardinalDirectionEmpty(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        if (distance.getX() == 0) {
+        if (distance.getPosX() == 0) {
             return (isEmptyBetweenVertical(from, distance));
         } else {
             return (isEmptyBetweenHorizontal(from, distance));
@@ -103,7 +104,7 @@ public class Board implements Writable {
     // EFFECTS: Returns true if every square between two squares is empty.
     public boolean isDiagonalDirectionEmpty(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        if (signum(distance.getX()) == signum(distance.getY())) {
+        if (signum(distance.getPosX()) == signum(distance.getPosY())) {
             return (isEmptyBetweenDiagonalUpperRightLowerLeft(from, distance));
         } else {
             return (isEmptyBetweenDiagonalUpperLeftLowerRight(from, distance));
@@ -113,9 +114,9 @@ public class Board implements Writable {
     // REQUIRES: from and to are on the same rank.
     // EFFECTS: Returns true if every square between two squares is empty.
     private boolean isEmptyBetweenHorizontal(Square from, Square distance) {
-        int signOfX = (int) signum(distance.getX());
-        for (int i = signOfX; i != distance.getX(); i += signOfX) {
-            if (!squareList.get(convertCoordinateToIndex(from.getX() + i, from.getY())).getIsEmpty()) {
+        int signOfX = (int) signum(distance.getPosX());
+        for (int i = signOfX; i != distance.getPosX(); i += signOfX) {
+            if (!squareList.get(convertCoordinateToIndex(from.getPosX() + i, from.getPosY())).getIsEmpty()) {
                 return false;
             }
         }
@@ -125,9 +126,9 @@ public class Board implements Writable {
     // REQUIRES: from and to are on the same file.
     // EFFECTS: Returns true if every square between two squares is empty.
     private boolean isEmptyBetweenVertical(Square from, Square distance) {
-        int signOfY = (int) signum(distance.getY());
-        for (int i = signOfY; i != distance.getY(); i += signOfY) {
-            if (!squareList.get(convertCoordinateToIndex(from.getX(), from.getY() + i)).getIsEmpty()) {
+        int signOfY = (int) signum(distance.getPosY());
+        for (int i = signOfY; i != distance.getPosY(); i += signOfY) {
+            if (!squareList.get(convertCoordinateToIndex(from.getPosX(), from.getPosY() + i)).getIsEmpty()) {
                 return false;
             }
         }
@@ -138,9 +139,9 @@ public class Board implements Writable {
     // to the lower left.
     // EFFECTS: Returns true if every square between two squares is empty.
     private boolean isEmptyBetweenDiagonalUpperRightLowerLeft(Square from, Square distance) {
-        int signOf = (int) signum(distance.getX());
-        for (int i = signOf; i != distance.getX(); i += signOf) {
-            if (!squareList.get(convertCoordinateToIndex(from.getX() + i,from.getY() + i)).getIsEmpty()) {
+        int signOf = (int) signum(distance.getPosX());
+        for (int i = signOf; i != distance.getPosX(); i += signOf) {
+            if (!squareList.get(convertCoordinateToIndex(from.getPosX() + i,from.getPosY() + i)).getIsEmpty()) {
                 return false;
             }
         }
@@ -151,9 +152,9 @@ public class Board implements Writable {
     // to the lower right.
     // EFFECTS: Returns true if every square between two squares is empty.
     private boolean isEmptyBetweenDiagonalUpperLeftLowerRight(Square from, Square distance) {
-        int signOfX = (int) signum(distance.getX());
-        for (int i = signOfX; i != distance.getX(); i += signOfX) {
-            if (!squareList.get(convertCoordinateToIndex(from.getX() + i, from.getY() - i)).getIsEmpty()) {
+        int signOfX = (int) signum(distance.getPosX());
+        for (int i = signOfX; i != distance.getPosX(); i += signOfX) {
+            if (!squareList.get(convertCoordinateToIndex(from.getPosX() + i, from.getPosY() - i)).getIsEmpty()) {
                 return false;
             }
         }
@@ -225,7 +226,7 @@ public class Board implements Writable {
     // MODIFIES: this
     // EFFECTS: Replaces the square in squareList with a given square.
     public void replaceSquare(Square square) {
-        squareList.set(convertCoordinateToIndex(square.getX(), square.getY()), square);
+        squareList.set(convertCoordinateToIndex(square.getPosX(), square.getPosY()), square);
     }
 
     // Simple Getters:

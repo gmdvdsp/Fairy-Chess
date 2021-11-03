@@ -57,8 +57,8 @@ public class Game implements Writable {
     // EFFECTS: Processes a capture, clears from of pieces, and moves the piece on from to to.
     public void processMove(Square from, Square to) {
         processCaptures(to);
-        Square newFrom = new Square(from.getX(), from.getY(), null);
-        Square newTo = new Square(to.getX(), to.getY(), from.getPieceOnSquare());
+        Square newFrom = new Square(from.getPosX(), from.getPosY(), null);
+        Square newTo = new Square(to.getPosX(), to.getPosY(), from.getPieceOnSquare());
         getBoard().replaceSquare(newFrom);
         getBoard().replaceSquare(newTo);
         flipTurn();
@@ -151,10 +151,10 @@ public class Game implements Writable {
     // to move one empty square forward. Returns false otherwise.
     private boolean isLegalSingleWhitePawnMove(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        if (from.getY() == 1 && to.getY() == 3) {
+        if (distance.getPosX() == 0 && from.getPosY() == 1 && to.getPosY() == 3) {
             return (board.isCardinalDirectionEmpty(from, to));
         } else {
-            return (distance.getX() == 0 && distance.getY() == 1);
+            return (distance.getPosX() == 0 && distance.getPosY() == 1);
         }
     }
 
@@ -162,10 +162,10 @@ public class Game implements Writable {
     // to move one empty square down. Returns false otherwise.
     private boolean isLegalSingleBlackPawnMove(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        if (from.getY() == board.getYmax() - 1 && to.getY() == board.getYmax() - 3) {
+        if (distance.getPosX() == 0 && from.getPosY() == board.getYmax() - 1 && to.getPosY() == board.getYmax() - 3) {
             return (board.isCardinalDirectionEmpty(from, to));
         } else {
-            return (distance.getX() == 0 && distance.getY() == -1);
+            return (distance.getPosX() == 0 && distance.getPosY() == -1);
         }
     }
 
@@ -174,9 +174,9 @@ public class Game implements Writable {
     // EFFECTS: Returns true if a piece tries to move to empty squares exactly one square away. Returns false otherwise.
     public boolean isLegalKingMove(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        return (abs(distance.getX()) == 1 && abs(distance.getY()) == 1
-                || abs(distance.getX()) == 0 && abs(distance.getY()) == 1
-                || abs(distance.getX()) == 1 && abs(distance.getY()) == 0);
+        return (abs(distance.getPosX()) == 1 && abs(distance.getPosY()) == 1
+                || abs(distance.getPosX()) == 0 && abs(distance.getPosY()) == 1
+                || abs(distance.getPosX()) == 1 && abs(distance.getPosY()) == 0);
     }
 
     // Rooks:
@@ -209,8 +209,8 @@ public class Game implements Writable {
     // one square orthogonally to that movement. Returns false otherwise.
     private boolean isLegalKnightMove(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        return (abs(distance.getX()) == 2 && abs(distance.getY()) == 1)
-                || (abs(distance.getX()) == 1 && abs(distance.getY()) == 2);
+        return (abs(distance.getPosX()) == 2 && abs(distance.getPosY()) == 1)
+                || (abs(distance.getPosX()) == 1 && abs(distance.getPosY()) == 2);
     }
 
     // Capture to non-empty squares checking:
@@ -257,14 +257,14 @@ public class Game implements Writable {
     // otherwise.
     private boolean isLegalWhitePawnCapture(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        return (abs(distance.getX()) == 1 && distance.getY() == 1);
+        return (abs(distance.getPosX()) == 1 && distance.getPosY() == 1);
     }
 
     // EFFECTS: Returns true if to is exactly one square away left or right, and exactly one square down. Returns false
     // otherwise.
     private boolean isLegalBlackPawnCapture(Square from, Square to) {
         Square distance = from.getDistanceBetween(to);
-        return (abs(distance.getX()) == 1 && distance.getY() == -1);
+        return (abs(distance.getPosX()) == 1 && distance.getPosY() == -1);
     }
 
     // Non-simple getters:

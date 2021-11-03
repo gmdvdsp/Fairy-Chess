@@ -26,7 +26,6 @@ public class GameTest {
     Dragon dragon = new Dragon(arbitraryColour);
 
     Game game = new Game();
-    Board board = new Board(9, 7);
 
     @BeforeEach
     public void runBefore() {

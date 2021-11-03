@@ -3,11 +3,13 @@ package model;
 // Represents a player that can propose moves, and move pieces.
 public class Players {
     Game game;
+    boolean hasSelected;
 
     // MODIFIES: this
     // EFFECTS: Makes a new players which are playing a game.
     public Players() {
         this.game = new Game();
+        hasSelected = false;
     }
 
     // Methods:
@@ -43,7 +45,15 @@ public class Players {
         return game;
     }
 
+    public boolean getHasSelected() {
+        return hasSelected;
+    }
+
     public void setGame(Game game) {
         this.game = game;
+    }
+
+    public void setHasSelected(boolean hasSelected) {
+        this.hasSelected = hasSelected;
     }
 }

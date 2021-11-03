@@ -20,8 +20,8 @@ public class BoardTest {
         for (int y = 0; y <= testBoard.getYmax(); y++) {
             for (int x = 0; x <= testBoard.getXmax(); x++) {
                 square = new Square(x, y, null);
-                assertEquals(square.getX(), board.getSquareAt(x, y).getX());
-                assertEquals(square.getY(), board.getSquareAt(x, y).getY());
+                assertEquals(square.getPosX(), board.getSquareAt(x, y).getPosX());
+                assertEquals(square.getPosY(), board.getSquareAt(x, y).getPosY());
                 assertEquals(square.getPieceOnSquare(), board.getSquareAt(x, y).getPieceOnSquare());
             }
         }
@@ -146,8 +146,8 @@ public class BoardTest {
     @Test
     public void testGetSquareAt() {
         square = board.getSquareAt(board.getXmax(), board.getYmax());
-        assertEquals(square.getX(), board.getXmax());
-        assertEquals(square.getY(), board.getYmax());
+        assertEquals(square.getPosX(), board.getXmax());
+        assertEquals(square.getPosY(), board.getYmax());
         assertEquals(square.getPieceOnSquare(), null);
     }
 
@@ -177,8 +177,8 @@ public class BoardTest {
         for (int y = 0; y <= board.getYmax(); y++) {
             for (int x = 0; x <= board.getXmax(); x++) {
                 square = new Square(x, y, null);
-                assertEquals(square.getX(), board.getSquareAt(x, y).getX());
-                assertEquals(square.getY(), board.getSquareAt(x, y).getY());
+                assertEquals(square.getPosX(), board.getSquareAt(x, y).getPosX());
+                assertEquals(square.getPosY(), board.getSquareAt(x, y).getPosY());
                 assertEquals(square.getPieceOnSquare(), board.getSquareAt(x, y).getPieceOnSquare());
             }
         }

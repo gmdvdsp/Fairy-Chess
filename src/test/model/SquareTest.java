@@ -74,8 +74,8 @@ public class SquareTest {
         square = new Square(7, 7, null);
         square2 = new Square(4, 3, null);
         Square distanceSquare = square.getDistanceBetween(square2);
-        assertEquals(distanceSquare.getX(), -3);
-        assertEquals(distanceSquare.getY(), -4);
+        assertEquals(distanceSquare.getPosX(), -3);
+        assertEquals(distanceSquare.getPosY(), -4);
     }
 
     @Test
@@ -83,8 +83,8 @@ public class SquareTest {
         square = new Square(4, 3, null);
         square2 = new Square(7, 7, null);
         Square distanceSquare = square.getDistanceBetween(square2);
-        assertEquals(distanceSquare.getX(), 3);
-        assertEquals(distanceSquare.getY(), 4);
+        assertEquals(distanceSquare.getPosX(), 3);
+        assertEquals(distanceSquare.getPosY(), 4);
     }
 
     @Test
@@ -101,12 +101,12 @@ public class SquareTest {
 
     @Test
     public void testGetX() {
-        assertEquals(square.getX(), 0);
+        assertEquals(square.getPosX(), 0);
     }
 
     @Test
     public void testGetY() {
-        assertEquals(square.getY(), 0);
+        assertEquals(square.getPosY(), 0);
     }
 
     @Test
@@ -125,7 +125,7 @@ public class SquareTest {
     public void testSetX() {
         for (int x = 0; x < 9; x++) {
             square.setX(x);
-            assertEquals(square.getX(), x);
+            assertEquals(square.getPosX(), x);
         }
     }
 
@@ -133,7 +133,7 @@ public class SquareTest {
     public void testSetY() {
         for (int y = 0; y < 7; y++) {
             square.setY(y);
-            assertEquals(square.getY(), y);
+            assertEquals(square.getPosY(), y);
         }
     }
 }

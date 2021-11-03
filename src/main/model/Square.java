@@ -2,14 +2,18 @@ package model;
 
 import org.json.JSONObject;
 import persistence.Writable;
+import javax.swing.*;
+
+import java.awt.*;
 
 import static java.lang.Math.abs;
 
 // Represents a square that has some coordinate (x,y) and either has a piece on it, or has null.
-public class Square implements Writable {
+public class Square extends JToggleButton implements Writable {
     int posX;
     int posY;
     BasePiece piece;
+    boolean isSelected;
 
     // MODIFIES: this
     // EFFECTS: Makes a square that has some coordinate, (x,y) and some piece on it.
@@ -17,6 +21,7 @@ public class Square implements Writable {
         this.posX = x;
         this.posY = y;
         this.piece = p;
+        isSelected = false;
     }
 
     // Methods:
@@ -69,7 +74,7 @@ public class Square implements Writable {
     // EFFECTS: Returns a Square who's x and y components exactly equal the respective x and y differences between
     // two squares.
     public Square getDistanceBetween(Square to) {
-        return (new Square(getDistanceToX(to), getDistanceToY(to), null));
+        return (new Square(getDistanceToX(to), getDistanceToY(to), (BasePiece) null));
     }
 
     // EFFECTS: Returns the distances between the x-values of the square; positive if to is to the left, and negative
@@ -91,13 +96,17 @@ public class Square implements Writable {
         return (this.piece == null);
     }
 
+    public boolean getIsSelected() {
+        return isSelected;
+    }
+
     // Simple getters:
     // ===================================================
-    public int getX() {
+    public int getPosX() {
         return posX;
     }
 
-    public int getY() {
+    public int getPosY() {
         return posY;
     }
 
@@ -117,5 +126,9 @@ public class Square implements Writable {
 
     public void setPiece(BasePiece p) {
         this.piece = p;
+    }
+
+    public void setIsSelected(Boolean selected) {
+        isSelected = selected;
     }
 }
