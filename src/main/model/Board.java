@@ -123,6 +123,18 @@ public class Board implements Writable {
         return true;
     }
 
+    private boolean newIsEmptyBetweenCardinal(Square from, Square distance) {
+        // One of these will be 0.
+        int signOfX = (int) signum(distance.getX());
+        int signOfY = (int) signum(distance.getY());
+        for (int i = signOfX, j = signOfY; i != distance.getX() || j != distance.getY(); i += signOfX, j += signOfY) {
+            if (!squareList.get(convertCoordinateToIndex(from.getX() + i, from.getY())).getIsEmpty()) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     // REQUIRES: from and to are on the same file.
     // EFFECTS: Returns true if every square between two squares is empty.
     private boolean isEmptyBetweenVertical(Square from, Square distance) {

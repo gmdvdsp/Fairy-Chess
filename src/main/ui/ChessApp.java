@@ -130,7 +130,7 @@ public class ChessApp {
             proposedY = getNumericValue(command.charAt(2));
             boolean isCorrectSeparator = command.substring(1, 2).equals(separator);
             boolean isValidCoordinateX = proposedX >= 0 && proposedX <= 9;
-            boolean isValidCoordinateY = proposedY >= 0 && proposedY <= 9;
+            boolean isValidCoordinateY = proposedY >= 0 && proposedY <= 7;
             return (isCorrectLength() && isValidCoordinateX && isCorrectSeparator && isValidCoordinateY);
         } else {
             return false;

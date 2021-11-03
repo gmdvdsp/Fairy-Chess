@@ -13,7 +13,7 @@ public class Square extends JToggleButton implements Writable {
     int posX;
     int posY;
     BasePiece piece;
-    boolean isSelected;
+    Color originalColor;
 
     // MODIFIES: this
     // EFFECTS: Makes a square that has some coordinate, (x,y) and some piece on it.
@@ -21,7 +21,6 @@ public class Square extends JToggleButton implements Writable {
         this.posX = x;
         this.posY = y;
         this.piece = p;
-        isSelected = false;
     }
 
     // Methods:
@@ -96,10 +95,6 @@ public class Square extends JToggleButton implements Writable {
         return (this.piece == null);
     }
 
-    public boolean getIsSelected() {
-        return isSelected;
-    }
-
     // Simple getters:
     // ===================================================
     public int getPosX() {
@@ -112,6 +107,10 @@ public class Square extends JToggleButton implements Writable {
 
     public BasePiece getPieceOnSquare() {
         return piece;
+    }
+
+    public Color getOriginalColor() {
+        return originalColor;
     }
 
     // Simple setters:
@@ -128,7 +127,7 @@ public class Square extends JToggleButton implements Writable {
         this.piece = p;
     }
 
-    public void setIsSelected(Boolean selected) {
-        isSelected = selected;
+    public void setOriginalColor(Color color) {
+        originalColor = color;
     }
 }

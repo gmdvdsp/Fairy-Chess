@@ -39,6 +39,11 @@ public abstract class BasePiece implements Writable {
         }
     }
 
+    // Should probably use this over overridden methods.
+    public String newPrintPiece() {
+        return String.valueOf(this.getClass().getSimpleName().charAt(0));
+    }
+
     // Simple Getters:
     // ===================================================
     public String getColour() {

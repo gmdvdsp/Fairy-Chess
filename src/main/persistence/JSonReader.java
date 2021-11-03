@@ -91,6 +91,7 @@ public class JSonReader {
 
     @SuppressWarnings({"checkstyle:MethodLength", "checkstyle:SuppressWarnings"})
     // EFFECTS: Returns a piece from a JSONEntry.
+    // Should be in BasePiece to switch into the constructor.
     private BasePiece loadPiece(JSONObject jsonObject) {
         String pieceName = jsonObject.getString("pieceName");
         String colour = jsonObject.getString("colour");

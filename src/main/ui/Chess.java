@@ -1,5 +1,6 @@
 package ui;
 
+import com.sun.java.swing.plaf.windows.WindowsClassicLookAndFeel;
 import com.sun.org.apache.bcel.internal.generic.Select;
 import model.Game;
 import model.Square;
@@ -13,22 +14,35 @@ public class Chess extends JFrame implements ActionListener {
     private JFrame frame;
     private JPanel panel;
     private Game game;
+    private Icon pieceToMove;
     Square proposedFrom;
-    Square proposedTo;
     private final Color black = new Color(194,127,74);
     private final Color white = new Color(216,178,134);
 
 
     public Chess() {
+        try {
+            UIManager.setLookAndFeel(UIManager.getCrossPlatformLookAndFeelClassName());
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (UnsupportedLookAndFeelException e) {
+            e.printStackTrace();
+        }
         game = new Game();
         game.getBoard().defaultBoard();
 
         frame = new JFrame();
         panel = new JPanel();
 
-        frame.setPreferredSize(new Dimension(500, 450));
+        frame.setPreferredSize(new Dimension(470, 450));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+        SwingUtilities.updateComponentTreeUI(frame);
+
         panel.setLayout(new GridLayout(8,10,0,0));
 
         initUI();
@@ -44,8 +58,10 @@ public class Chess extends JFrame implements ActionListener {
                 Square square = game.getBoard().getSquareAt(x,y);
                 if ((x + y) % 2 == 0) {
                     square.setBackground(black);
+                    square.setOriginalColor(black);
                 } else {
                     square.setBackground(white);
+                    square.setOriginalColor(white);
                 }
                 if (!(square.getIsEmpty())) {
                     square.setIcon(square.getPieceOnSquare().getIcon());
@@ -67,10 +83,13 @@ public class Chess extends JFrame implements ActionListener {
 
         if (e.getSource() instanceof Square) {
             Square selected = (Square) e.getSource();
-            if (proposedFrom != null) {
-                processProposedTo(selected);
-            } else {
+            if (selected == proposedFrom) {
+                selected.setSelected(false);
+            }
+            if (proposedFrom == null) {
                 processProposedFrom(selected);
+            } else {
+                processProposedTo(selected);
             }
         }
     }
@@ -78,39 +97,36 @@ public class Chess extends JFrame implements ActionListener {
     private void processProposedFrom(Square selected) {
         if (!selected.getIsEmpty()) {
             proposedFrom = selected;
-            selected.setSelected(true);
-            showRange(selected);
+            pieceToMove = proposedFrom.getPieceOnSquare().getIcon();
+
+            proposedFrom.setSelected(true);
+            showRange(proposedFrom);
+        } else {
+            selected.setSelected(false);
         }
     }
 
     private void processProposedTo(Square selected) {
         if (game.isLegalMove(proposedFrom, selected)) {
             game.processMove(proposedFrom, selected);
-            proposedTo = selected;
-            redraw();
+            proposedFrom.setSelected(false);
+            selected.setSelected(false);
         } else {
             processProposedFrom(selected);
         }
     }
 
-    private void showRange(Square selected) {
+    private void showRange(Square proposedFrom) {
         for (Square square : game.getBoard().getSquareList()) {
-            if (game.isLegalMove(selected, square)) {
-                square.setSelected(true);
+            if (game.isLegalMove(proposedFrom, square)) {
+                square.setBackground(Color.GREEN);
             }
         }
     }
 
     private void wipe() {
         for (Square square : game.getBoard().getSquareList()) {
-            square.setSelected(false);
+            square.setBackground(square.getOriginalColor());
         }
-    }
-
-    private void redraw() {
-        Square newTo = game.getBoard().getSquareAt(proposedTo.getPosX(), proposedTo.getPosY());
-        newTo.setIcon(newTo.getPieceOnSquare().getIcon());
-        panel.revalidate();
-        panel.repaint();
     }
 }

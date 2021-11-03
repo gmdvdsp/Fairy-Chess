@@ -59,6 +59,7 @@ public class Game implements Writable {
         processCaptures(to);
         Square newFrom = new Square(from.getPosX(), from.getPosY(), null);
         Square newTo = new Square(to.getPosX(), to.getPosY(), from.getPieceOnSquare());
+        newTo.setIcon(from.getIcon());
         getBoard().replaceSquare(newFrom);
         getBoard().replaceSquare(newTo);
         flipTurn();
@@ -101,7 +102,12 @@ public class Game implements Writable {
     // =========================
     // Checks checks if move is legal traversal or legal capture.
     public boolean isLegalMove(Square from, Square to) {
-        return (isLegalTraversal(from, to) || isLegalCapture(from, to));
+        if (to.getIsEmpty()) {
+            return isLegalTraversal(from, to);
+        } else if (!(to.getPieceOnSquare().equals(from.getPieceOnSquare()))) {
+            return isLegalCapture(from, to);
+        }
+        return false;
     }
 
     // Traversal to empty squares checking:
@@ -109,26 +115,22 @@ public class Game implements Writable {
     // EFFECTS: Returns true if a piece on from can move to another square, and to is empty. Returns false if no piece
     // exists on from, or the move does not comply with that piece's movement in chess.
     private boolean isLegalTraversal(Square from, Square to) {
-        if (to.getIsEmpty()) {
-            if (from.getPieceOnSquare() instanceof Pawn) {
-                return (isLegalPawnMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof King) {
-                return (isLegalKingMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Rook) {
-                return (isLegalRookMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Bishop) {
-                return (isLegalBishopMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Knight) {
-                return (isLegalKnightMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Queen) {
-                return (isLegalRookMove(from, to) ^ isLegalBishopMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Princess) {
-                return (isLegalRookMove(from, to) ^ isLegalKnightMove(from, to));
-            } else if (from.getPieceOnSquare() instanceof Dragon) {
-                return (isLegalBishopMove(from, to) ^ isLegalKnightMove(from, to));
-            } else {
-                return false;
-            }
+        if (from.getPieceOnSquare() instanceof Pawn) {
+            return (isLegalPawnMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof King) {
+            return (isLegalKingMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Rook) {
+            return (isLegalRookMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Bishop) {
+            return (isLegalBishopMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Knight) {
+            return (isLegalKnightMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Queen) {
+            return (isLegalRookMove(from, to) ^ isLegalBishopMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Princess) {
+            return (isLegalRookMove(from, to) ^ isLegalKnightMove(from, to));
+        } else if (from.getPieceOnSquare() instanceof Dragon) {
+            return (isLegalBishopMove(from, to) ^ isLegalKnightMove(from, to));
         } else {
             return false;
         }
