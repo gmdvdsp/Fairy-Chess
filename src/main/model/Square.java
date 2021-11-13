@@ -9,7 +9,7 @@ import java.awt.*;
 import static java.lang.Math.abs;
 
 // Represents a square that has some coordinate (x,y) and either has a piece on it, or has null.
-public class Square extends JToggleButton implements Writable {
+public class Square extends JButton implements Writable {
     int posX;
     int posY;
     BasePiece piece;
@@ -21,6 +21,9 @@ public class Square extends JToggleButton implements Writable {
         this.posX = x;
         this.posY = y;
         this.piece = p;
+        if (piece != null) {
+            setIcon(piece.getIcon());
+        }
     }
 
     // Methods:
@@ -73,7 +76,7 @@ public class Square extends JToggleButton implements Writable {
     // EFFECTS: Returns a Square who's x and y components exactly equal the respective x and y differences between
     // two squares.
     public Square getDistanceBetween(Square to) {
-        return (new Square(getDistanceToX(to), getDistanceToY(to), (BasePiece) null));
+        return (new Square(getDistanceToX(to), getDistanceToY(to), null));
     }
 
     // EFFECTS: Returns the distances between the x-values of the square; positive if to is to the left, and negative
@@ -86,6 +89,10 @@ public class Square extends JToggleButton implements Writable {
     // if vice-versa.
     private int getDistanceToY(Square to) {
         return (to.posY - this.posY);
+    }
+
+    public void setOriginalColor(Color originalColor) {
+        this.originalColor = originalColor;
     }
 
     // Non-simple getters:
@@ -109,7 +116,7 @@ public class Square extends JToggleButton implements Writable {
         return piece;
     }
 
-    public Color getOriginalColor() {
+    public java.awt.Color getOriginalColor() {
         return originalColor;
     }
 
@@ -125,9 +132,5 @@ public class Square extends JToggleButton implements Writable {
 
     public void setPiece(BasePiece p) {
         this.piece = p;
-    }
-
-    public void setOriginalColor(Color color) {
-        originalColor = color;
     }
 }

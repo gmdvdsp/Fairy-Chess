@@ -68,7 +68,7 @@ public class PlayersTest {
 
     @Test
     public void testMakeMove() {
-        Pawn pawn = new Pawn("black");
+        Pawn pawn = new Pawn("white");
         Square proposedFrom = new Square(0, 1, pawn);
         Square proposedTo = new Square(0, 3, null);
         players.getGame().getBoard().defaultBoard();
