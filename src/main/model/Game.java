@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
 
+import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -60,7 +61,7 @@ public class Game implements Writable {
         Square newTo = getBoard().getSquareAt(to.getPosX(), to.getPosY());
         processCaptures(to);
         newTo.setPiece(newFrom.getPieceOnSquare());
-        newTo.setIcon(newTo.getPieceOnSquare().getIcon());
+        newTo.setIcon((Icon) newTo.getPieceOnSquare().getIcon());
         newFrom.setPiece(null);
         newFrom.setIcon(null);
         flipTurn();

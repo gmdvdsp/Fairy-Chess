@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import javax.swing.*;
+import java.awt.image.BufferedImage;
 
 // Represents a chess piece that has a colour.
 public abstract class BasePiece implements Writable {

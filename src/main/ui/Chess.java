@@ -9,6 +9,7 @@ public class Chess extends JFrame {
     private JFrame frame;
     private GamePanel gamePanel;
     private TurnPanel turnPanel;
+    private CapturedPiecePanel capturedPiecePanel;
     private Players players;
 
     public Chess() {
@@ -17,14 +18,16 @@ public class Chess extends JFrame {
 
         frame = new JFrame();
         turnPanel = new TurnPanel(players);
-        gamePanel = new GamePanel(players, turnPanel);
+        capturedPiecePanel = new CapturedPiecePanel(players);
+        gamePanel = new GamePanel(players, turnPanel, capturedPiecePanel);
 
-        frame.setPreferredSize(new Dimension(500, 450));
+        frame.setPreferredSize(new Dimension(490, 530));
         frame.setResizable(false);
         frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         frame.add(gamePanel);
         frame.add(turnPanel, BorderLayout.NORTH);
+        frame.add(capturedPiecePanel, BorderLayout.SOUTH);
         frame.pack();
         frame.setVisible(true);
     }

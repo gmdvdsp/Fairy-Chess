@@ -13,6 +13,7 @@ public class GamePanel extends JPanel implements ActionListener {
     private Players players;
     private Game game;
     private TurnPanel turnPanel;
+    private CapturedPiecePanel capturedPiecePanel;
     Square proposedFrom;
     Square proposedTo;
     private final Color black = new Color(194,127,74);
@@ -20,10 +21,11 @@ public class GamePanel extends JPanel implements ActionListener {
     private final Color moveRange = new Color(35, 168, 0);
     private final Color captureRange = new Color(171, 0, 0);
 
-    public GamePanel(Players players, TurnPanel turnPanel) {
+    public GamePanel(Players players, TurnPanel turnPanel, CapturedPiecePanel capturedPiecePanel) {
         this.players = players;
         this.game = players.getGame();
         this.turnPanel = turnPanel;
+        this.capturedPiecePanel = capturedPiecePanel;
         setLayout(new GridLayout(8,10,0,0));
         initUI();
     }
@@ -65,7 +67,7 @@ public class GamePanel extends JPanel implements ActionListener {
         if (players.proposeMove(proposedFrom, proposedTo)) {
             players.makeMove(proposedFrom, proposedTo);
             turnPanel.updateTurnPanelText();
-
+            capturedPiecePanel.updateCapturedPiecePanel();
         }
         proposedFrom = null;
         proposedTo = null;

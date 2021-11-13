@@ -22,7 +22,7 @@ public class Square extends JButton implements Writable {
         this.posY = y;
         this.piece = p;
         if (piece != null) {
-            setIcon(piece.getIcon());
+            setIcon((Icon) piece.getIcon());
         }
     }
 
