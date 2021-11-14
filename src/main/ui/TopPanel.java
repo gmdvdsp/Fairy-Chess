@@ -4,12 +4,16 @@ import model.Players;
 
 import javax.swing.*;
 
-public class TurnPanel extends JPanel {
+public class TopPanel extends JPanel {
     Players players;
     JLabel currentTurn;
 
-    public TurnPanel(Players players) {
+    public TopPanel(Players players) {
         this.players = players;
+        initTurnPanel();
+    }
+
+    public void initTurnPanel() {
         this.currentTurn = new JLabel("It's " + players.getGame().getCurrentTurn() + "'s turn.");
         add(currentTurn);
     }

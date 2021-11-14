@@ -9,7 +9,7 @@ import java.awt.image.BufferedImage;
 // Represents a chess piece that has a colour.
 public abstract class BasePiece implements Writable {
     protected String colour;
-    protected Icon icon;
+    protected ImageIcon icon;
 
     // MODIFIES: this
     // EFFECTS: Makes some piece with some colour.
@@ -51,8 +51,8 @@ public abstract class BasePiece implements Writable {
         return colour;
     }
 
-    public Icon getIcon() {
-        return (Icon) icon;
+    public ImageIcon getIcon() {
+        return icon;
     }
 
     // Simple Setters:

@@ -32,5 +32,4 @@ public class Pawn extends BasePiece {
             icon = new ImageIcon("./data/assets/bp.png");
         }
     }
-
 }

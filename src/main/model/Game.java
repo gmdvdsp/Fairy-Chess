@@ -61,7 +61,7 @@ public class Game implements Writable {
         Square newTo = getBoard().getSquareAt(to.getPosX(), to.getPosY());
         processCaptures(to);
         newTo.setPiece(newFrom.getPieceOnSquare());
-        newTo.setIcon((Icon) newTo.getPieceOnSquare().getIcon());
+        newTo.setIcon(newTo.getPieceOnSquare().getIcon());
         newFrom.setPiece(null);
         newFrom.setIcon(null);
         flipTurn();

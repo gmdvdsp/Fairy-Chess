@@ -6,13 +6,12 @@ import model.Square;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 
 public class GamePanel extends JPanel implements ActionListener {
     private Players players;
     private Game game;
-    private TurnPanel turnPanel;
+    private TopPanel topPanel;
     private CapturedPiecePanel capturedPiecePanel;
     Square proposedFrom;
     Square proposedTo;
@@ -21,10 +20,10 @@ public class GamePanel extends JPanel implements ActionListener {
     private final Color moveRange = new Color(35, 168, 0);
     private final Color captureRange = new Color(171, 0, 0);
 
-    public GamePanel(Players players, TurnPanel turnPanel, CapturedPiecePanel capturedPiecePanel) {
+    public GamePanel(Players players, TopPanel topPanel, CapturedPiecePanel capturedPiecePanel) {
         this.players = players;
         this.game = players.getGame();
-        this.turnPanel = turnPanel;
+        this.topPanel = topPanel;
         this.capturedPiecePanel = capturedPiecePanel;
         setLayout(new GridLayout(8,10,0,0));
         initUI();
@@ -41,7 +40,11 @@ public class GamePanel extends JPanel implements ActionListener {
                     square.setBackground(black);
                     square.setOriginalColor(black);
                 }
+                if (square.getPieceOnSquare() != null) {
+                    square.setIcon(square.getPieceOnSquare().getIcon());
+                }
                 square.addActionListener(this);
+                square.setFocusPainted(false);
                 add(square);
             }
         }
@@ -66,7 +69,7 @@ public class GamePanel extends JPanel implements ActionListener {
     public void processMove() {
         if (players.proposeMove(proposedFrom, proposedTo)) {
             players.makeMove(proposedFrom, proposedTo);
-            turnPanel.updateTurnPanelText();
+            topPanel.updateTurnPanelText();
             capturedPiecePanel.updateCapturedPiecePanel();
         }
         proposedFrom = null;
