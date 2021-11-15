@@ -21,10 +21,11 @@ public class CapturedPiecePanel extends JTabbedPane {
         blackTab = new JPanel();
 
         initTabs();
+        initCapturedPiecePanel();
         addTabs();
     }
 
-    public void initTabs() {
+    private void initTabs() {
         whiteTab.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
         whiteTab.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
         whiteTab.setPreferredSize(new Dimension(40,50));
@@ -33,9 +34,21 @@ public class CapturedPiecePanel extends JTabbedPane {
         blackTab.setPreferredSize(new Dimension(40,70));
     }
 
-    public void addTabs() {
+    private void addTabs() {
         addTab("White Captured Pieces", null, whiteTab, "See all captured white pieces.");
         addTab("Black Captured Pieces", null, blackTab, "See all captured black pieces.");
+    }
+
+    private void initCapturedPiecePanel() {
+        for (BasePiece piece : players.getGame().getCapturedPieces()) {
+            ImageIcon imageIcon = new ImageIcon(piece.getIcon()
+                    .getImage().getScaledInstance(40, 40, Image.SCALE_DEFAULT));
+            if (piece.getColour().equals("white")) {
+                whiteTab.add(new JLabel(imageIcon));
+            } else {
+                blackTab.add(new JLabel(imageIcon));
+            }
+        }
     }
 
     public void updateCapturedPiecePanel() {

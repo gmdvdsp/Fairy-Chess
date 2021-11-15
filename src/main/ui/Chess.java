@@ -10,26 +10,24 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Chess extends JFrame {
     private static final String JSON_STORE = "./data/game.json";
-    private JSonWriter jsonWriter;
-    private JSonReader jsonReader;
-    private Scanner input;
+    private final JSonWriter jsonWriter;
+    private final JSonReader jsonReader;
+    private final Players players;
+
     private JFrame frame;
     private GamePanel gamePanel;
     private TopPanel topPanel;
     private CapturedPiecePanel capturedPiecePanel;
-    private Players players;
 
     public Chess() {
-        input = new Scanner(System.in);
         jsonWriter = new JSonWriter(JSON_STORE);
         jsonReader = new JSonReader(JSON_STORE);
         players = new Players();
-        initLoadPrompt();
 
+        initLoadPrompt();
         initFrame();
         initPanels();
 
@@ -38,10 +36,11 @@ public class Chess extends JFrame {
         frame.add(capturedPiecePanel, BorderLayout.SOUTH);
         frame.pack();
         frame.setVisible(true);
-        initPersistenceHandling();
+        addSaveOnQuitHandler();
     }
 
     private void initLoadPrompt() {
+        // From https://stackoverflow.com/questions/21330682/confirmation-before-press-yes-to-exit-program-in-java
         int confirmed = JOptionPane.showConfirmDialog(null,
                 "Load the saved game?", "Load prompt",
                 JOptionPane.YES_NO_OPTION);
@@ -65,22 +64,24 @@ public class Chess extends JFrame {
         gamePanel = new GamePanel(players, topPanel, capturedPiecePanel);
     }
 
-    private void initPersistenceHandling() {
+    private void addSaveOnQuitHandler() {
         frame.addWindowListener(new WindowAdapter() {
             // From https://stackoverflow.com/questions/21330682/confirmation-before-press-yes-to-exit-program-in-java
             @Override
             public void windowClosing(WindowEvent e) {
-                int confirmed = JOptionPane.showConfirmDialog(null,
-                        "Save?", "Save prompt",
-                        JOptionPane.YES_NO_OPTION);
-                if (confirmed == JOptionPane.YES_OPTION) {
-                    saveGame();
+                if (!players.getGame().getEndGame()) {
+                    int confirmed = JOptionPane.showConfirmDialog(null,
+                            "Save?", "Save prompt",
+                            JOptionPane.YES_NO_OPTION);
+                    if (confirmed == JOptionPane.YES_OPTION) {
+                        saveGame();
+                    }
                 }
             }
         });
     }
 
-    public void saveGame() {
+    private void saveGame() {
         try {
             jsonWriter.open();
             jsonWriter.write(players.getGame());

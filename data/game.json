@@ -1,9 +1,6 @@
 {
-    "currentTurn": "white",
-    "capturedPieces": [{
-        "colour": "white",
-        "pieceName": "Pawn"
-    }],
+    "currentTurn": "black",
+    "capturedPieces": [],
     "board": {"squareList": [
         {
             "piece": {
@@ -22,10 +19,6 @@
             "y": 0
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Knight"
-            },
             "x": 2,
             "y": 0
         },
@@ -86,6 +79,10 @@
             "y": 0
         },
         {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
             "x": 0,
             "y": 1
         },
@@ -170,58 +167,58 @@
             "y": 2
         },
         {
-            "x": 3,
-            "y": 2
-        },
-        {
-            "x": 4,
-            "y": 2
-        },
-        {
-            "x": 5,
-            "y": 2
-        },
-        {
-            "x": 6,
-            "y": 2
-        },
-        {
-            "x": 7,
-            "y": 2
-        },
-        {
-            "x": 8,
-            "y": 2
-        },
-        {
-            "x": 9,
-            "y": 2
-        },
-        {
             "piece": {
                 "colour": "white",
-                "pieceName": "Pawn"
-            },
-            "x": 0,
-            "y": 3
-        },
-        {
-            "x": 1,
-            "y": 3
-        },
-        {
-            "x": 2,
-            "y": 3
-        },
-        {
-            "x": 3,
-            "y": 3
-        },
-        {
-            "piece": {
-                "colour": "black",
                 "pieceName": "Knight"
             },
+            "x": 3,
+            "y": 2
+        },
+        {
+            "x": 4,
+            "y": 2
+        },
+        {
+            "x": 5,
+            "y": 2
+        },
+        {
+            "x": 6,
+            "y": 2
+        },
+        {
+            "x": 7,
+            "y": 2
+        },
+        {
+            "x": 8,
+            "y": 2
+        },
+        {
+            "x": 9,
+            "y": 2
+        },
+        {
+            "x": 0,
+            "y": 3
+        },
+        {
+            "x": 1,
+            "y": 3
+        },
+        {
+            "x": 2,
+            "y": 3
+        },
+        {
+            "x": 3,
+            "y": 3
+        },
+        {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
             "x": 4,
             "y": 3
         },
@@ -302,6 +299,10 @@
             "y": 5
         },
         {
+            "piece": {
+                "colour": "black",
+                "pieceName": "Pawn"
+            },
             "x": 4,
             "y": 5
         },
@@ -358,10 +359,6 @@
             "y": 6
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Pawn"
-            },
             "x": 4,
             "y": 6
         },
@@ -422,6 +419,10 @@
             "y": 7
         },
         {
+            "piece": {
+                "colour": "black",
+                "pieceName": "Knight"
+            },
             "x": 2,
             "y": 7
         },

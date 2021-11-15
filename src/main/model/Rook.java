@@ -1,8 +1,6 @@
 package model;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 
 // Represents a rook that has some colour.

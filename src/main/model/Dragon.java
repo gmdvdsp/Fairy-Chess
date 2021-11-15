@@ -1,8 +1,6 @@
 package model;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.File;
 import java.io.IOException;
 
 // Represents a dragon that has some colour.

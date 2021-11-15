@@ -9,10 +9,10 @@ import java.awt.*;
 import java.awt.event.*;
 
 public class GamePanel extends JPanel implements ActionListener {
-    private Players players;
-    private Game game;
-    private TopPanel topPanel;
-    private CapturedPiecePanel capturedPiecePanel;
+    private final Players players;
+    private final Game game;
+    private final TopPanel topPanel;
+    private final CapturedPiecePanel capturedPiecePanel;
     Square proposedFrom;
     Square proposedTo;
     private final Color black = new Color(194,127,74);
@@ -52,7 +52,7 @@ public class GamePanel extends JPanel implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        wipe();
+        wipeRanges();
 
         if (e.getSource() instanceof Square) {
             Square selected = (Square) e.getSource();
@@ -66,9 +66,12 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    public void processMove() {
+    private void processMove() {
         if (players.proposeMove(proposedFrom, proposedTo)) {
             players.makeMove(proposedFrom, proposedTo);
+            if (players.getGame().getEndGame()) {
+                endGame();
+            }
             topPanel.updateTurnPanelText();
             capturedPiecePanel.updateCapturedPiecePanel();
         }
@@ -81,7 +84,7 @@ public class GamePanel extends JPanel implements ActionListener {
         boolean isEnemy = false;
         if (!selected.getIsEmpty()) {
             for (Square square : game.getBoard().getSquareList()) {
-                isLegalMove = game.isLegalMove(selected, square);
+                isLegalMove = players.proposeMove(selected, square);
                 if (!square.getIsEmpty()) {
                     isEnemy = (!square.getPieceOnSquare().getColour().equals(selected.getPieceOnSquare().getColour()));
                 }
@@ -97,9 +100,16 @@ public class GamePanel extends JPanel implements ActionListener {
         }
     }
 
-    private void wipe() {
+    private void wipeRanges() {
         for (Square square : game.getBoard().getSquareList()) {
             square.setBackground(square.getOriginalColor());
         }
+    }
+
+    private void endGame() {
+        for (Square square : game.getBoard().getSquareList()) {
+            square.removeActionListener(this);
+        }
+        topPanel.displayGameOver();
     }
 }

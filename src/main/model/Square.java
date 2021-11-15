@@ -88,10 +88,6 @@ public class Square extends JButton implements Writable {
         return (to.posY - this.posY);
     }
 
-    public void setOriginalColor(Color originalColor) {
-        this.originalColor = originalColor;
-    }
-
     // Non-simple getters:
     // ===================================================
     // EFFECTS: Returns true only if the square has a piece occupying it.
@@ -129,5 +125,9 @@ public class Square extends JButton implements Writable {
 
     public void setPiece(BasePiece p) {
         this.piece = p;
+    }
+
+    public void setOriginalColor(Color originalColor) {
+        this.originalColor = originalColor;
     }
 }
