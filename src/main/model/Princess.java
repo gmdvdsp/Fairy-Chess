@@ -1,7 +1,6 @@
 package model;
 
 import javax.swing.*;
-import java.io.IOException;
 
 // Represents a princess that has some colour.
 public class Princess extends BasePiece {
@@ -9,11 +8,7 @@ public class Princess extends BasePiece {
     // EFFECTS: Makes a new princess with a colour.
     public Princess(String colour) {
         super(colour);
-        try {
-            setIcon();
-        } catch (IOException e) {
-            System.out.println("Princess files not found.");
-        }
+        setIcon();
     }
 
     @Override
@@ -22,7 +17,7 @@ public class Princess extends BasePiece {
         return ("I");
     }
 
-    private void setIcon() throws IOException {
+    protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wp.png");
         } else {

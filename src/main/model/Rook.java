@@ -1,7 +1,6 @@
 package model;
 
 import javax.swing.*;
-import java.io.IOException;
 
 // Represents a rook that has some colour.
 public class Rook extends BasePiece {
@@ -10,11 +9,7 @@ public class Rook extends BasePiece {
     // EFFECTS: Makes a new rook with a colour.
     public Rook(String colour) {
         super(colour);
-        try {
-            setIcon();
-        } catch (IOException e) {
-            System.out.println("Rook assets not found!");
-        }
+        setIcon();
     }
 
     @Override
@@ -23,7 +18,7 @@ public class Rook extends BasePiece {
         return ("R");
     }
 
-    private void setIcon() throws IOException {
+    protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wr.png");
         } else {

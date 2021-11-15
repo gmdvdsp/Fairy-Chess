@@ -1,9 +1,6 @@
 package model;
 
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import java.io.File;
-import java.io.IOException;
 
 // Represents a queen that has some colour.
 public class Queen extends BasePiece {
@@ -12,11 +9,7 @@ public class Queen extends BasePiece {
     // EFFECTS: Makes a new queen with a colour.
     public Queen(String colour) {
         super(colour);
-        try {
-            setIcon();
-        } catch (IOException e) {
-            System.out.println("Queen assets not found!");
-        }
+        setIcon();
     }
 
     @Override
@@ -25,7 +18,7 @@ public class Queen extends BasePiece {
         return ("Q");
     }
 
-    private void setIcon() throws IOException {
+    public void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wq.png");
         } else {

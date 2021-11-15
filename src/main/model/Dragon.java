@@ -10,11 +10,7 @@ public class Dragon extends BasePiece {
     // EFFECTS: Makes a dragon with a colour.
     public Dragon(String colour) {
         super(colour);
-        try {
-            setIcon();
-        } catch (IOException e) {
-            System.out.println("Dragon assets not found!");
-        }
+        setIcon();
     }
 
     @Override
@@ -23,7 +19,7 @@ public class Dragon extends BasePiece {
         return ("D");
     }
 
-    private void setIcon() throws IOException {
+    protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wp.png");
         } else {

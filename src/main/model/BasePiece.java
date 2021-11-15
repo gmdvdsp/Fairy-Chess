@@ -4,6 +4,7 @@ import org.json.JSONObject;
 import persistence.Writable;
 
 import javax.swing.*;
+import java.io.IOException;
 
 // Represents a chess piece that has a colour.
 public abstract class BasePiece implements Writable {
@@ -29,6 +30,8 @@ public abstract class BasePiece implements Writable {
 
     // EFFECTS: Prints the first letter of the piece's name as a capital letter.
     protected abstract String printPiece();
+
+    protected abstract void setIcon() throws IOException;
 
     // EFFECTS: prints the first letter of the piece's colour as a lowercase letter.
     public String printColourOneCharacter() {
