@@ -3,11 +3,13 @@ package model;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.awt.*;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SquareTest {
     Square square = new Square(0, 0, null);
-    Square square2 = new Square(0, 0, null);;
+    Square square2 = new Square(0, 0, null);
 
     @BeforeEach
     public void runBefore() {
@@ -19,12 +21,12 @@ public class SquareTest {
     @Test
     public void testPrintSquare() {
         square.setPiece(new Pawn("white"));
-        assertTrue(square.printSquare().equals("[ wP ]"));
+        assertEquals("[ wP ]", square.printSquare());
     }
 
     @Test
     public void testPrintSquareEmpty() {
-        assertTrue(square.printSquare().equals("[    ]"));
+        assertEquals("[    ]", square.printSquare());
     }
 
     @Test
@@ -118,7 +120,12 @@ public class SquareTest {
 
     @Test
     public void testGetPieceOnSquareNull() {
-        assertEquals(square.getPieceOnSquare(), null);
+        assertNull(square.getPieceOnSquare());
+    }
+
+    @Test
+    public void testGetOriginalColor() {
+        assertNull(square.getOriginalColor());
     }
 
     @Test
@@ -135,5 +142,11 @@ public class SquareTest {
             square.setY(y);
             assertEquals(square.getPosY(), y);
         }
+    }
+
+    @Test
+    public void testSetOriginalColor() {
+        square.setOriginalColor(Color.BLACK);
+        assertEquals(square.getOriginalColor(), Color.BLACK);
     }
 }
