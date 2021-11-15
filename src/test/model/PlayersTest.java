@@ -71,7 +71,8 @@ public class PlayersTest {
         Pawn pawn = new Pawn("white");
         Square proposedFrom = new Square(0, 1, pawn);
         Square proposedTo = new Square(0, 3, null);
-        players.getGame().getBoard().defaultBoard();
+        players.getGame().getBoard().replaceSquare(proposedFrom);
+        players.getGame().getBoard().replaceSquare(proposedTo);
         players.makeMove(proposedFrom, proposedTo);
         assertTrue(players.getGame().getBoard().getSquareAt(0, 1).getIsEmpty());
         assertEquals(players.getGame().getBoard().getSquareAt(0, 3).getPieceOnSquare(), pawn);

@@ -3,9 +3,7 @@ package model;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import persistence.Writable;
-import ui.ChessApp;
 
-import javax.swing.*;
 import java.util.ArrayList;
 import java.util.List;
 import static java.lang.Math.signum;

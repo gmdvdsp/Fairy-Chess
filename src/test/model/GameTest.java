@@ -44,6 +44,8 @@ public class GameTest {
     public void testProcessMoveEmpty() {
         Square from = new Square(0,0, king);
         Square to = new Square(1,0, null);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(to);
         game.processMove(from, to);
         assertEquals(game.getCapturedPieces(), Collections.emptyList());
         assertTrue(game.getBoard().getSquareAt(0,0).getIsEmpty());
@@ -58,6 +60,8 @@ public class GameTest {
         comparisonList.add(blackPawn);
         Square from = new Square(0,0, king);
         Square to = new Square(1,0, blackPawn);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(to);
         game.processMove(from, to);
         assertEquals(game.getCapturedPieces(), comparisonList);
         assertTrue(game.getBoard().getSquareAt(0,0).getIsEmpty());
@@ -70,6 +74,8 @@ public class GameTest {
     public void testProcessMoveCaptureEndGame() {
         Square from = new Square(5,5, blackPawn);
         Square to = new Square(4,4, king);
+        game.getBoard().replaceSquare(from);
+        game.getBoard().replaceSquare(to);
         game.processMove(from, to);
         assertEquals(game.getCapturedPieces(), Collections.emptyList());
         assertTrue(game.getBoard().getSquareAt(5,5).getIsEmpty());
@@ -186,7 +192,7 @@ public class GameTest {
     }
 
     @Test
-    public void testIsLegalMoveWhitePawnIllegalCaptureWrongY() {
+    public void testIsLegalMoveWhitePawnIllegalCaptureWrongWay() {
         Square upperRight = new Square(3, 4, blackPawn);
         Square from = new Square(2, 2, whitePawn);
         Square upperLeft = new Square(2, 4, blackPawn);
@@ -212,12 +218,19 @@ public class GameTest {
     @Test
     public void testIsLegalMoveWhitePawnFirstMoveTwoMove() {
         Square to = new Square(0,3,null);
-        Square between = new Square(0,2,null);
         Square from = new Square(0, 1, whitePawn);
         game.getBoard().replaceSquare(to);
-        game.getBoard().replaceSquare(between);
         game.getBoard().replaceSquare(from);
         assertTrue(game.isLegalMove(from, to));
+    }
+
+    @Test
+    public void testIsLegalMoveWhitePawnFirstMoveTwoMoveIllegal() {
+        Square to = new Square(1,3,null);
+        Square from = new Square(0, 1, whitePawn);
+        game.getBoard().replaceSquare(to);
+        game.getBoard().replaceSquare(from);
+        assertFalse(game.isLegalMove(from, to));
     }
 
     @Test
@@ -234,10 +247,8 @@ public class GameTest {
     @Test
     public void testIsLegalMoveWhitePawnNotFirstMoveTwoMove() {
         Square to = new Square(5,4,null);
-        Square between = new Square(5,3,null);
         Square from = new Square(5, 2, whitePawn);
         game.getBoard().replaceSquare(to);
-        game.getBoard().replaceSquare(between);
         game.getBoard().replaceSquare(from);
         assertFalse(game.isLegalMove(from, to));
     }
