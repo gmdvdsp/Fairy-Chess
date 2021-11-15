@@ -226,7 +226,7 @@ public class GameTest {
 
     @Test
     public void testIsLegalMoveWhitePawnFirstMoveTwoMoveIllegal() {
-        Square to = new Square(1,3,null);
+        Square to = new Square(0,4,null);
         Square from = new Square(0, 1, whitePawn);
         game.getBoard().replaceSquare(to);
         game.getBoard().replaceSquare(from);
