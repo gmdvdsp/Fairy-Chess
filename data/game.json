@@ -1,10 +1,31 @@
 {
-    "currentTurn": "black",
-    "capturedPieces": [],
+    "currentTurn": "white",
+    "capturedPieces": [
+        {
+            "colour": "black",
+            "pieceName": "Bishop"
+        },
+        {
+            "colour": "white",
+            "pieceName": "Pawn"
+        },
+        {
+            "colour": "black",
+            "pieceName": "Pawn"
+        },
+        {
+            "colour": "white",
+            "pieceName": "Knight"
+        },
+        {
+            "colour": "white",
+            "pieceName": "Dragon"
+        }
+    ],
     "board": {"squareList": [
         {
             "piece": {
-                "colour": "white",
+                "colour": "black",
                 "pieceName": "Dragon"
             },
             "x": 0,
@@ -79,18 +100,10 @@
             "y": 0
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 0,
             "y": 1
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 1,
             "y": 1
         },
@@ -115,18 +128,10 @@
             "y": 1
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 5,
             "y": 1
         },
         {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
             "x": 6,
             "y": 1
         },
@@ -153,156 +158,164 @@
             },
             "x": 9,
             "y": 1
-        },
-        {
-            "x": 0,
-            "y": 2
-        },
-        {
-            "x": 1,
-            "y": 2
-        },
-        {
-            "x": 2,
-            "y": 2
-        },
-        {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Knight"
-            },
-            "x": 3,
-            "y": 2
-        },
-        {
-            "x": 4,
-            "y": 2
-        },
-        {
-            "x": 5,
-            "y": 2
-        },
-        {
-            "x": 6,
-            "y": 2
-        },
-        {
-            "x": 7,
-            "y": 2
-        },
-        {
-            "x": 8,
-            "y": 2
-        },
-        {
-            "x": 9,
-            "y": 2
-        },
-        {
-            "x": 0,
-            "y": 3
-        },
-        {
-            "x": 1,
-            "y": 3
-        },
-        {
-            "x": 2,
-            "y": 3
-        },
-        {
-            "x": 3,
-            "y": 3
-        },
-        {
-            "piece": {
-                "colour": "white",
-                "pieceName": "Pawn"
-            },
-            "x": 4,
-            "y": 3
-        },
-        {
-            "x": 5,
-            "y": 3
-        },
-        {
-            "x": 6,
-            "y": 3
-        },
-        {
-            "x": 7,
-            "y": 3
-        },
-        {
-            "x": 8,
-            "y": 3
-        },
-        {
-            "x": 9,
-            "y": 3
-        },
-        {
-            "x": 0,
-            "y": 4
-        },
-        {
-            "x": 1,
-            "y": 4
-        },
-        {
-            "x": 2,
-            "y": 4
-        },
-        {
-            "x": 3,
-            "y": 4
-        },
-        {
-            "x": 4,
-            "y": 4
-        },
-        {
-            "x": 5,
-            "y": 4
-        },
-        {
-            "x": 6,
-            "y": 4
-        },
-        {
-            "x": 7,
-            "y": 4
-        },
-        {
-            "x": 8,
-            "y": 4
-        },
-        {
-            "x": 9,
-            "y": 4
-        },
-        {
-            "x": 0,
-            "y": 5
-        },
-        {
-            "x": 1,
-            "y": 5
-        },
-        {
-            "x": 2,
-            "y": 5
-        },
-        {
-            "x": 3,
-            "y": 5
         },
         {
             "piece": {
                 "colour": "black",
+                "pieceName": "Queen"
+            },
+            "x": 0,
+            "y": 2
+        },
+        {
+            "piece": {
+                "colour": "white",
                 "pieceName": "Pawn"
             },
+            "x": 1,
+            "y": 2
+        },
+        {
+            "x": 2,
+            "y": 2
+        },
+        {
+            "x": 3,
+            "y": 2
+        },
+        {
+            "x": 4,
+            "y": 2
+        },
+        {
+            "x": 5,
+            "y": 2
+        },
+        {
+            "x": 6,
+            "y": 2
+        },
+        {
+            "x": 7,
+            "y": 2
+        },
+        {
+            "x": 8,
+            "y": 2
+        },
+        {
+            "x": 9,
+            "y": 2
+        },
+        {
+            "x": 0,
+            "y": 3
+        },
+        {
+            "x": 1,
+            "y": 3
+        },
+        {
+            "x": 2,
+            "y": 3
+        },
+        {
+            "x": 3,
+            "y": 3
+        },
+        {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
+            "x": 4,
+            "y": 3
+        },
+        {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
+            "x": 5,
+            "y": 3
+        },
+        {
+            "x": 6,
+            "y": 3
+        },
+        {
+            "piece": {
+                "colour": "white",
+                "pieceName": "Pawn"
+            },
+            "x": 7,
+            "y": 3
+        },
+        {
+            "x": 8,
+            "y": 3
+        },
+        {
+            "x": 9,
+            "y": 3
+        },
+        {
+            "x": 0,
+            "y": 4
+        },
+        {
+            "x": 1,
+            "y": 4
+        },
+        {
+            "x": 2,
+            "y": 4
+        },
+        {
+            "x": 3,
+            "y": 4
+        },
+        {
+            "x": 4,
+            "y": 4
+        },
+        {
+            "x": 5,
+            "y": 4
+        },
+        {
+            "x": 6,
+            "y": 4
+        },
+        {
+            "x": 7,
+            "y": 4
+        },
+        {
+            "x": 8,
+            "y": 4
+        },
+        {
+            "x": 9,
+            "y": 4
+        },
+        {
+            "x": 0,
+            "y": 5
+        },
+        {
+            "x": 1,
+            "y": 5
+        },
+        {
+            "x": 2,
+            "y": 5
+        },
+        {
+            "x": 3,
+            "y": 5
+        },
+        {
             "x": 4,
             "y": 5
         },
@@ -403,10 +416,6 @@
             "y": 6
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Dragon"
-            },
             "x": 0,
             "y": 7
         },
@@ -427,10 +436,6 @@
             "y": 7
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Bishop"
-            },
             "x": 3,
             "y": 7
         },
@@ -443,10 +448,6 @@
             "y": 7
         },
         {
-            "piece": {
-                "colour": "black",
-                "pieceName": "Queen"
-            },
             "x": 5,
             "y": 7
         },

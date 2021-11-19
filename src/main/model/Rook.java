@@ -18,6 +18,8 @@ public class Rook extends BasePiece {
         return ("R");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wr.png");

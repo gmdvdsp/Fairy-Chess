@@ -19,6 +19,8 @@ public class Knight extends BasePiece {
         return ("N");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wn.png");

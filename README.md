@@ -75,3 +75,9 @@ have thus improved the game by a factor of 35%.
 - As a user, I want to be able to be able to load my game from file 
 
 
+CREDITS:
+
+Princess icons: By Original: LithiumFlashThis version: CheChe - This file was derived from: Chess Mlt45.png:, CC BY-SA 4.0, https://commons.wikimedia.org/w/index.php?curid=57145018
+Every Other Icon: https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces
+
+

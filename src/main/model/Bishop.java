@@ -19,6 +19,7 @@ public class Bishop extends BasePiece {
     }
 
     @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wb.png");

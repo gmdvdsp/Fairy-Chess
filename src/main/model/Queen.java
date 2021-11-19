@@ -18,6 +18,8 @@ public class Queen extends BasePiece {
         return ("Q");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     public void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wq.png");

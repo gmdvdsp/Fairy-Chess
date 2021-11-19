@@ -31,9 +31,10 @@ public abstract class BasePiece implements Writable {
     // EFFECTS: Prints the first letter of the piece's name as a capital letter.
     protected abstract String printPiece();
 
+    // EFFECTS: Sets the corresponding icon to the instantiated piece with a certain colour.
     protected abstract void setIcon() throws IOException;
 
-    // EFFECTS: prints the first letter of the piece's colour as a lowercase letter.
+    // EFFECTS: Prints the first letter of the piece's colour as a lowercase letter.
     public String printColourOneCharacter() {
         if (colour.equals("white")) {
             return ("w");

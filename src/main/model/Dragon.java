@@ -19,11 +19,13 @@ public class Dragon extends BasePiece {
         return ("D");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
-            icon = new ImageIcon("./data/assets/wp.png");
+            icon = new ImageIcon("./data/assets/wd.png");
         } else {
-            icon = new ImageIcon("./data/assets/bp.png");
+            icon = new ImageIcon("./data/assets/bd.png");
         }
     }
 }

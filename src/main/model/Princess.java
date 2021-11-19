@@ -17,11 +17,13 @@ public class Princess extends BasePiece {
         return ("I");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
-            icon = new ImageIcon("./data/assets/wp.png");
+            icon = new ImageIcon("./data/assets/wi.png");
         } else {
-            icon = new ImageIcon("./data/assets/bp.png");
+            icon = new ImageIcon("./data/assets/bi.png");
         }
     }
 }

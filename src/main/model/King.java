@@ -18,6 +18,8 @@ public class King extends BasePiece {
         return ("K");
     }
 
+    @Override
+    // EFFECTS: See overridden method.
     protected void setIcon() {
         if (colour.equals("white")) {
             icon = new ImageIcon("./data/assets/wk.png");
