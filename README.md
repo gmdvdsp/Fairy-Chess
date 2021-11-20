@@ -29,6 +29,7 @@ Two new pieces have been added to either side of the rooks in normal chess. Henc
 
 - Kings can move either exactly one square cardinally or diagonally. They capture the square they land on.
 
+
 - Dragons start on the left of the kingside Rook. They can move either as a knight or a bishop, but only as one of them
   per move. They capture the square they land on.
 
@@ -74,6 +75,69 @@ have thus improved the game by a factor of 35%.
 
 - As a user, I want to be able to be able to load my game from file 
 
+
+# Phase 4: Task 3:
+### Refactoring:
+
+There is much more refactoring that I would like to do, given time.
+
+- The most glaring is that there are currently 8 different Piece classes that all abstract a BasePiece. This is 
+  inherently suspicious. It would likely be better if they were all compacted into some enum to facilitate adding new
+  pieces to the game.
+
+
+- Each piece has it's own toJSON and print methods when this should really just compacted to a single non-abstract
+  .getClass.getSimpleName() method in the abstract class.
+
+
+- The glaringly ugly if cases in the Game and JSonReader classes for judging which piece should be re-examined. One
+  approach could be to pull them up into the abstract method, but this sacrifices the abstract method knowing about the
+  board which is dangerous. Another approach could be to pull movement into some PieceRules class that each Piece then
+  has, and then switch this into each piece's function in their own classes. But this is still somewhat dangerous 
+  because it implies that pieces know how to move, when they really shouldn't.
+
+
+- The game currently processes captures every turn no matter if a capture was made. This is easy enough to fix, and just
+  involves making it so there must be a piece both on the from and to squares to actually process a capture.
+
+
+- The Player and Game association is inherently suspicious. Currently, all requested moves are processed through the 
+  players, and then they tell the Game to move pieces, which are then moved on the Board. However, this doesn't really 
+  respect the fact that a game has two players. It might be prudent to make Game and Player a bidirectional association
+  with two players with a color to a game, and ensuring that they then request moves only for their own color. This also
+  fixes the worrisome problem of the UI currently splitting the two captured piece colors inside the UI class. Really, 
+  this functionality seems like it should go inside the Players classes.
+
+
+- The functions inside the Board that test diagonal movement are somewhat suspicious. With some method refactoring, it's 
+  definitely possible to pull the isDiagonalUpperLeftLowerRight and isDiagonalUpperRightLowerLeft methods into a single 
+  function.
+
+
+- Tests do not respect a single point of control for board limits (although really, this will never change), and are 
+  woefully in-efficient. They don't make use of a runBefore to instantiate some sample squares.
+
+
+- The main Chess class which handles the parent JFrame has a GamePanel, TopPanel, and CapturedPiecePanel, but GamePanel
+  also has the same TopPanel and CapturedPanel, which then updates these panels. TopPanel and CapturedPanel should
+  extend some Observer class so that they can be updated from GamePanel.
+
+
+- Every UI Panel *should* really only have access to the Player, the universal top level of entry into the game, and 
+  shouldn't really have associations with anything below this. The single worrisome class that breaks this idea is the
+  capturedPiecePanel, which relies on a list of an old captured list to compare with the current captured list. This is 
+  bad, and really, update should just assume that something was actually captured. This bleeds into the next bad design
+  point.
+
+
+- The Game cannot discriminate between a capture and a move. It only checks for move legality, when really it should 
+  also inform any classes that would like to know whether a capture was made or not. This would allow capturedPiecePanel 
+  to better simplify it's update method, as captured lists are only changing if something was actually captured.  
+
+
+- The only piece that captures differently from how it moves is Pawns. So the captureLegality method in Game should not
+  need a giant if case to switch into different capture methods, although I suppose this helps if we decide to change 
+  how pieces capture in the future. See bullet point three.
 
 CREDITS:
 

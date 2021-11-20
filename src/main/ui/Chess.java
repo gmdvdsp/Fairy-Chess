@@ -1,5 +1,7 @@
 package ui;
 
+import model.Event;
+import model.EventLog;
 import model.Players;
 import persistence.JSonReader;
 import persistence.JSonWriter;
@@ -41,7 +43,7 @@ public class Chess extends JFrame {
         frame.add(capturedPiecePanel, BorderLayout.SOUTH);
         frame.pack();
         frame.setVisible(true);
-        addSaveOnQuitHandler();
+        addOnQuitHandler();
     }
 
     // MODIFIES: this
@@ -77,23 +79,36 @@ public class Chess extends JFrame {
         gamePanel = new GamePanel(players, topPanel, capturedPiecePanel);
     }
 
-    // EFFECTS: Displays a prompt that asks the player to save when they close the app; if yes is selected, save the
-    // game to JSON; if no selected, simply close.
-    private void addSaveOnQuitHandler() {
+    // EFFECTS: Displays a save prompt on close and prints EventLog.
+    private void addOnQuitHandler() {
         frame.addWindowListener(new WindowAdapter() {
-            // From https://stackoverflow.com/questions/21330682/confirmation-before-press-yes-to-exit-program-in-java
             @Override
             public void windowClosing(WindowEvent e) {
-                if (!players.getGame().getEndGame()) {
-                    int confirmed = JOptionPane.showConfirmDialog(null,
-                            "Save?", "Save prompt",
-                            JOptionPane.YES_NO_OPTION);
-                    if (confirmed == JOptionPane.YES_OPTION) {
-                        saveGame();
-                    }
-                }
+                initSavePrompt();
+                printEventLog();
             }
         });
+    }
+
+    // EFFECTS: Displays a prompt that asks the player to save when they close the app; if yes is selected, save the
+    // game to JSON; if no selected, simply close.
+    private void initSavePrompt() {
+        // From https://stackoverflow.com/questions/21330682/confirmation-before-press-yes-to-exit-program-in-java
+        if (!players.getGame().getEndGame()) {
+            int confirmed = JOptionPane.showConfirmDialog(null,
+                    "Save?", "Save prompt",
+                    JOptionPane.YES_NO_OPTION);
+            if (confirmed == JOptionPane.YES_OPTION) {
+                saveGame();
+            }
+        }
+    }
+
+    // EFFECTS: Prints every Event in EventLog in the form "[description] + ([date])."
+    private void printEventLog() {
+        for (Event event : EventLog.getInstance()) {
+            System.out.println(event.getDescription() + " (" + event.getDate() + ")");
+        }
     }
 
     // EFFECTS: Writes the game to the JSON entry, throws a FileNotFoundException if writing was impossible.

@@ -56,14 +56,21 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: Processes a capture, clears from of pieces, and moves the piece on from to to.
     public void processMove(Square from, Square to) {
+        BasePiece piece = from.getPieceOnSquare();
         Square newFrom = getBoard().getSquareAt(from.getPosX(), from.getPosY());
         Square newTo = getBoard().getSquareAt(to.getPosX(), to.getPosY());
-        processCaptures(to);
-        newTo.setPiece(newFrom.getPieceOnSquare());
-        newTo.setIcon(newTo.getPieceOnSquare().getIcon());
+        processCaptures(from.getPieceOnSquare(), to);
+        newTo.setPiece(piece);
+        newTo.setIcon(piece.getIcon());
         newFrom.setPiece(null);
         newFrom.setIcon(null);
         flipTurn();
+    }
+
+    // EFFECTS: Adds a move event to the single EventLog that has the form "[color] [piece] to (x,y)."
+    private void addMoveEvent(BasePiece piece, Square to) {
+        EventLog.getInstance().logEvent(new Event(piece.getColour() + " " + piece.getClass().getSimpleName()
+                + " to " + "(" + to.getPosX() + "," + to.getPosY() + ")."));
     }
 
     // (NOTE: Maybe should go inside board.)
@@ -80,13 +87,23 @@ public class Game implements Writable {
     // MODIFIES: this
     // EFFECTS: If a move would go to some square that has some piece, add that piece to a list of captured pieces,
     // and if that piece was a king, end the game. Else, do nothing.
-    private void processCaptures(Square to) {
+    private void processCaptures(BasePiece piece, Square to) {
         BasePiece capturedPiece = to.getPieceOnSquare();
         if (capturedPiece instanceof King) {
             setEndGame(true);
         } else if (capturedPiece != null) {
             capturedPieces.add(capturedPiece);
+            addCaptureEvent(piece, capturedPiece, to);
+        } else {
+            addMoveEvent(piece, to);
         }
+    }
+
+    // EFFECTS: Adds a capture event to the single EventLog that has the form "[color] [piece] captured at (x,y)."
+    private void addCaptureEvent(BasePiece capturer, BasePiece piece, Square to) {
+        EventLog.getInstance().logEvent(new Event(capturer.getColour() + " "
+                + capturer.getClass().getSimpleName() + " takes " + piece.getColour() + " "
+                + piece.getClass().getSimpleName() + " at " +  "(" + to.getPosX() + "," + to.getPosY() + ")."));
     }
 
     // MODIFIES: this
