@@ -173,42 +173,42 @@ public class Board implements Writable {
     // EFFECTS: Sets all the white pieces on their initial starting positions on a default board.
     private void defaultBoardWhite() {
         for (int x = 0; x <= xmax; x++) {
-            replaceSquare(new Square(x, 1, new Pawn("white")));
+            getSquareAt(x, 1).loadPieceOnSquare(new Pawn("white"));
         }
-        replaceSquare(new Square(0, 0, new Dragon("white")));
-        replaceSquare(new Square(9, 0, new Princess("white")));
+        getSquareAt(0, 0).loadPieceOnSquare(new Dragon("white"));
+        getSquareAt(9, 0).loadPieceOnSquare(new Princess("white"));
         for (int x = 1; x < xmax; x += 7) {
-            replaceSquare(new Square(x, 0, new Rook("white")));
+            getSquareAt(x, 0).loadPieceOnSquare(new Rook("white"));
         }
         for (int x = 2; x < xmax; x += 5) {
-            replaceSquare(new Square(x, 0, new Knight("white")));
+            getSquareAt(x, 0).loadPieceOnSquare(new Knight("white"));
         }
         for (int x = 3; x < xmax; x += 3) {
-            replaceSquare(new Square(x, 0, new Bishop("white")));
+            getSquareAt(x, 0).loadPieceOnSquare(new Bishop("white"));
         }
-        replaceSquare(new Square(4, 0, new King("white")));
-        replaceSquare(new Square(5, 0, new Queen("white")));
+        getSquareAt(4, 0).loadPieceOnSquare(new King("white"));
+        getSquareAt(5, 0).loadPieceOnSquare(new Queen("white"));
     }
 
     // MODIFIES: this
     // EFFECTS: Sets all the black pieces on their initial starting positions on a default board.
     private void defaultBoardBlack() {
         for (int x = 0; x <= xmax; x++) {
-            replaceSquare(new Square(x, 6, new Pawn("black")));
+            getSquareAt(x, 6).loadPieceOnSquare(new Pawn("black"));
         }
-        replaceSquare(new Square(0, 7, new Dragon("black")));
-        replaceSquare(new Square(9, 7, new Princess("black")));
+        getSquareAt(0, 7).loadPieceOnSquare(new Dragon("black"));
+        getSquareAt(9, 7).loadPieceOnSquare(new Princess("black"));
         for (int x = 1; x < xmax; x += 7) {
-            replaceSquare(new Square(x, 7, new Rook("black")));
+            getSquareAt(x, 7).loadPieceOnSquare(new Rook("black"));
         }
         for (int x = 2; x < xmax; x += 5) {
-            replaceSquare(new Square(x, 7, new Knight("black")));
+            getSquareAt(x, 7).loadPieceOnSquare(new Knight("black"));
         }
         for (int x = 3; x < xmax; x += 3) {
-            replaceSquare(new Square(x, 7, new Bishop("black")));
+            getSquareAt(x, 7).loadPieceOnSquare(new Bishop("black"));
         }
-        replaceSquare(new Square(4, 7, new King("black")));
-        replaceSquare(new Square(5, 7, new Queen("black")));
+        getSquareAt(4, 7).loadPieceOnSquare(new King("black"));
+        getSquareAt(5, 7).loadPieceOnSquare(new Queen("black"));
     }
 
     // Non-simple getters:
