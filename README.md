@@ -75,8 +75,74 @@ have thus improved the game by a factor of 35%.
 
 - As a user, I want to be able to be able to load my game from file 
 
+# Phase 4:
+### EventLog Sample:
 
-# Phase 4: Task 3:
+
+The EventLog prints:
+
+- All loaded pieces in the form "color piece loaded on (x,y),) if there were any.
+
+
+- All captured pieces loaded in the form form "Captured color piece loaded," if there were any.
+
+
+- All moves made during runtime in the form "color piece to (x,y)."
+
+
+- All captures made by one piece as "color capturer takes color capturee on (x,y)."
+
+
+Sample:
+
+white Knight loaded on (2,0). (Thu Nov 25 21:21:08 PST 2021)
+white Bishop loaded on (3,0). (Thu Nov 25 21:21:08 PST 2021)
+white King loaded on (4,0). (Thu Nov 25 21:21:08 PST 2021)
+white Bishop loaded on (6,0). (Thu Nov 25 21:21:08 PST 2021)
+white Knight loaded on (7,0). (Thu Nov 25 21:21:08 PST 2021)
+white Rook loaded on (8,0). (Thu Nov 25 21:21:08 PST 2021)
+white Princess loaded on (9,0). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (0,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (1,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (2,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (3,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (5,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (6,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (7,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (8,1). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (9,1). (Thu Nov 25 21:21:08 PST 2021)
+white Queen loaded on (0,4). (Thu Nov 25 21:21:08 PST 2021)
+black Queen loaded on (5,4). (Thu Nov 25 21:21:08 PST 2021)
+white Pawn loaded on (0,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (1,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (2,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (3,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (4,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (6,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (7,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (8,6). (Thu Nov 25 21:21:08 PST 2021)
+black Pawn loaded on (9,6). (Thu Nov 25 21:21:08 PST 2021)
+black Dragon loaded on (0,7). (Thu Nov 25 21:21:08 PST 2021)
+black Rook loaded on (1,7). (Thu Nov 25 21:21:08 PST 2021)
+black Knight loaded on (2,7). (Thu Nov 25 21:21:08 PST 2021)
+black Bishop loaded on (3,7). (Thu Nov 25 21:21:08 PST 2021)
+black King loaded on (4,7). (Thu Nov 25 21:21:08 PST 2021)
+black Bishop loaded on (6,7). (Thu Nov 25 21:21:08 PST 2021)
+black Knight loaded on (7,7). (Thu Nov 25 21:21:08 PST 2021)
+black Rook loaded on (8,7). (Thu Nov 25 21:21:08 PST 2021)
+black Princess loaded on (9,7). (Thu Nov 25 21:21:08 PST 2021)
+Captured black Pawn loaded. (Thu Nov 25 21:21:08 PST 2021)
+Captured white Pawn loaded. (Thu Nov 25 21:21:08 PST 2021)
+Captured black Dragon loaded. (Thu Nov 25 21:21:08 PST 2021)
+Captured white Rook loaded. (Thu Nov 25 21:21:08 PST 2021)
+Captured black Queen loaded. (Thu Nov 25 21:21:08 PST 2021)
+black Queen takes white Queen at (0,4). (Thu Nov 25 21:21:10 PST 2021)
+white Pawn to (2,2). (Thu Nov 25 21:21:13 PST 2021)
+black Queen takes white Pawn at (2,2). (Thu Nov 25 21:21:14 PST 2021)
+
+
+======
+
 ### Refactoring:
 
 There is much more refactoring that I would like to do, given time.
