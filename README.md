@@ -149,11 +149,12 @@ There is much more refactoring that I would like to do, given time.
 
 - The most glaring is that there are currently 8 different Piece classes that all abstract a BasePiece. This is 
   inherently suspicious. It would likely be better if they were all compacted into some enum to facilitate adding new
-  pieces to the game.
+  pieces to the game. That way, BasePiece would simply just be a normal and not an abstract class.
 
 
 - Each piece has it's own toJSON and print methods when this should really just compacted to a single non-abstract
-  .getClass.getSimpleName() method in the abstract class.
+  .getClass.getSimpleName() method in the abstract class. This would also be fixed if the top refactoring change is
+  done.
 
 
 - The glaringly ugly if cases in the Game and JSonReader classes for judging which piece should be re-examined. One
@@ -204,6 +205,14 @@ There is much more refactoring that I would like to do, given time.
 - The only piece that captures differently from how it moves is Pawns. So the captureLegality method in Game should not
   need a giant if case to switch into different capture methods, although I suppose this helps if we decide to change 
   how pieces capture in the future. See bullet point three.
+
+
+- GamePanel uses placeholder Squares on the board to check move legality. This is somewhat awkward. A better way would
+  be to allow players to select pieces, and then allow GamePanel to draw from the Players class instead. This is a 
+  continuation of the point of entry between UI and model before.
+
+
+- The same point as above can also be applied to every other UI class.
 
 CREDITS:
 
