@@ -88,6 +88,22 @@ public class Square extends JButton implements Writable {
         return (to.posY - this.posY);
     }
 
+    // Event Logging
+    //=========================
+    // MODIFIES: this, EventLog
+    // EFFECTS: Sets a piece on this from a load, and then adds it to EventLog.
+    public void loadPieceOnSquare(BasePiece piece) {
+        setPiece(piece);
+        addLoadPieceEvent();
+    }
+
+    // MODIFIES: EventLog
+    // EFFECTS: Adds a loaded piece event to EventLog in the form "[color] [piece] loaded on ([x],[y])."
+    private void addLoadPieceEvent() {
+        EventLog.getInstance().logEvent(new Event(piece.getColour() + " " + piece.getClass().getSimpleName()
+                + " loaded on " + "(" + getPosX() + "," + getPosY() + ")."));
+    }
+
     // Non-simple getters:
     // ===================================================
     // EFFECTS: Returns true only if the square has a piece occupying it.

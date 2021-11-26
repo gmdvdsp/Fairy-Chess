@@ -67,12 +67,6 @@ public class Game implements Writable {
         flipTurn();
     }
 
-    // EFFECTS: Adds a move event to the single EventLog that has the form "[color] [piece] to (x,y)."
-    private void addMoveEvent(BasePiece piece, Square to) {
-        EventLog.getInstance().logEvent(new Event(piece.getColour() + " " + piece.getClass().getSimpleName()
-                + " to " + "(" + to.getPosX() + "," + to.getPosY() + ")."));
-    }
-
     // (NOTE: Maybe should go inside board.)
     // EFFECTS: Returns true if a square has a piece who's colour matches currentTurn. Returns false if no such piece
     // exists, or that piece has the other colour.
@@ -99,13 +93,6 @@ public class Game implements Writable {
         }
     }
 
-    // EFFECTS: Adds a capture event to the single EventLog that has the form "[color] [piece] captured at (x,y)."
-    private void addCaptureEvent(BasePiece capturer, BasePiece piece, Square to) {
-        EventLog.getInstance().logEvent(new Event(capturer.getColour() + " "
-                + capturer.getClass().getSimpleName() + " takes " + piece.getColour() + " "
-                + piece.getClass().getSimpleName() + " at " +  "(" + to.getPosX() + "," + to.getPosY() + ")."));
-    }
-
     // MODIFIES: this
     // EFFECTS: After a white move, change the current turn to black, and vice versa.
     public void flipTurn() {
@@ -114,6 +101,38 @@ public class Game implements Writable {
         } else {
             currentTurn = "white";
         }
+    }
+
+    // Event Logging:
+    // =========================
+    // MODIFIES: EventLog
+    // EFFECTS: Adds a move event to the single EventLog that has the form "[color] [piece] to (x,y)."
+    private void addMoveEvent(BasePiece piece, Square to) {
+        EventLog.getInstance().logEvent(new Event(piece.getColour() + " " + piece.getClass().getSimpleName()
+                + " to " + "(" + to.getPosX() + "," + to.getPosY() + ")."));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: Adds a piece into the capturedPiece list, and logs it as an event.
+    public void addCapturedPieceFromLoad(BasePiece piece) {
+        capturedPieces.add(piece);
+        addLoadCaptureEvent(piece);
+    }
+
+    // MODIFIES: EventLog
+    // EFFECTS: Adds a capture event to the single EventLog that has the form "[color] [piece] captured at (x,y)."
+    private void addCaptureEvent(BasePiece capturer, BasePiece piece, Square to) {
+        EventLog.getInstance().logEvent(new Event(capturer.getColour() + " "
+                + capturer.getClass().getSimpleName() + " takes " + piece.getColour() + " "
+                + piece.getClass().getSimpleName() + " at " +  "(" + to.getPosX() + "," + to.getPosY() + ")."));
+    }
+
+    // MODIFIES: EventLog
+    // EFFECTS: Adds a load captured piece event to the single EventLog that has the form "Captured [color] [piece]
+    // loaded."
+    private void addLoadCaptureEvent(BasePiece piece) {
+        EventLog.getInstance().logEvent(new Event("Captured " + piece.getColour() + " "
+                + piece.getClass().getSimpleName() + " " + "loaded."));
     }
 
     // Move legality checking:

@@ -57,7 +57,7 @@ public class JSonReader {
         JSONArray jsonArray = jsonObject.getJSONArray("capturedPieces");
         for (Object json : jsonArray) {
             JSONObject piece = (JSONObject) json;
-            g.getCapturedPieces().add(loadPiece(piece));
+            g.addCapturedPieceFromLoad(loadPiece(piece));
         }
     }
 
@@ -84,7 +84,7 @@ public class JSonReader {
         int posY = jsonObject.getInt("y");
         Square square = new Square(posX, posY, null);
         if (jsonObject.has("piece")) {
-            square.setPiece(loadPiece(jsonObject.getJSONObject("piece")));
+            square.loadPieceOnSquare(loadPiece(jsonObject.getJSONObject("piece")));
         }
         g.getBoard().replaceSquare(square);
     }
